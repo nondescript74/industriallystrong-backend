@@ -1,0 +1,17 @@
+{
+  "name": "industriallystrong-backend",
+  "version": "1.0.0",
+  "description": "Backend server for iOS apps",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": ["backend", "express", "ios"],
+  "author": "Z",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
