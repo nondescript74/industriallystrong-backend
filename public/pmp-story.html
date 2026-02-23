@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Excellence Through People — Zahirudeen Premji</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F4F5F7;
+  --bg-card: #FFFFFF;
+  --text-primary: #1B2A4A;
+  --text-secondary: #3D4F6A;
+  --text-muted: #6B7B94;
+  --accent: #1B2A4A;
+  --gold: #B8922D;
+  --gold-glow: rgba(184, 146, 45, 0.25);
+  --dot-inactive: #C5D0DC;
+  --dot-active: #B8922D;
+  --border-subtle: rgba(27, 42, 74, 0.1);
+  --control-bg: rgba(27, 42, 74, 0.06);
+  --control-border: rgba(27, 42, 74, 0.12);
+  --control-text: #6B7B94;
+  --control-hover: rgba(27, 42, 74, 0.12);
+  --progress: #B8922D;
+  --quote-border: #B8922D;
+}
+@media (prefers-color-scheme: dark) {
+:root {
+  --bg-primary: #141E30;
+  --bg-secondary: #1A2740;
+  --bg-card: #1E2D45;
+  --text-primary: #E8EDF2;
+  --text-secondary: #B0BEC5;
+  --text-muted: #78909C;
+  --accent: #E8EDF2;
+  --gold: #C9A96E;
+  --gold-glow: rgba(201, 169, 110, 0.3);
+  --dot-inactive: #37474F;
+  --dot-active: #C9A96E;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --control-bg: rgba(255, 255, 255, 0.06);
+  --control-border: rgba(255, 255, 255, 0.12);
+  --control-text: #78909C;
+  --control-hover: rgba(255, 255, 255, 0.12);
+  --progress: #C9A96E;
+  --quote-border: #C9A96E;
+}
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Source Sans 3', sans-serif; overflow: hidden; height: 100vh; width: 100vw; transition: background 0.3s ease, color 0.3s ease; }
+.theater { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 80px; opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease, transform 1.2s ease; pointer-events: none; background: var(--bg-primary); }
+.slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.slide.exit { opacity: 0; transform: translateY(-30px); }
+.slide-title .category { font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 30px; opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.3s; }
+.slide-title h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 7vw, 80px); font-weight: 700; line-height: 1.15; text-align: center; max-width: 850px; color: var(--text-primary); opacity: 0; animation: fadeUp 1s ease forwards; animation-delay: 0.6s; }
+.slide-title .subtitle { font-family: 'Source Sans 3', sans-serif; font-size: 26px; font-weight: 300; color: var(--text-muted); margin-top: 24px; letter-spacing: 1px; text-align: center; max-width: 600px; opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1s; }
+.slide-title .author-line { font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; color: var(--text-muted); margin-top: 40px; letter-spacing: 2px; text-transform: uppercase; opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.3s; }
+.slide-content { text-align: left; align-items: flex-start; padding: 80px 12%; }
+.phase-label { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.accent-line { width: 60px; height: 3px; background: var(--gold); margin-bottom: 30px; }
+.slide-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 700; line-height: 1.2; margin-bottom: 30px; max-width: 750px; color: var(--text-primary); }
+.slide-content .narrative { font-family: 'Source Sans 3', sans-serif; font-size: clamp(22px, 2.4vw, 28px); font-weight: 300; line-height: 1.8; color: var(--text-secondary); max-width: 680px; margin-bottom: 28px; }
+.slide-content .narrative em { color: var(--text-primary); font-weight: 500; font-style: normal; }
+.stat-row { display: flex; gap: 50px; margin-top: 24px; }
+.stat .number { font-family: 'Playfair Display', serif; font-size: clamp(48px, 6vw, 72px); font-weight: 700; color: var(--gold); line-height: 1; }
+.stat .label { font-family: 'Source Sans 3', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 8px; }
+.people-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; max-width: 540px; }
+.person-dot { width: 36px; height: 36px; border-radius: 50%; background: var(--dot-inactive); opacity: 0.5; transition: all 0.6s ease; }
+.person-dot.certified { background: var(--dot-active); opacity: 1; box-shadow: 0 0 14px var(--gold-glow); }
+.slide-outcome { text-align: center; }
+.slide-outcome h2 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 66px); font-weight: 700; line-height: 1.2; max-width: 750px; margin-bottom: 30px; color: var(--text-primary); }
+.slide-outcome .narrative { font-family: 'Source Sans 3', sans-serif; font-size: clamp(22px, 2.4vw, 28px); font-weight: 300; line-height: 1.8; color: var(--text-secondary); max-width: 640px; text-align: center; margin-bottom: 40px; }
+.quote-block { border-left: 3px solid var(--quote-border); padding: 24px 36px; max-width: 650px; text-align: left; background: var(--bg-secondary); border-radius: 0 8px 8px 0; }
+.quote-block p { font-family: 'Playfair Display', serif; font-size: clamp(24px, 2.5vw, 32px); font-style: italic; color: var(--text-primary); line-height: 1.6; }
+.quote-block .attribution { font-family: 'Source Sans 3', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; font-style: normal; }
+.progress-bar { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--progress); transition: width 0.3s linear; z-index: 999; }
+.slide-counter { position: fixed; bottom: 22px; right: 30px; font-family: 'Source Sans 3', sans-serif; font-size: 16px; letter-spacing: 3px; color: var(--text-muted); z-index: 999; }
+.controls { position: fixed; bottom: 20px; left: 30px; display: flex; gap: 12px; z-index: 999; }
+.controls button { background: var(--control-bg); border: 1px solid var(--control-border); color: var(--control-text); font-family: 'Source Sans 3', sans-serif; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; padding: 10px 18px; cursor: pointer; border-radius: 4px; transition: all 0.3s ease; }
+.controls button:hover { background: var(--control-hover); color: var(--text-primary); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.slide.active .phase-label { opacity: 0; animation: fadeUp 0.7s ease forwards; animation-delay: 0.2s; }
+.slide.active .accent-line { opacity: 0; animation: fadeUp 0.5s ease forwards; animation-delay: 0.3s; }
+.slide.active h2 { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.4s; }
+.slide.active .narrative { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.7s; }
+.slide.active .stat-row { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1s; }
+.slide.active .people-grid { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.9s; }
+.slide.active .quote-block { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.8s; }
+@media (max-width: 768px) { .slide { padding: 40px 30px; } .slide-content { padding: 60px 8%; } .stat-row { gap: 30px; flex-wrap: wrap; } .controls { left: 15px; } .slide-counter { right: 15px; } }
+</style>
+</head>
+<body>
+<div class="theater">
+  <div class="slide slide-title active" data-duration="5500">
+    <div class="category">People Leadership</div>
+    <h1>Building Excellence<br>Through People</h1>
+    <div class="subtitle">How investing in a team's growth created a culture of professional excellence</div>
+    <div class="author-line">Zahirudeen Premji &nbsp;&bull;&nbsp; IBM/Mylex &rarr; LSI Corporation &nbsp;&bull;&nbsp; 2002 &ndash; 2005</div>
+  </div>
+  <div class="slide slide-content" data-duration="7000">
+    <div class="phase-label">The Situation</div>
+    <div class="accent-line"></div>
+    <h2>A Team Without a Common Standard</h2>
+    <div class="narrative">When I became Director of Program Management at IBM/Mylex in 2002, I inherited <em>26 direct reports</em> across program management and technical publications, managing <em>40 concurrent projects</em> under a <em>$3.5 million budget</em>.</div>
+    <div class="narrative">The team was capable but inconsistent. Each program manager had their own methodology, their own templates, their own definition of "done." There was no shared professional standard — and no shared professional identity.</div>
+    <div class="stat-row">
+      <div class="stat"><div class="number">26</div><div class="label">Direct Reports</div></div>
+      <div class="stat"><div class="number">40</div><div class="label">Concurrent Projects</div></div>
+      <div class="stat"><div class="number">0%</div><div class="label">PMP Certified</div></div>
+    </div>
+  </div>
+  <div class="slide slide-content" data-duration="7000">
+    <div class="phase-label">The Approach</div>
+    <div class="accent-line"></div>
+    <h2>Investing in People,<br>Not Just Process</h2>
+    <div class="narrative">I didn't mandate certification. I <em>invested in it</em>. I arranged study groups, paired experienced practitioners with newer team members, and created time in the schedule for preparation.</div>
+    <div class="narrative">This wasn't a checkbox exercise — it was about <em>building a shared language and a shared standard of excellence</em>. I led through <em>conversation, encouragement, and accountability</em> — not through pressure.</div>
+  </div>
+  <div class="slide slide-content" data-duration="8000">
+    <div class="phase-label">The Journey</div>
+    <div class="accent-line"></div>
+    <h2>One by One,<br>the Team Transformed</h2>
+    <div class="narrative">Over 18 months, program managers began passing the PMP exam. Each certification was celebrated. Each success built momentum for the next person. The culture shifted from <em>"that's how I do it"</em> to <em>"that's how we do it."</em></div>
+    <div class="people-grid" id="peopleGrid"></div>
+  </div>
+  <div class="slide slide-outcome" data-duration="7000">
+    <h2>Near-100% Certification<br>Achieved</h2>
+    <div class="narrative">Within 18 months, virtually every program manager earned their PMP. The initiative continued seamlessly through the IBM/Mylex to LSI transition — proof that the culture of excellence had taken root in the team itself.</div>
+    <div class="stat-row" style="justify-content: center;">
+      <div class="stat" style="text-align: center;"><div class="number">~100%</div><div class="label">PMP Certified</div></div>
+      <div class="stat" style="text-align: center;"><div class="number">18</div><div class="label">Months</div></div>
+      <div class="stat" style="text-align: center;"><div class="number">20+</div><div class="label">PMs Certified</div></div>
+    </div>
+  </div>
+  <div class="slide slide-outcome" data-duration="7000">
+    <div class="phase-label" style="opacity:1;">The Recognition</div>
+    <div class="accent-line" style="margin: 0 auto 30px; opacity:1;"></div>
+    <div class="quote-block">
+      <p>"Z drove significant improvements... continued emphasis on formal Project Management Professional certifications, improvements in system support... key competencies demonstrated include developing direct reports and directing others."</p>
+      <div class="attribution">Ron Engelbrecht, CEO — LSI Storage Systems &nbsp;|&nbsp; 2005 Annual Review</div>
+    </div>
+  </div>
+  <div class="slide slide-outcome" data-duration="6000">
+    <div class="phase-label" style="opacity:1;">The Leadership Principle</div>
+    <div class="accent-line" style="margin: 0 auto 30px; opacity:1;"></div>
+    <h2 style="font-size: clamp(36px, 5vw, 58px);">I build innovation<br>through people.</h2>
+    <div class="narrative" style="margin-top: 24px;">When you invest in your team's professional growth — not as a mandate but as a shared aspiration — you create something more durable than any process improvement. You create a culture that sustains itself.</div>
+    <div style="margin-top: 44px; font-family: 'Source Sans 3', sans-serif; font-size: 17px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted);">Zahirudeen Premji &nbsp;&bull;&nbsp; industriallystrong.com</div>
+  </div>
+</div>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-counter" id="slideCounter">01 / 07</div>
+<div class="controls">
+  <button id="prevBtn">&larr; Prev</button>
+  <button id="pauseBtn">Pause</button>
+  <button id="nextBtn">Next &rarr;</button>
+</div>
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progressBar');
+const slideCounter = document.getElementById('slideCounter');
+const pauseBtn = document.getElementById('pauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let currentSlide = 0, isPaused = false, timer = null, progressTimer = null, progressWidth = 0;
+const grid = document.getElementById('peopleGrid');
+for (let i = 0; i < 20; i++) { const dot = document.createElement('div'); dot.className = 'person-dot'; dot.style.transitionDelay = `${i * 0.15}s`; grid.appendChild(dot); }
+function updateCounter() { slideCounter.textContent = `${String(currentSlide+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`; }
+function animatePeopleDots() { document.querySelectorAll('.person-dot').forEach((dot,i) => setTimeout(() => dot.classList.add('certified'), 800+(i*200))); }
+function resetPeopleDots() { document.querySelectorAll('.person-dot').forEach(dot => dot.classList.remove('certified')); }
+function goToSlide(index) {
+  if (index < 0 || index >= slides.length) return;
+  slides[currentSlide].classList.remove('active'); slides[currentSlide].classList.add('exit');
+  setTimeout(() => { slides[currentSlide].classList.remove('exit'); currentSlide = index; slides[currentSlide].classList.add('active'); updateCounter(); if (currentSlide === 3) { resetPeopleDots(); setTimeout(animatePeopleDots, 500); } startProgress(); }, 400);
+}
+function nextSlide() { goToSlide(currentSlide < slides.length-1 ? currentSlide+1 : 0); }
+function prevSlide() { if (currentSlide > 0) goToSlide(currentSlide-1); }
+function startProgress() {
+  clearInterval(progressTimer); clearTimeout(timer); progressWidth = 0;
+  const duration = parseInt(slides[currentSlide].dataset.duration) || 6000;
+  const interval = 30, increment = (interval/duration)*100;
+  const slideProgress = (currentSlide/slides.length)*100, slideWidth = (1/slides.length)*100;
+  progressTimer = setInterval(() => { if (!isPaused) { progressWidth += increment; progressBar.style.width = `${slideProgress+(progressWidth/100)*slideWidth}%`; if (progressWidth >= 100) { clearInterval(progressTimer); if (!isPaused) timer = setTimeout(nextSlide, 200); } } }, interval);
+}
+pauseBtn.addEventListener('click', () => { isPaused = !isPaused; pauseBtn.textContent = isPaused ? 'Play' : 'Pause'; });
+nextBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); nextSlide(); });
+prevBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); });
+document.addEventListener('keydown', (e) => { if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); clearInterval(progressTimer); clearTimeout(timer); nextSlide(); } else if (e.key==='ArrowLeft') { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); } else if (e.key==='p') { isPaused=!isPaused; pauseBtn.textContent=isPaused?'Play':'Pause'; } });
+updateCounter(); startProgress();
+</script>
+</body>
+</html>

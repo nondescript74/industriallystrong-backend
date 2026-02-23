@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ozo Coffee — Strategic Advisory Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ozo-orange: #E8530A;
+    --ozo-dark:   #111111;
+    --ozo-cream:  #F5EFE6;
+    --ozo-tan:    #C8A882;
+    --ozo-mid:    #2A2A2A;
+    --accent:     #FF7A3C;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--ozo-dark);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    color: var(--ozo-cream);
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.4;
+  }
+
+  /* ─── SLIDE WRAPPER ─── */
+  #stage {
+    position: relative;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 80px 120px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ─── NAV BAR ─── */
+  #nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center;
+    padding: 28px 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    z-index: 100;
+  }
+  .nav-btn {
+    background: transparent;
+    border: 1.5px solid rgba(232,83,10,0.5);
+    color: var(--ozo-orange);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-right: 12px;
+    text-transform: uppercase;
+  }
+  .nav-btn:hover {
+    background: var(--ozo-orange);
+    color: #fff;
+    border-color: var(--ozo-orange);
+  }
+  #counter {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: rgba(200,168,130,0.6);
+    letter-spacing: 3px;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--ozo-orange);
+    transition: width 0.6s ease;
+    z-index: 200;
+    box-shadow: 0 0 12px rgba(232,83,10,0.6);
+  }
+
+  /* ─── SHARED LAYOUT ATOMS ─── */
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ozo-orange);
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.5s ease 0.1s;
+  }
+  .big-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 110px);
+    line-height: 0.92;
+    color: var(--ozo-cream);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: all 0.6s ease 0.25s;
+  }
+  .big-title span { color: var(--ozo-orange); }
+  .body-text {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.65;
+    color: rgba(245,239,230,0.75);
+    font-weight: 300;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.5s ease 0.4s;
+    max-width: 640px;
+  }
+  .rule {
+    width: 48px; height: 2px;
+    background: var(--ozo-orange);
+    margin: 24px 0;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.5s ease 0.35s;
+  }
+
+  /* Animate-in when slide is active */
+  .slide.active .eyebrow,
+  .slide.active .big-title,
+  .slide.active .body-text,
+  .slide.active .rule,
+  .slide.active .stat-block,
+  .slide.active .pill,
+  .slide.active .quote-mark,
+  .slide.active .quote-text,
+  .slide.active .quote-attr,
+  .slide.active .framework-grid,
+  .slide.active .outcome-row {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 1 — TITLE / RELATIONSHIP
+  ══════════════════════════════════════ */
+  #s1 {
+    background: var(--ozo-dark);
+  }
+  #s1 .inner {
+    max-width: 860px;
+  }
+  #s1 .since {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--ozo-tan);
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.5s ease 0.55s;
+  }
+  .ozo-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(232,83,10,0.12);
+    border: 1px solid rgba(232,83,10,0.3);
+    border-radius: 2px;
+    padding: 8px 16px;
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.5s ease 0s;
+  }
+  .slide.active .ozo-badge { opacity: 1; transform: none; }
+  .ozo-badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ozo-orange);
+    box-shadow: 0 0 8px var(--ozo-orange);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+  .ozo-badge-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ozo-orange);
+    text-transform: uppercase;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 2 — CHALLENGE
+  ══════════════════════════════════════ */
+  #s2 {
+    background: #0D0D0D;
+  }
+  #s2 .inner { max-width: 860px; }
+  .challenge-card {
+    margin-top: 32px;
+    border-left: 3px solid var(--ozo-orange);
+    padding: 24px 32px;
+    background: rgba(232,83,10,0.06);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease 0.5s;
+  }
+  .slide.active .challenge-card { opacity: 1; transform: none; }
+  .challenge-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--ozo-orange);
+    margin-bottom: 8px;
+  }
+  .challenge-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(245,239,230,0.65);
+    font-weight: 300;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 3 — RESOLUTION / OUTCOME
+  ══════════════════════════════════════ */
+  #s3 { background: var(--ozo-dark); }
+  #s3 .inner { max-width: 900px; }
+  .outcome-row {
+    display: flex; gap: 24px; margin-top: 36px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .outcome-card {
+    flex: 1; min-width: 200px;
+    background: var(--ozo-mid);
+    border-top: 3px solid var(--ozo-orange);
+    padding: 24px 20px;
+  }
+  .outcome-card .oc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--ozo-orange);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .outcome-card .oc-label {
+    font-size: 13px;
+    color: rgba(245,239,230,0.55);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 4 — FRAMEWORK DOCUMENT
+  ══════════════════════════════════════ */
+  #s4 { background: #0A0A0A; }
+  #s4 .inner { max-width: 920px; width: 100%; }
+  .framework-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .fw-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(200,168,130,0.12);
+  }
+  .fw-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--ozo-orange);
+    letter-spacing: 1px;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .fw-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(245,239,230,0.65);
+    font-weight: 300;
+  }
+  .fw-text strong {
+    display: block;
+    color: var(--ozo-cream);
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 5 — HIRING IMPACT
+  ══════════════════════════════════════ */
+  #s5 { background: var(--ozo-dark); }
+  #s5 .inner { max-width: 880px; }
+  .stat-block {
+    display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 88px);
+    color: var(--ozo-orange);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(232,83,10,0.3);
+  }
+  .stat-desc {
+    font-size: 13px;
+    color: rgba(245,239,230,0.5);
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    max-width: 180px;
+    line-height: 1.4;
+    font-weight: 300;
+  }
+  .pill {
+    display: inline-block;
+    background: rgba(232,83,10,0.1);
+    border: 1px solid rgba(232,83,10,0.3);
+    color: var(--ozo-tan);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    margin-right: 8px; margin-top: 8px;
+    text-transform: uppercase;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.4s ease 0.6s;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 6 — QUOTE
+  ══════════════════════════════════════ */
+  #s6 {
+    background: var(--ozo-orange);
+  }
+  #s6 .inner { max-width: 800px; text-align: center; }
+  .quote-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px;
+    color: rgba(0,0,0,0.15);
+    line-height: 0.6;
+    margin-bottom: 24px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.1s;
+  }
+  .quote-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.4;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.3s;
+  }
+  .quote-text em { font-style: normal; font-weight: 700; }
+  .quote-attr {
+    margin-top: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    opacity: 0; transform: translateY(12px);
+    transition: all 0.5s ease 0.55s;
+  }
+  .quote-source {
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ══════════════════════════════════════
+     SLIDE 7 — SUMMARY
+  ══════════════════════════════════════ */
+  #s7 { background: var(--ozo-dark); }
+  #s7 .inner { max-width: 880px; }
+  .summary-list {
+    margin-top: 32px;
+    list-style: none;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.4s;
+  }
+  .slide.active .summary-list { opacity: 1; transform: none; }
+  .summary-list li {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(200,168,130,0.1);
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(245,239,230,0.7);
+    font-weight: 300;
+  }
+  .summary-list li:last-child { border-bottom: none; }
+  .summary-list li::before {
+    content: '→';
+    color: var(--ozo-orange);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .summary-list strong { color: var(--ozo-cream); font-weight: 500; }
+  .url-tag {
+    display: inline-block;
+    margin-top: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ozo-tan);
+    border-bottom: 1px solid rgba(200,168,130,0.3);
+    padding-bottom: 2px;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.7s;
+  }
+  .slide.active .url-tag { opacity: 1; }
+
+  /* Background decorative elements */
+  .bg-word {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 260px);
+    color: rgba(232,83,10,0.04);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -2px;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="stage">
+
+  <!-- SLIDE 1: THE RELATIONSHIP -->
+  <div class="slide active" id="s1">
+    <div class="bg-word" style="right:-40px;bottom:60px;">OZO</div>
+    <div class="inner">
+      <div class="ozo-badge">
+        <div class="ozo-badge-dot"></div>
+        <span class="ozo-badge-label">Strategic Advisory · Boulder, CO · 2018–Present</span>
+      </div>
+      <div class="eyebrow">The Origin Story</div>
+      <div class="big-title">FROM<br><span>BARISTA</span><br>TO BRAND</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        Justin Hartman and I go back to when he was a barista at another Boulder coffee shop.
+        As he built Ozo Coffee into one of Boulder's most respected independent brands,
+        he asked me to step in — first as a mentor, then as a trusted strategic advisor.
+        That relationship has deepened over six-plus years.
+      </div>
+      <div class="since">Relationship began · 15+ years ago</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE CHALLENGE -->
+  <div class="slide" id="s2">
+    <div class="bg-word" style="left:-20px;top:40px;">CRISIS</div>
+    <div class="inner">
+      <div class="eyebrow">The Challenge</div>
+      <div class="big-title">HIGH<br><span>STAKES</span><br>PEOPLE WORK</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        A senior equity-holding employee was creating unsustainable workplace dynamics.
+        The situation required executive-level judgment — balancing legal exposure,
+        equity obligations, company culture, and the founder's long-term vision.
+      </div>
+      <div class="challenge-card">
+        <h3>My Role</h3>
+        <p>Direct facilitation of candid conversations between all parties — situation by situation,
+        one conversation at a time — leading to an amicable separation with fair equity resolution.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE OUTCOME -->
+  <div class="slide" id="s3">
+    <div class="bg-word" style="right:-30px;bottom:80px;">WIN</div>
+    <div class="inner">
+      <div class="eyebrow">The Outcome</div>
+      <div class="big-title">STABILITY<br><span>RESTORED</span></div>
+      <div class="rule"></div>
+      <div class="body-text">
+        The resolution protected the company's culture, avoided litigation, and laid the foundation
+        for a new operating philosophy. Hire slowly. Define outcomes upfront. Build teams
+        using forming, storming, norming principles from day one.
+      </div>
+      <div class="outcome-row">
+        <div class="outcome-card">
+          <div class="oc-num">0</div>
+          <div class="oc-label">Legal disputes<br>from separation</div>
+        </div>
+        <div class="outcome-card">
+          <div class="oc-num">6+</div>
+          <div class="oc-label">Years of stable<br>senior leadership</div>
+        </div>
+        <div class="outcome-card">
+          <div class="oc-num">100%</div>
+          <div class="oc-label">Compensation<br>recommendations accepted</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE FRAMEWORK -->
+  <div class="slide" id="s4">
+    <div class="inner">
+      <div class="eyebrow">The Artifact</div>
+      <div class="big-title">AN <span>OPERATING</span><br>PHILOSOPHY</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        I created Ozo's operational framework document — a leadership reference Justin uses
+        directly in employee conversations. It defines how Ozo thinks, communicates, and runs.
+      </div>
+      <div class="framework-grid">
+        <div class="fw-item">
+          <div class="fw-icon">01</div>
+          <div class="fw-text"><strong>Trust But Verify</strong>Balance trust and accountability through verification mechanisms that ensure transparency</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">02</div>
+          <div class="fw-text"><strong>KPI / KRI Discipline</strong>Departments own agreed-upon systems; data collected on rigorous time schedules</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">03</div>
+          <div class="fw-text"><strong>Customer–Client Model</strong>Every process has internal customers and suppliers; accountability flows both ways</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">04</div>
+          <div class="fw-text"><strong>Change Control</strong>Process changes occur only after consideration, trial, and agreed approval — not impulse</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: HIRING IMPACT -->
+  <div class="slide" id="s5">
+    <div class="bg-word" style="right:-20px;top:60px;">TEAM</div>
+    <div class="inner">
+      <div class="eyebrow">Hiring & People Impact</div>
+      <div class="big-title">BUILDING<br>THE <span>RIGHT</span><br>TEAM</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        I authored the requirements and outcomes document used to hire Ozo's Director of Retail Operations —
+        structuring the interview process and identifying the right leader. That framework has since
+        been replicated across every key leadership hire.
+      </div>
+      <div class="stat-block">
+        <div class="stat-item">
+          <div class="stat-num">1</div>
+          <div class="stat-desc">Director of Retail Ops hired using my framework</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-desc">Template reused on every subsequent key hire</div>
+        </div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">Forming · Storming · Norming</span>
+        <span class="pill">Compensation Strategy</span>
+        <span class="pill">Retention</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: SUMMARY -->
+  <div class="slide" id="s6">
+    <div class="bg-word" style="right:-30px;bottom:80px;">ADVISE</div>
+    <div class="inner">
+      <div class="eyebrow">The Full Picture</div>
+      <div class="big-title">WHAT<br><span>CONSULTING</span><br>LOOKS LIKE</div>
+      <div class="rule"></div>
+      <ul class="summary-list">
+        <li><strong>People crisis leadership</strong> — Navigated equity-holder separation with zero litigation and full culture preservation</li>
+        <li><strong>Operational framework author</strong> — Created the document Justin uses to align his entire leadership team</li>
+        <li><strong>Director-level hiring</strong> — Defined requirements, outcomes, and interview structure for key leadership roles</li>
+        <li><strong>Compensation advisor</strong> — Recommendations accepted across multiple leadership hires</li>
+        <li><strong>Ongoing strategy partner</strong> — Retail expansion, margin management, Boulder market dynamics</li>
+        <li><strong>Publicly acknowledged mentor</strong> — Named by Justin Hartman in a published interview</li>
+      </ul>
+      <span class="url-tag">industriallystrong.com</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: THE QUOTE (FINAL) -->
+  <div class="slide" id="s7">
+    <div class="inner">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">
+        A big shout out to… <em>my Mentor Z Premji<br>for all his knowledge and support<br>over the years.</em>
+      </div>
+      <div class="quote-attr">— Justin Hartman, CEO & Founder · Ozo Coffee Company</div>
+      <div class="quote-source">ShoutOut Colorado · Published Interview</div>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)">← PREV</button>
+  <button class="nav-btn" id="btnPause" onclick="togglePause()">PAUSE</button>
+  <button class="nav-btn" onclick="changeSlide(1)">NEXT →</button>
+  <div id="counter">01 / 07</div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const btnPause = document.getElementById('btnPause');
+  const TOTAL = slides.length;
+  const AUTO_MS = 6000;
+
+  let current = 0;
+  let paused = false;
+  let timer = null;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = (n + TOTAL) % TOTAL;
+    slides[current].classList.add('active');
+    const num = String(current + 1).padStart(2, '0');
+    counter.textContent = `${num} / ${String(TOTAL).padStart(2, '0')}`;
+    progress.style.width = `${((current + 1) / TOTAL) * 100}%`;
+  }
+
+  function changeSlide(dir) {
+    goTo(current + dir);
+    if (!paused) resetTimer();
+  }
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(() => changeSlide(1), AUTO_MS);
+  }
+
+  function togglePause() {
+    paused = !paused;
+    btnPause.textContent = paused ? 'PLAY' : 'PAUSE';
+    if (paused) clearTimeout(timer);
+    else resetTimer();
+  }
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === ' ') { e.preventDefault(); togglePause(); }
+  });
+
+  // start
+  goTo(0);
+  resetTimer();
+</script>
+</body>
+</html>
