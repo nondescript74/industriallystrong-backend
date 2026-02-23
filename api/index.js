@@ -17,6 +17,10 @@ app.use((req, res, next) => {
 });
 
 // ===== ROUTES =====
+// add leadership stories
+app.get('/stories', (req, res) => res.sendFile(path.join(__dirname, '../public/stories.html')));
+app.get('/stories/pmp', (req, res) => res.sendFile(path.join(__dirname, '../public/pmp-story.html')));
+app.get('/stories/ozo', (req, res) => res.sendFile(path.join(__dirname, '../public/ozo-story.html')));
 
 // Main domain - www.industriallystrong.com
 app.get('/', (req, res) => {
