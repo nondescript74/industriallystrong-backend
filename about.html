@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Z — Zahirudeen Premji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419; --steel: #2c3e50; --mid: #5a6a7a; --light: #8fa3b3;
+    --paper: #f7f5f0; --white: #ffffff; --accent: #c0392b;
+    --accent2: #1a5276; --rule: #d4c9bb; --gold: #b8922d;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.04em; }
+  .nav-brand .nav-z { color: var(--accent); text-decoration: none; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a { text-decoration: none; color: var(--steel); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--accent); }
+
+  /* HERO */
+  .about-hero {
+    padding: 110px 8vw 70px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5vw;
+    align-items: center;
+  }
+  .hero-text {}
+  .page-eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+  .about-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; color: var(--ink); line-height: 1.05; margin-bottom: 1.5rem; }
+  .about-hero h1 em { font-style: italic; color: var(--accent); }
+  .about-intro { font-size: 1rem; color: var(--steel); line-height: 1.8; font-weight: 300; margin-bottom: 2rem; max-width: 480px; }
+  .contact-row { display: flex; flex-direction: column; gap: 0.5rem; }
+  .contact-item { font-size: 0.82rem; color: var(--mid); display: flex; align-items: center; gap: 0.6rem; }
+  .contact-item a { color: var(--accent2); text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+  .contact-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* PHOTO COLLAGE */
+  .photo-section {
+    padding: 5rem 8vw;
+  }
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--light); font-weight: 500; margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  /* MOSAIC GRID */
+  .photo-mosaic {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+  .photo-slot {
+    background: var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .photo-slot:hover img { transform: scale(1.04); }
+  .photo-slot.wide { grid-column: span 2; aspect-ratio: 2/1; }
+  .photo-slot.tall { grid-row: span 2; aspect-ratio: 1/2; }
+
+  /* PLACEHOLDER for photos not yet uploaded */
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.5rem;
+    background: var(--paper);
+    border: 1px dashed var(--rule);
+    border-radius: 3px;
+  }
+  .photo-placeholder .ph-icon { font-size: 1.5rem; opacity: 0.4; }
+  .photo-placeholder .ph-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); text-align: center; padding: 0 1rem; }
+
+  /* CAPTION OVERLAY */
+  .photo-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(15,20,25,0.75), transparent);
+    padding: 1rem 0.8rem 0.6rem;
+    font-size: 0.68rem; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.8); font-weight: 400;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .photo-slot:hover .photo-caption { opacity: 1; }
+
+  /* IDENTITY SECTION */
+  .identity-section {
+    padding: 5rem 8vw;
+    background: var(--white);
+    border-top: 1px solid var(--rule);
+  }
+  .identity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .identity-card {
+    border-top: 3px solid var(--rule);
+    padding-top: 1.2rem;
+  }
+  .identity-card.red { border-top-color: var(--accent); }
+  .identity-card.gold { border-top-color: var(--gold); }
+  .identity-card.navy { border-top-color: var(--accent2); }
+  .identity-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); font-weight: 500; margin-bottom: 0.6rem; }
+  .identity-value { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+  .identity-sub { font-size: 0.82rem; color: var(--mid); line-height: 1.5; }
+
+  /* LSI INVENTOR BADGE */
+  .inventor-feature {
+    padding: 4rem 8vw;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: center;
+    border-top: 1px solid var(--rule);
+  }
+  .inventor-visual {
+    background: var(--ink);
+    border-radius: 4px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .inventor-visual::before {
+    content: 'INVENTOR';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+  .inventor-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .inventor-role {
+    font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 1.5rem;
+  }
+  .lsi-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 400;
+    color: rgba(255,255,255,0.3); letter-spacing: 0.15em;
+  }
+  .inventor-text {}
+  .inventor-text h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--ink); line-height: 1.2; margin-bottom: 1rem; }
+  .inventor-text p { font-size: 0.9rem; color: var(--mid); line-height: 1.7; margin-bottom: 0.8rem; }
+
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 8vw; border-top: 1px solid var(--rule); background: var(--white); }
+  .bottom-nav a { text-decoration: none; color: var(--steel); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .bottom-nav a:hover { color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--light); padding: 3rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+  footer .footer-brand span { color: var(--accent); }
+  footer p { font-size: 0.78rem; }
+
+  @media (max-width: 860px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .photo-mosaic { grid-template-columns: repeat(2, 1fr); }
+    .photo-slot.wide { grid-column: span 1; aspect-ratio: 1; }
+    .photo-slot.tall { grid-row: span 1; aspect-ratio: 1; }
+    .inventor-feature { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) { nav ul { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Industrially<a href="about.html" class="nav-z">Strong</a></a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="people-stories.html">Stories</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="recognition.html">Recognition</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="hero-text">
+    <div class="page-eyebrow">The Person Behind the Work</div>
+    <h1>Who<br>is <em>Z</em>?</h1>
+    <p class="about-intro">Engineer. Inventor. People leader. Builder of teams and applications. Advisor to founders. Skier. Golfer. Father. Resident of Boulder, Colorado — where the mountains remind you what scale really looks like.</p>
+    <div class="contact-row">
+      <div class="contact-item"><div class="contact-dot"></div> Zahirudeen Premji</div>
+      <div class="contact-item"><div class="contact-dot"></div> Boulder, Colorado</div>
+      <div class="contact-item"><div class="contact-dot"></div> <a href="mailto:nondescript@bodopine.com">nondescript@bodopine.com</a></div>
+      <div class="contact-item"><div class="contact-dot"></div> <a href="https://twitter.com/zahirpremji" target="_blank">@zahirpremji</a> on X/Twitter</div>
+      <div class="contact-item"><div class="contact-dot"></div> nondescript74 on Instagram</div>
+      <div class="contact-item"><div class="contact-dot"></div> BSME · University of South Florida · 1974</div>
+    </div>
+  </div>
+
+  <div class="inventor-visual">
+    <div class="inventor-name">Zahirudeen Premji</div>
+    <div class="inventor-role">Inventor</div>
+    <div class="lsi-logo-text">LSI ✦</div>
+  </div>
+</div>
+
+<!-- PHOTO COLLAGE -->
+<div class="photo-section">
+  <div class="section-label">A Life in Frames</div>
+  <div class="photo-mosaic">
+
+    <!-- Row 1 -->
+    <div class="photo-slot wide">
+      <div class="photo-placeholder"><div class="ph-icon">🏔</div><div class="ph-label">Upload your photo here</div></div>
+      <div class="photo-caption">Colorado Mountains</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">⛷</div><div class="ph-label">Skiing</div></div>
+      <div class="photo-caption">On the slopes</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">🐯</div><div class="ph-label">Tiger encounter</div></div>
+      <div class="photo-caption">Up close</div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">👨‍👩‍👦</div><div class="ph-label">Family</div></div>
+      <div class="photo-caption">Family</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">💻</div><div class="ph-label">Working</div></div>
+      <div class="photo-caption">At work</div>
+    </div>
+    <div class="photo-slot wide">
+      <div class="photo-placeholder"><div class="ph-icon">🏌️</div><div class="ph-label">On the course</div></div>
+      <div class="photo-caption">Golf</div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">🌺</div><div class="ph-label">Nature</div></div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">🖥</div><div class="ph-label">Trading / tech</div></div>
+      <div class="photo-caption">Financial tech</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">🧗</div><div class="ph-label">Adventure</div></div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-placeholder"><div class="ph-icon">📷</div><div class="ph-label">Add a photo</div></div>
+    </div>
+
+  </div>
+  <p style="margin-top:1.2rem; font-size:0.75rem; color:var(--light); letter-spacing:0.06em;">To add your photos: replace the placeholder divs in this page with &lt;img&gt; tags pointing to your uploaded images.</p>
+</div>
+
+<!-- IDENTITY CARDS -->
+<div class="identity-section">
+  <div class="section-label">The Dimensions</div>
+  <div class="identity-grid">
+    <div class="identity-card red">
+      <div class="identity-label">The Engineer</div>
+      <div class="identity-value">BSME · 7 US Patents</div>
+      <div class="identity-sub">Built a xerographic print engine from scratch. Holds patents from LSI and StorageTek. Hands-on with Swift, Python, and Claude API today.</div>
+    </div>
+    <div class="identity-card gold">
+      <div class="identity-label">The Leader</div>
+      <div class="identity-value">30+ Years · 5 Companies</div>
+      <div class="identity-sub">Director-level at StorageTek, Nikon, RHDI, IBM, and LSI. "Inspirational" manager rating. Management Fast Track. Built 65-person global teams.</div>
+    </div>
+    <div class="identity-card navy">
+      <div class="identity-label">The Founder</div>
+      <div class="identity-value">2 Companies · &gt;$1M Raised</div>
+      <div class="identity-sub">Founded two companies and raised over $1M in venture capital — understanding the full arc from idea to investor to execution.</div>
+    </div>
+    <div class="identity-card red">
+      <div class="identity-label">The Advisor</div>
+      <div class="identity-value">15+ Years · Ozo Coffee</div>
+      <div class="identity-sub">Strategic mentor to Ozo Coffee founder Justin Hartman since before the brand existed. Named publicly in a ShoutOut Colorado interview.</div>
+    </div>
+    <div class="identity-card gold">
+      <div class="identity-label">The Builder</div>
+      <div class="identity-value">iOS · AI · QRL</div>
+      <div class="identity-sub">Actively shipping iOS apps — KeepTrack on the App Store, KanjiKanaTrainer and Reczipes in development. Building quantum-resistant platforms for finance and healthcare.</div>
+    </div>
+    <div class="identity-card navy">
+      <div class="identity-label">The Person</div>
+      <div class="identity-value">Boulder · Skier · Golfer</div>
+      <div class="identity-sub">Married, one son. Resident of Boulder, Colorado. Skis Telluride. Hits the golf course. Grows orchids. Has met a tiger up close and has the photo to prove it.</div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="/">← Home</a>
+  <a href="recognition.html">Recognition →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

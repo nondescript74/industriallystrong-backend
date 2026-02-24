@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recognition — Zahirudeen Premji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419; --steel: #2c3e50; --mid: #5a6a7a; --light: #8fa3b3;
+    --paper: #f7f5f0; --white: #ffffff; --accent: #c0392b;
+    --accent2: #1a5276; --rule: #d4c9bb; --gold: #b8922d;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.04em; }
+  .nav-brand span { color: var(--accent); }
+  .nav-brand .nav-z { color: var(--accent); cursor: pointer; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a { text-decoration: none; color: var(--steel); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--accent); }
+
+  .page-header {
+    padding: 110px 8vw 60px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+  }
+  .page-eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 1.2rem; }
+  .page-header p { font-size: 1rem; color: var(--mid); max-width: 580px; line-height: 1.75; font-weight: 300; }
+
+  /* ACCOLADES SECTION */
+  .accolades-section { padding: 5rem 8vw; max-width: 1100px; margin: 0 auto; }
+
+  .accolades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+
+  .accolade-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .accolade-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
+  .accolade-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .card-gold::before { background: linear-gradient(90deg, var(--gold), #d4a843); }
+  .card-navy::before { background: linear-gradient(90deg, #1B2A4A, #2e5f8a); }
+  .card-red::before  { background: linear-gradient(90deg, var(--accent), #e74c3c); }
+
+  .accolade-company {
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 500; color: var(--light); margin-bottom: 0.8rem;
+  }
+  .accolade-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 900; color: var(--ink);
+    line-height: 1.25; margin-bottom: 0.7rem;
+  }
+  .accolade-title em {
+    font-style: italic; color: var(--gold);
+  }
+  .accolade-desc {
+    font-size: 0.85rem; color: var(--mid); line-height: 1.65;
+  }
+  .accolade-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.2rem;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; padding: 0.3rem 0.8rem; border-radius: 2px;
+  }
+  .badge-gold { background: #fdf3dc; color: var(--gold); }
+  .badge-navy { background: #dde8f5; color: #1B2A4A; }
+  .badge-red  { background: #fde8e8; color: var(--accent); }
+
+  /* QUOTE PULL */
+  .quote-block {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--gold);
+    padding: 2.5rem 3rem;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 5rem;
+  }
+  .quote-block blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-style: italic;
+    color: var(--ink); line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .quote-block cite {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--light); font-style: normal;
+  }
+
+  /* FAST FACTS */
+  .facts-section { padding: 0 8vw 5rem; max-width: 1100px; margin: 0 auto; }
+  .facts-header {
+    display: flex; align-items: center; gap: 1.2rem;
+    margin-bottom: 2.5rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .facts-num { font-family: 'Playfair Display', serif; font-size: 0.8rem; font-weight: 700; color: var(--light); letter-spacing: 0.1em; }
+  .facts-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--ink); }
+
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .fact-item {
+    background: var(--white);
+    padding: 1.8rem 2rem;
+  }
+  .fact-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 900;
+    color: var(--ink); line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .fact-num span { color: var(--accent); font-size: 1.8rem; }
+  .fact-label {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--light); font-weight: 500;
+  }
+  .fact-sub {
+    font-size: 0.82rem; color: var(--mid); margin-top: 0.3rem; line-height: 1.4;
+  }
+
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 8vw; border-top: 1px solid var(--rule); background: var(--white); margin-top: 2rem; }
+  .bottom-nav a { text-decoration: none; color: var(--steel); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .bottom-nav a:hover { color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--light); padding: 3rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+  footer .footer-brand span { color: var(--accent); }
+  footer p { font-size: 0.78rem; }
+
+  @media (max-width: 600px) { nav ul { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Industrially<a href="about.html" style="color:var(--accent);text-decoration:none;">Strong</a></a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="people-stories.html">Stories</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Recognition & Accolades</div>
+  <h1>What Others<br>Have Said</h1>
+  <p>A career measured not just in patents and portfolios, but in the words of the people and organizations that named it exceptional.</p>
+</div>
+
+<div class="accolades-section">
+
+  <!-- QUOTE PULL: LSI ANNUAL REVIEW -->
+  <div class="quote-block">
+    <blockquote>"Z drove significant improvements... continued emphasis on formal Project Management Professional certifications, improvements in system support... key competencies demonstrated include developing direct reports and directing others."</blockquote>
+    <cite>Ron Engelbrecht, CEO — LSI Storage Systems &nbsp;·&nbsp; 2005 Annual Review</cite>
+  </div>
+
+  <!-- ACCOLADES GRID -->
+  <div class="accolades-grid">
+
+    <div class="accolade-card card-gold">
+      <div class="accolade-company">LSI Corporation</div>
+      <div class="accolade-title"><em>"Inspirational"</em> Manager Rating</div>
+      <div class="accolade-desc">The highest-tier manager designation at LSI — awarded to leaders whose impact extends beyond their direct team and shapes organizational culture.</div>
+      <span class="accolade-badge badge-gold">LSI · Director Level</span>
+    </div>
+
+    <div class="accolade-card card-navy">
+      <div class="accolade-company">IBM / LSI</div>
+      <div class="accolade-title">Management Fast Track</div>
+      <div class="accolade-desc">Selected for IBM and LSI's accelerated leadership development program — identifying high-potential managers for expanded organizational responsibility.</div>
+      <span class="accolade-badge badge-navy">IBM · LSI · Fast Track</span>
+    </div>
+
+    <div class="accolade-card card-gold">
+      <div class="accolade-company">Nikon Precision Inc. (NPI)</div>
+      <div class="accolade-title">High Performance Manager</div>
+      <div class="accolade-desc">Designated as a High Performance Manager at Nikon Precision — a formal recognition of exceptional leadership results across team and business outcomes.</div>
+      <span class="accolade-badge badge-gold">Nikon · High Performance</span>
+    </div>
+
+    <div class="accolade-card card-red">
+      <div class="accolade-company">Nikon Precision Inc. (NPI)</div>
+      <div class="accolade-title"><em>"Who I'd Like to Run the Business"</em></div>
+      <div class="accolade-desc">Selected by colleagues and senior leadership in a peer recognition process identifying the leader they would most trust to run the entire business.</div>
+      <span class="accolade-badge badge-red">Nikon · Peer Recognition</span>
+    </div>
+
+    <div class="accolade-card card-gold">
+      <div class="accolade-company">StorageTek / Documation</div>
+      <div class="accolade-title">High Performance Manager</div>
+      <div class="accolade-desc">Recognized as a High Performance Manager during the Documation era at StorageTek — early in a career that would go on to span five major technology organizations.</div>
+      <span class="accolade-badge badge-gold">STK · Documation · Early Career</span>
+    </div>
+
+    <div class="accolade-card card-navy">
+      <div class="accolade-company">Ozo Coffee Company · Boulder, CO</div>
+      <div class="accolade-title">Publicly Named Mentor</div>
+      <div class="accolade-desc">Named directly by Justin Hartman, CEO & Founder of Ozo Coffee, in a published ShoutOut Colorado interview — acknowledging 15+ years of mentorship and strategic advisory.</div>
+      <span class="accolade-badge badge-navy">Advisory · Published</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- FAST FACTS -->
+<div class="facts-section">
+  <div class="facts-header">
+    <div class="facts-num">By the Numbers</div>
+    <div class="facts-title">A Career in Figures</div>
+  </div>
+  <div class="facts-grid">
+    <div class="fact-item">
+      <div class="fact-num">7<span>+</span></div>
+      <div class="fact-label">US Patents</div>
+      <div class="fact-sub">Inventor on record at LSI and StorageTek</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">30<span>+</span></div>
+      <div class="fact-label">Years Leadership</div>
+      <div class="fact-sub">StorageTek · Nikon · RHDI · IBM · LSI</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">$150<span>M</span></div>
+      <div class="fact-label">R&D Managed</div>
+      <div class="fact-sub">Portfolio management at Director level</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">65<span>+</span></div>
+      <div class="fact-label">Global Team</div>
+      <div class="fact-sub">Cross-functional, multi-continent organizations</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">2</div>
+      <div class="fact-label">Companies Founded</div>
+      <div class="fact-sub">&gt;$1M raised in venture capital</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">5</div>
+      <div class="fact-label">Accolades</div>
+      <div class="fact-sub">Across four major technology organizations</div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="people-stories.html">← Leadership Stories</a>
+  <a href="about.html">About Z →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
