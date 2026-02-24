@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeepTrack — iOS App Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:   #1a9e6e;
+    --dark:    #0a1410;
+    --cream:   #f0ede6;
+    --muted:   #6aab8e;
+    --mid:     #0f2018;
+    --accent:  #26c98a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: var(--dark); font-family: 'DM Sans', sans-serif; overflow: hidden; color: var(--cream); }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+
+  #stage { position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 60px 80px 120px; opacity: 0; pointer-events: none; transition: opacity 0.7s ease; }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  #nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; align-items: center; padding: 28px 60px; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%); z-index: 100; }
+  .nav-btn { background: transparent; border: 1.5px solid rgba(26,158,110,0.5); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px; padding: 10px 22px; cursor: pointer; transition: all 0.25s; margin-right: 12px; text-transform: uppercase; }
+  .nav-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
+  #counter { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(106,171,142,0.6); letter-spacing: 3px; }
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--green); transition: width 0.6s ease; z-index: 200; box-shadow: 0 0 12px rgba(26,158,110,0.6); }
+  #homeLink { position: fixed; top: 24px; left: 60px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(106,171,142,0.5); text-decoration: none; z-index: 200; transition: color 0.2s; }
+  #homeLink:hover { color: var(--accent); }
+
+  .eyebrow { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; opacity: 0; transform: translateY(16px); transition: all 0.5s ease 0.1s; }
+  .big-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 8vw, 110px); line-height: 0.92; color: var(--cream); opacity: 0; transform: translateY(24px); transition: all 0.6s ease 0.25s; }
+  .big-title span { color: var(--accent); }
+  .body-text { font-size: clamp(15px, 1.6vw, 18px); line-height: 1.65; color: rgba(240,237,230,0.75); font-weight: 300; opacity: 0; transform: translateY(16px); transition: all 0.5s ease 0.4s; max-width: 640px; }
+  .rule { width: 48px; height: 2px; background: var(--green); margin: 24px 0; opacity: 0; transform: scaleX(0); transform-origin: left; transition: all 0.5s ease 0.35s; }
+
+  .slide.active .eyebrow,
+  .slide.active .big-title,
+  .slide.active .body-text,
+  .slide.active .rule,
+  .slide.active .stat-block,
+  .slide.active .pill,
+  .slide.active .feature-grid,
+  .slide.active .outcome-row,
+  .slide.active .tech-list,
+  .slide.active .quote-mark,
+  .slide.active .quote-text,
+  .slide.active .quote-attr { opacity: 1 !important; transform: none !important; }
+
+  .badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(26,158,110,0.1); border: 1px solid rgba(26,158,110,0.3); border-radius: 2px; padding: 8px 16px; margin-bottom: 32px; opacity: 0; transform: translateY(12px); transition: all 0.5s ease 0s; }
+  .slide.active .badge { opacity: 1; transform: none; }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+  .badge-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.45s; }
+  .fw-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(106,171,142,0.12); }
+  .fw-icon { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 1px; padding-top: 2px; white-space: nowrap; }
+  .fw-text { font-size: 14px; line-height: 1.5; color: rgba(240,237,230,0.65); font-weight: 300; }
+  .fw-text strong { display: block; color: var(--cream); font-weight: 500; font-size: 13px; margin-bottom: 3px; }
+
+  .stat-block { display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.45s; }
+  .stat-item { text-align: left; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 7vw, 88px); color: var(--accent); line-height: 1; text-shadow: 0 0 40px rgba(26,158,110,0.3); }
+  .stat-desc { font-size: 13px; color: rgba(240,237,230,0.5); letter-spacing: 0.5px; margin-top: 4px; max-width: 180px; line-height: 1.4; font-weight: 300; }
+
+  .pill { display: inline-block; background: rgba(26,158,110,0.1); border: 1px solid rgba(26,158,110,0.3); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 6px 14px; margin-right: 8px; margin-top: 8px; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: all 0.4s ease 0.6s; }
+
+  .tech-list { margin-top: 32px; list-style: none; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.4s; }
+  .tech-list li { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(106,171,142,0.1); font-size: 15px; line-height: 1.5; color: rgba(240,237,230,0.7); font-weight: 300; }
+  .tech-list li:last-child { border-bottom: none; }
+  .tech-list li::before { content: '→'; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+  .tech-list strong { color: var(--cream); font-weight: 500; }
+
+  /* QUOTE SLIDE */
+  #s6 { background: var(--green); }
+  #s6 .inner { max-width: 800px; text-align: center; }
+  .quote-mark { font-family: 'Bebas Neue', sans-serif; font-size: 140px; color: rgba(0,0,0,0.15); line-height: 0.6; margin-bottom: 24px; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.1s; }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; color: #fff; line-height: 1.45; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.3s; }
+  .quote-text em { font-style: normal; font-weight: 700; }
+  .quote-attr { margin-top: 32px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.6); text-transform: uppercase; opacity: 0; transform: translateY(12px); transition: all 0.5s ease 0.55s; }
+
+  .url-tag { display: inline-block; margin-top: 28px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); border-bottom: 1px solid rgba(106,171,142,0.3); padding-bottom: 2px; opacity: 0; transition: opacity 0.5s ease 0.7s; }
+  .slide.active .url-tag { opacity: 1; }
+  .bg-word { position: absolute; font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px, 20vw, 260px); color: rgba(26,158,110,0.04); line-height: 1; pointer-events: none; user-select: none; letter-spacing: -2px; }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<a id="homeLink" href="projects.html">← All Projects</a>
+<div id="stage">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="bg-word" style="right:-40px;bottom:60px;">TRACK</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="badge"><div class="badge-dot"></div><span class="badge-label">iOS App · Active Development · 2024–Present</span></div>
+      <div class="eyebrow">The Idea</div>
+      <div class="big-title">KEEP<br><span>TRACK</span><br>OF IT ALL</div>
+      <div class="rule"></div>
+      <div class="body-text">Most tracking apps are built for one thing. KeepTrack is built for everything — water, medications, vitamins, supplements, habits — anything you take or do throughout the day, tracked against goals you define.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <div class="slide" id="s2">
+    <div class="bg-word" style="left:-20px;top:40px;">GOAL</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Problem It Solves</div>
+      <div class="big-title">LIFE HAS<br><span>MANY</span><br>INTAKES</div>
+      <div class="rule"></div>
+      <div class="body-text">People managing medications, hydration goals, supplements, or daily habits need a single place to track all of it — and to know at a glance whether they're on track. KeepTrack turns "did I take that?" into a confident yes or no.</div>
+      <div class="feature-grid">
+        <div class="fw-item"><div class="fw-icon">01</div><div class="fw-text"><strong>Flexible Intake Types</strong>Water, medication, vitamins, supplements — anything you track</div></div>
+        <div class="fw-item"><div class="fw-icon">02</div><div class="fw-text"><strong>Goal-Based Tracking</strong>"Once daily", "six times a day" — goals you define, progress you see</div></div>
+        <div class="fw-item"><div class="fw-icon">03</div><div class="fw-text"><strong>Real-Time Progress</strong>Every entry checks against your goal instantly — no manual math</div></div>
+        <div class="fw-item"><div class="fw-icon">04</div><div class="fw-text"><strong>Siri Integration</strong>"Siri, KeepTrack add water" — hands-free logging built in</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: SIRI -->
+  <div class="slide" id="s3">
+    <div class="bg-word" style="right:-20px;top:60px;">SIRI</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">Voice-First Design</div>
+      <div class="big-title">ASK<br><span>SIRI.</span><br>DONE.</div>
+      <div class="rule"></div>
+      <div class="body-text">KeepTrack is built with Siri Shortcuts integration so you never have to open the app to log an intake. The most friction-free tracking experience possible — because the best tracking is the kind you actually do.</div>
+      <div class="stat-block">
+        <div class="stat-item"><div class="stat-num">0</div><div class="stat-desc">Taps required to log with Siri</div></div>
+        <div class="stat-item"><div class="stat-num">∞</div><div class="stat-desc">Custom intake types you can define</div></div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">"Siri, KeepTrack add water"</span>
+        <span class="pill">"Siri, show water"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: TECH STACK -->
+  <div class="slide" id="s4">
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">Built With Modern Swift</div>
+      <div class="big-title">THE <span>TECH</span><br>BEHIND IT</div>
+      <div class="rule"></div>
+      <div class="body-text">KeepTrack is built on the latest Swift concurrency and observation models — not legacy patterns, not workarounds. Written the way Apple intends iOS apps to be written in 2025.</div>
+      <ul class="tech-list">
+        <li><strong>@Observable</strong> — Modern state management replacing ObservableObject</li>
+        <li><strong>@Environment</strong> — Clean dependency injection without boilerplate</li>
+        <li><strong>@MainActor</strong> — Proper concurrency safety on the main thread</li>
+        <li><strong>Siri Shortcuts</strong> — App Intents framework for voice-first logging</li>
+        <li><strong>SwiftUI</strong> — Fully declarative UI, no UIKit dependencies</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: STATUS -->
+  <div class="slide" id="s5">
+    <div class="bg-word" style="right:-30px;bottom:80px;">BUILD</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">Current Status</div>
+      <div class="big-title">ACTIVE<br><span>DEVELOPMENT</span></div>
+      <div class="rule"></div>
+      <div class="body-text">KeepTrack is in active development as part of a broader iOS app portfolio. Available on the App Store, with ongoing refinement of the goal-tracking engine and Siri integration.</div>
+      <div class="stat-block">
+        <div class="stat-item"><div class="stat-num">1</div><div class="stat-desc">App Store release shipped</div></div>
+        <div class="stat-item"><div class="stat-num">2025</div><div class="stat-desc">Modern Swift Observable architecture</div></div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">App Store</span>
+        <span class="pill">SwiftUI</span>
+        <span class="pill">Siri Shortcuts</span>
+        <span class="pill">iOS 17+</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PRINCIPLE -->
+  <div class="slide" id="s6">
+    <div class="inner">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">The best tracking app is the one<br>that gets <em>out of your way</em> —<br>so you actually use it.</div>
+      <div class="quote-attr">— KeepTrack · Industrially Strong · iOS</div>
+    </div>
+  </div>
+
+</div>
+
+<div id="nav">
+  <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)">← PREV</button>
+  <button class="nav-btn" id="btnPause" onclick="togglePause()">PAUSE</button>
+  <button class="nav-btn" onclick="changeSlide(1)">NEXT →</button>
+  <div id="counter">01 / 06</div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const btnPause = document.getElementById('btnPause');
+  const TOTAL = slides.length;
+  const AUTO_MS = 7000;
+  let current = 0, paused = false, timer = null;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = (n + TOTAL) % TOTAL;
+    slides[current].classList.add('active');
+    counter.textContent = `${String(current+1).padStart(2,'0')} / ${String(TOTAL).padStart(2,'0')}`;
+    progress.style.width = `${((current+1)/TOTAL)*100}%`;
+  }
+  function changeSlide(dir) { goTo(current + dir); if (!paused) resetTimer(); }
+  function resetTimer() { clearTimeout(timer); timer = setTimeout(() => changeSlide(1), AUTO_MS); }
+  function togglePause() { paused = !paused; btnPause.textContent = paused ? 'PLAY' : 'PAUSE'; if (paused) clearTimeout(timer); else resetTimer(); }
+  document.addEventListener('keydown', e => { if (e.key==='ArrowRight') changeSlide(1); if (e.key==='ArrowLeft') changeSlide(-1); if (e.key===' ') { e.preventDefault(); togglePause(); } });
+  goTo(0); resetTimer();
+</script>
+</body>
+</html>

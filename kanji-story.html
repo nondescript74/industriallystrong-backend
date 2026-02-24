@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KanjiKanaTrainer — iOS App Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:    #c0392b;
+    --dark:   #0f0a0a;
+    --cream:  #f5f0e8;
+    --muted:  #a88080;
+    --mid:    #1a0f0f;
+    --accent: #e85555;
+    --gold:   #c9943a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: var(--dark); font-family: 'DM Sans', sans-serif; overflow: hidden; color: var(--cream); }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+
+  #stage { position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 60px 80px 120px; opacity: 0; pointer-events: none; transition: opacity 0.7s ease; }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  #nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; align-items: center; padding: 28px 60px; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%); z-index: 100; }
+  .nav-btn { background: transparent; border: 1.5px solid rgba(192,57,43,0.5); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px; padding: 10px 22px; cursor: pointer; transition: all 0.25s; margin-right: 12px; text-transform: uppercase; }
+  .nav-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+  #counter { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(168,128,128,0.6); letter-spacing: 3px; }
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--red); transition: width 0.6s ease; z-index: 200; box-shadow: 0 0 12px rgba(192,57,43,0.6); }
+  #homeLink { position: fixed; top: 24px; left: 60px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(168,128,128,0.5); text-decoration: none; z-index: 200; transition: color 0.2s; }
+  #homeLink:hover { color: var(--accent); }
+
+  /* Large decorative kanji */
+  .kanji-bg { position: absolute; font-size: clamp(200px, 30vw, 380px); color: rgba(192,57,43,0.04); line-height: 1; pointer-events: none; user-select: none; font-weight: 900; }
+
+  .eyebrow { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; opacity: 0; transform: translateY(16px); transition: all 0.5s ease 0.1s; }
+  .big-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 8vw, 110px); line-height: 0.92; color: var(--cream); opacity: 0; transform: translateY(24px); transition: all 0.6s ease 0.25s; }
+  .big-title span { color: var(--accent); }
+  .big-title .gold { color: var(--gold); }
+  .body-text { font-size: clamp(15px, 1.6vw, 18px); line-height: 1.65; color: rgba(245,240,232,0.75); font-weight: 300; opacity: 0; transform: translateY(16px); transition: all 0.5s ease 0.4s; max-width: 640px; }
+  .rule { width: 48px; height: 2px; background: var(--red); margin: 24px 0; opacity: 0; transform: scaleX(0); transform-origin: left; transition: all 0.5s ease 0.35s; }
+
+  .slide.active .eyebrow,
+  .slide.active .big-title,
+  .slide.active .body-text,
+  .slide.active .rule,
+  .slide.active .stat-block,
+  .slide.active .pill,
+  .slide.active .char-grid,
+  .slide.active .feature-grid,
+  .slide.active .tech-list,
+  .slide.active .quote-mark,
+  .slide.active .quote-text,
+  .slide.active .quote-attr { opacity: 1 !important; transform: none !important; }
+
+  .badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); border-radius: 2px; padding: 8px 16px; margin-bottom: 32px; opacity: 0; transform: translateY(12px); transition: all 0.5s ease 0s; }
+  .slide.active .badge { opacity: 1; transform: none; }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+  .badge-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+
+  /* CHARACTER SHOWCASE GRID */
+  .char-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.45s; max-width: 680px; }
+  .char-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(192,57,43,0.2); padding: 14px 18px; text-align: center; min-width: 70px; }
+  .char-glyph { font-size: 32px; line-height: 1; margin-bottom: 6px; }
+  .char-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; color: rgba(245,240,232,0.4); text-transform: uppercase; }
+
+  /* CATEGORY GRID */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.45s; }
+  .fw-item { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(168,128,128,0.12); }
+  .fw-icon { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 1px; padding-top: 2px; white-space: nowrap; }
+  .fw-text { font-size: 14px; line-height: 1.5; color: rgba(245,240,232,0.65); font-weight: 300; }
+  .fw-text strong { display: block; color: var(--cream); font-weight: 500; font-size: 13px; margin-bottom: 3px; }
+
+  .stat-block { display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.45s; }
+  .stat-item { text-align: left; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 7vw, 88px); color: var(--accent); line-height: 1; text-shadow: 0 0 40px rgba(192,57,43,0.3); }
+  .stat-num.gold { color: var(--gold); text-shadow: 0 0 40px rgba(201,148,58,0.3); }
+  .stat-desc { font-size: 13px; color: rgba(245,240,232,0.5); letter-spacing: 0.5px; margin-top: 4px; max-width: 180px; line-height: 1.4; font-weight: 300; }
+
+  .pill { display: inline-block; background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 6px 14px; margin-right: 8px; margin-top: 8px; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: all 0.4s ease 0.6s; }
+
+  .tech-list { margin-top: 32px; list-style: none; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.4s; }
+  .tech-list li { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(168,128,128,0.1); font-size: 15px; line-height: 1.5; color: rgba(245,240,232,0.7); font-weight: 300; }
+  .tech-list li:last-child { border-bottom: none; }
+  .tech-list li::before { content: '→'; color: var(--accent); font-family: 'Space Mono', monospace; font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+  .tech-list strong { color: var(--cream); font-weight: 500; }
+
+  /* QUOTE SLIDE — black ink / red seal aesthetic */
+  #s7 { background: #0a0505; }
+  #s7 .inner { max-width: 800px; text-align: center; position: relative; }
+  .seal { font-size: 80px; line-height: 1; margin-bottom: 20px; opacity: 0; transform: scale(0.8); transition: all 0.7s ease 0.1s; }
+  .slide.active .seal { opacity: 1; transform: scale(1); }
+  .quote-mark { font-family: 'Bebas Neue', sans-serif; font-size: 140px; color: rgba(192,57,43,0.12); line-height: 0.6; margin-bottom: 24px; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.1s; }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(20px, 2.6vw, 30px); font-weight: 500; color: var(--cream); line-height: 1.5; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.3s; }
+  .quote-text em { font-style: normal; font-weight: 700; color: var(--accent); }
+  .quote-attr { margin-top: 32px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: rgba(245,240,232,0.4); text-transform: uppercase; opacity: 0; transform: translateY(12px); transition: all 0.5s ease 0.55s; }
+
+  .bg-word { position: absolute; font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px, 20vw, 260px); color: rgba(192,57,43,0.04); line-height: 1; pointer-events: none; user-select: none; letter-spacing: -2px; }
+  .url-tag { display: inline-block; margin-top: 28px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); border-bottom: 1px solid rgba(168,128,128,0.3); padding-bottom: 2px; opacity: 0; transition: opacity 0.5s ease 0.7s; }
+  .slide.active .url-tag { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<a id="homeLink" href="projects.html">← All Projects</a>
+<div id="stage">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="kanji-bg" style="right:-60px;bottom:40px;opacity:0.06;">漢</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="badge"><div class="badge-dot"></div><span class="badge-label">iOS App · Active Development · 2024–Present</span></div>
+      <div class="eyebrow">The Idea</div>
+      <div class="big-title">LEARN<br><span>KANJI</span><br>THE <span class="gold">RIGHT</span> WAY</div>
+      <div class="rule"></div>
+      <div class="body-text">KanjiKanaTrainer is an iOS application for learning Japanese kanji and Chinese characters through stroke-order animation, practice modes, and a carefully curated set of 100 foundational characters — built from the ground up for serious learners.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE CHARACTERS -->
+  <div class="slide" id="s2">
+    <div class="kanji-bg" style="left:-40px;top:30px;">字</div>
+    <div class="inner" style="max-width:920px; width:100%;">
+      <div class="eyebrow">The Character Set</div>
+      <div class="big-title">100 <span>ESSENTIAL</span><br>CHARACTERS</div>
+      <div class="rule"></div>
+      <div class="body-text">The 100 characters children learn first — numbers, nature, body, directions, verbs, pronouns — selected for maximum learning leverage.</div>
+      <div class="char-grid" id="charGrid">
+        <div class="char-card"><div class="char-glyph">一</div><div class="char-label">one</div></div>
+        <div class="char-card"><div class="char-glyph">日</div><div class="char-label">sun/day</div></div>
+        <div class="char-card"><div class="char-glyph">水</div><div class="char-label">water</div></div>
+        <div class="char-card"><div class="char-glyph">火</div><div class="char-label">fire</div></div>
+        <div class="char-card"><div class="char-glyph">山</div><div class="char-label">mountain</div></div>
+        <div class="char-card"><div class="char-glyph">人</div><div class="char-label">person</div></div>
+        <div class="char-card"><div class="char-glyph">大</div><div class="char-label">big</div></div>
+        <div class="char-card"><div class="char-glyph">我</div><div class="char-label">I/me</div></div>
+        <div class="char-card"><div class="char-glyph">来</div><div class="char-label">come</div></div>
+        <div class="char-card"><div class="char-glyph">愛</div><div class="char-label">love</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: CATEGORIES -->
+  <div class="slide" id="s3">
+    <div class="inner" style="max-width:920px; width:100%;">
+      <div class="eyebrow">Character Categories</div>
+      <div class="big-title">BUILT FOR<br><span>STRUCTURE</span></div>
+      <div class="rule"></div>
+      <div class="body-text">Characters are organized by category — the way human memory actually works. Not random lists, but meaningful groups.</div>
+      <div class="feature-grid">
+        <div class="fw-item"><div class="fw-icon">数</div><div class="fw-text"><strong>Numbers (10)</strong>一二三四五六七八九十</div></div>
+        <div class="fw-item"><div class="fw-icon">自</div><div class="fw-text"><strong>Nature & Elements (10)</strong>日月水火木金土山天地</div></div>
+        <div class="fw-item"><div class="fw-icon">体</div><div class="fw-text"><strong>Body & People (6)</strong>人口手目耳心</div></div>
+        <div class="fw-item"><div class="fw-icon">動</div><div class="fw-text"><strong>Common Verbs (15)</strong>来去出入吃喝看听说读写走飞坐站</div></div>
+        <div class="fw-item"><div class="fw-icon">方</div><div class="fw-text"><strong>Directional (7)</strong>大小中上下左右</div></div>
+        <div class="fw-item"><div class="fw-icon">語</div><div class="fw-text"><strong>Pronouns & Words (15)</strong>我你他她不也了在有好开生学工用</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: STROKE ANIMATION -->
+  <div class="slide" id="s4">
+    <div class="kanji-bg" style="right:-40px;bottom:60px;">筆</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">The Core Feature</div>
+      <div class="big-title">STROKE<br><span>ORDER</span><br>ANIMATED</div>
+      <div class="rule"></div>
+      <div class="body-text">Every character comes with stroke-order animation using SVG path data and median points for smooth, accurate rendering. Learning the correct stroke order is not optional — it is the foundation of character literacy.</div>
+      <div class="stat-block">
+        <div class="stat-item"><div class="stat-num">100</div><div class="stat-desc">Characters with full stroke animation data</div></div>
+        <div class="stat-item"><div class="stat-num gold">SVG</div><div class="stat-desc">Smooth path rendering with median point animation</div></div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">Stroke Paths</span>
+        <span class="pill">Median Points</span>
+        <span class="pill">Offline Mode</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: TECH -->
+  <div class="slide" id="s5">
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">The Technical Build</div>
+      <div class="big-title">PYTHON<br><span>MEETS</span><br>SWIFT</div>
+      <div class="rule"></div>
+      <div class="body-text">KanjiKanaTrainer is backed by a custom Python data pipeline that fetches, processes, and packages stroke data into Swift-compatible JSON — with a full offline mode so the app works without a network connection.</div>
+      <ul class="tech-list">
+        <li><strong>Python stroke fetcher</strong> — Custom tool fetching SVG stroke data for all 100 characters</li>
+        <li><strong>Dual JSON output</strong> — Standard and Swift-compatible formats generated automatically</li>
+        <li><strong>Built-in offline mode</strong> — All 100 characters embedded, no internet required</li>
+        <li><strong>SwiftUI rendering</strong> — Stroke animation rendered natively on iOS</li>
+        <li><strong>Accurate stroke counts</strong> — Verified stroke data for every character in the set</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: STATUS -->
+  <div class="slide" id="s6">
+    <div class="bg-word" style="right:-30px;bottom:80px;">練習</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">Current Status</div>
+      <div class="big-title">ACTIVE<br><span>DEVELOPMENT</span></div>
+      <div class="rule"></div>
+      <div class="body-text">KanjiKanaTrainer is in active development as part of a hands-on iOS learning portfolio. The data pipeline is complete. Character rendering and practice modes are in active build.</div>
+      <div class="stat-block">
+        <div class="stat-item"><div class="stat-num">100</div><div class="stat-desc">Characters fully processed and ready</div></div>
+        <div class="stat-item"><div class="stat-num">9</div><div class="stat-desc">Character categories structured for learning</div></div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">SwiftUI</span>
+        <span class="pill">Python Pipeline</span>
+        <span class="pill">SVG Animation</span>
+        <span class="pill">iOS 17+</span>
+      </div>
+      <span class="url-tag">industriallystrong.com</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: PRINCIPLE -->
+  <div class="slide" id="s7">
+    <div class="inner">
+      <div class="seal">漢字</div>
+      <div class="quote-text">
+        The stroke is not decoration.<br>
+        It is the <em>memory</em> —<br>
+        the muscle and the mind<br>
+        learning together.
+      </div>
+      <div class="quote-attr">— KanjiKanaTrainer · Industrially Strong · iOS</div>
+    </div>
+  </div>
+
+</div>
+
+<div id="nav">
+  <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)">← PREV</button>
+  <button class="nav-btn" id="btnPause" onclick="togglePause()">PAUSE</button>
+  <button class="nav-btn" onclick="changeSlide(1)">NEXT →</button>
+  <div id="counter">01 / 07</div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const btnPause = document.getElementById('btnPause');
+  const TOTAL = slides.length;
+  const AUTO_MS = 7000;
+  let current = 0, paused = false, timer = null;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = (n + TOTAL) % TOTAL;
+    slides[current].classList.add('active');
+    counter.textContent = `${String(current+1).padStart(2,'0')} / ${String(TOTAL).padStart(2,'0')}`;
+    progress.style.width = `${((current+1)/TOTAL)*100}%`;
+  }
+  function changeSlide(dir) { goTo(current + dir); if (!paused) resetTimer(); }
+  function resetTimer() { clearTimeout(timer); timer = setTimeout(() => changeSlide(1), AUTO_MS); }
+  function togglePause() { paused = !paused; btnPause.textContent = paused ? 'PLAY' : 'PAUSE'; if (paused) clearTimeout(timer); else resetTimer(); }
+  document.addEventListener('keydown', e => { if (e.key==='ArrowRight') changeSlide(1); if (e.key==='ArrowLeft') changeSlide(-1); if (e.key===' ') { e.preventDefault(); togglePause(); } });
+  goTo(0); resetTimer();
+</script>
+</body>
+</html>

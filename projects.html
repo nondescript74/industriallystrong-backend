@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Projects — Industrially Strong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419; --steel: #2c3e50; --mid: #5a6a7a; --light: #8fa3b3;
+    --paper: #f7f5f0; --white: #ffffff; --accent: #c0392b;
+    --accent2: #1a5276; --rule: #d4c9bb;
+    --gold: #b8922d; --green: #1a9e6e; --blue: #0a6ebd;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.04em; }
+  .nav-brand span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a { text-decoration: none; color: var(--steel); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--accent); }
+
+  .page-header {
+    padding: 110px 8vw 60px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+  }
+  .page-eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 1.2rem; }
+  .page-header p { font-size: 1rem; color: var(--mid); max-width: 580px; line-height: 1.75; font-weight: 300; }
+
+  .chapter { padding: 4rem 8vw; }
+  .chapter:nth-child(even) { background: var(--white); }
+
+  .chapter-header {
+    display: flex; align-items: center; gap: 1.2rem;
+    margin-bottom: 2.5rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chapter-num { font-family: 'Playfair Display', serif; font-size: 0.8rem; font-weight: 700; color: var(--light); letter-spacing: 0.1em; }
+  .chapter-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--ink); }
+  .chapter-desc { font-size: 0.85rem; color: var(--mid); font-weight: 300; margin-top: 0.2rem; }
+
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+
+  .project-card {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 4px; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s; position: relative;
+  }
+  .chapter:nth-child(even) .project-card { background: var(--paper); }
+  .project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+  .project-card-accent { height: 4px; }
+  .project-card-body { padding: 1.8rem 2rem; }
+
+  .project-category { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.8rem; }
+  .project-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--ink); line-height: 1.25; margin-bottom: 0.8rem; }
+  .project-card-body p { font-size: 0.85rem; color: var(--mid); line-height: 1.65; margin-bottom: 1.4rem; }
+
+  .project-meta-row { display: flex; align-items: center; justify-content: space-between; }
+  .project-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 0.25rem 0.7rem; border-radius: 2px; }
+
+  .project-cta { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--mid); display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+  .project-card:hover .project-cta { color: var(--ink); }
+  .project-cta::after { content: '→'; transition: transform 0.2s; }
+  .project-card:hover .project-cta::after { transform: translateX(4px); }
+
+  .format-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; padding: 0.2rem 0.55rem; border-radius: 2px; background: rgba(0,0,0,0.06); color: var(--mid); }
+
+  .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dot-live { background: var(--green); box-shadow: 0 0 6px rgba(26,158,110,0.5); }
+  .dot-dev  { background: var(--gold); box-shadow: 0 0 6px rgba(184,146,45,0.5); }
+
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 8vw; border-top: 1px solid var(--rule); background: var(--white); }
+  .bottom-nav a { text-decoration: none; color: var(--steel); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .bottom-nav a:hover { color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--light); padding: 3rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+  footer .footer-brand span { color: var(--accent); }
+  footer p { font-size: 0.78rem; }
+
+  @media (max-width: 600px) { nav ul { display: none; } .project-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Industrially<span>Strong</span></a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="people-stories.html">Stories</a></li>
+    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Active Projects</div>
+  <h1>Building While<br>Leading</h1>
+  <p>Hands-on development across iOS apps, quantum-resistant platforms, and AI integrations — because technical credibility is earned, not assumed.</p>
+</div>
+
+<!-- CHAPTER 1: iOS APPS -->
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">Chapter 01</div>
+    <div>
+      <div class="chapter-title">iOS Applications</div>
+      <div class="chapter-desc">Production apps built with modern Swift — shipped to the App Store and actively maintained</div>
+    </div>
+  </div>
+
+  <div class="project-grid">
+    <a class="project-card" href="keeptrack-story.html">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a9e6e, #26c98a);"></div>
+      <div class="format-badge">Animated · 6 slides</div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#1a9e6e;"><span class="status-dot dot-live"></span>Live on App Store</div>
+        <h3>KeepTrack</h3>
+        <p>Daily intake tracker for water, medications, supplements, and habits — with goal-based progress tracking and Siri integration for hands-free logging.</p>
+        <div class="project-meta-row">
+          <span class="project-tag" style="background:#d5f0e4; color:#1a6b4a;">SwiftUI · Siri · iOS 17+</span>
+          <span class="project-cta">View story</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="project-card" href="kanji-story.html">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #c0392b, #e85555);"></div>
+      <div class="format-badge">Animated · 7 slides</div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#c0392b;"><span class="status-dot dot-dev"></span>In Development</div>
+        <h3>KanjiKanaTrainer</h3>
+        <p>Learn Japanese kanji and Chinese characters through stroke-order animation. 100 foundational characters, SVG rendering, Python data pipeline, full offline mode.</p>
+        <div class="project-meta-row">
+          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">SwiftUI · Python · SVG</span>
+          <span class="project-cta">View story</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="project-card" href="reczipes-story.html" style="opacity:0.65; border-style:dashed;">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #b8922d, #d4a843);"></div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#b8922d;"><span class="status-dot dot-dev"></span>In Development</div>
+        <h3>Reczipes</h3>
+        <p>Intelligent recipe management with handwritten card OCR via Claude vision API, FODMAP analysis, multi-column cookbook processing, and CloudKit sync.</p>
+        <div class="project-meta-row">
+          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">Claude API · SwiftData · CloudKit</span>
+          <span class="project-cta">Story coming soon</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CHAPTER 2: PLATFORM PROJECTS -->
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">Chapter 02</div>
+    <div>
+      <div class="chapter-title">Platform & Infrastructure</div>
+      <div class="chapter-desc">Quantum-resistant ledger technology for trading and healthcare</div>
+    </div>
+  </div>
+
+  <div class="project-grid">
+    <a class="project-card" href="#" style="opacity:0.7; border-style:dashed; cursor:default;">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a6b3a, #27ae60);"></div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#1a6b3a;"><span class="status-dot dot-dev"></span>In Development</div>
+        <h3>Phoenix — QRL Trading Platform</h3>
+        <p>Quantum-resistant ledger technology authenticating trading strategies and creating tamper-evident verified performance records for institutional trust.</p>
+        <div class="project-meta-row">
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">Post-Quantum · FinTech</span>
+          <span class="project-cta" style="color:var(--mid);">Story coming soon</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="project-card" href="#" style="opacity:0.7; border-style:dashed; cursor:default;">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #0a6ebd, #2a9fd6);"></div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#0a6ebd;"><span class="status-dot dot-dev"></span>In Development</div>
+        <h3>myQRL Healthcare</h3>
+        <p>Quantum-resistant ledger solutions streamlining prior authorization workflows — protecting patient data integrity at the protocol layer.</p>
+        <div class="project-meta-row">
+          <span class="project-tag" style="background:#ddeaf7; color:#0a6ebd;">Healthcare · QRL</span>
+          <span class="project-cta" style="color:var(--mid);">Story coming soon</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="/">← Back to Home</a>
+  <a href="people-stories.html">Leadership Stories →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
