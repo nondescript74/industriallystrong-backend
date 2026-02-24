@@ -101,7 +101,7 @@
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="people-stories.html">People</a></li>
-    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#d6bfb8b0b996bfb8b2a3a5a2a4bfb7babaafa5a2a4b9b8b1f8b5b9bb">Contact</a></li>
   </ul>
 </nav>
 
@@ -145,7 +145,7 @@
     <div class="coming-soon">
       <div class="cs-icon">🌐</div>
       <h3>Story Coming Soon</h3>
-      <p>Another placeholder, ready for a story from your work at Microsoft, IBM, or LSI involving cross-functional execution, deadline management, or technical pivots under pressure.</p>
+      <p>Another placeholder, ready for a story from your work at LSI, IBM, Red Hill Dezignz, StorageTek, or Microsoft involving cross-functional execution, deadline management, or technical pivots under pressure.</p>
     </div>
   </div>
 
@@ -161,7 +161,7 @@
   <p>© 2026 Industrially Strong. All rights reserved.</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const stories = document.querySelectorAll('.story');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -171,13 +171,4 @@
         const beats = story.querySelectorAll('.beat');
         beats.forEach(beat => {
           const delay = parseInt(beat.dataset.delay || 0);
-          setTimeout(() => beat.classList.add('animate'), delay + 300);
-        });
-        obs.unobserve(story);
-      }
-    });
-  }, { threshold: 0.1 });
-  stories.forEach(s => obs.observe(s));
-</script>
-</body>
-</html>
+          setTimeout(() => beat.classList.add('animate'), delay 
