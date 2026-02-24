@@ -1,6 +1,6 @@
 # Industrially Strong Backend
 
-Backend server for iOS apps including Reczipes and KeepTrack. Built with Node.js/Express and designed for deployment on Vercel.
+Backend server for iOS apps including Reczipes and KeepTrack as well as Z. Premji portfolio of stories. Built with Node.js/Express and designed for deployment on Vercel.
 
 ## 🚀 Features
 
