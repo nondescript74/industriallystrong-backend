@@ -1,69 +1,648 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industrially Strong - iOS Apps</title>
-    <link rel="stylesheet" href="/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z — Engineering Leader & Innovator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419;
+    --steel: #2c3e50;
+    --mid: #5a6a7a;
+    --light: #8fa3b3;
+    --paper: #f7f5f0;
+    --white: #ffffff;
+    --accent: #c0392b;
+    --accent2: #1a5276;
+    --rule: #d4c9bb;
+    --card-bg: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a {
+    text-decoration: none;
+    color: var(--steel);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul li a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 60px;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8vh 5vw 8vh 8vw;
+    position: relative;
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute; right: 0; top: 15%; bottom: 15%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--rule), transparent);
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name em {
+    font-style: normal;
+    color: var(--accent2);
+  }
+  .hero-tagline {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--steel);
+    max-width: 460px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-stats {
+    display: flex; gap: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--accent); font-size: 1.4rem; }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-top: 0.3rem;
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8vh 8vw 8vh 5vw;
+    gap: 1.2rem;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+  }
+  .capability-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent2);
+    padding: 1.2rem 1.5rem;
+    border-radius: 2px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .capability-card:hover {
+    transform: translateX(6px);
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.07);
+  }
+  .capability-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .capability-card p {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .capability-card.accent-red { border-left-color: var(--accent); }
+  .capability-card.accent-gold { border-left-color: #b7860b; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 8vw; }
+  section:nth-child(even) { background: var(--white); }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    align-self: center;
+    margin-left: 1rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--mid);
+    max-width: 620px;
+    margin-top: -2.5rem;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+
+  /* ── PROJECT GRID ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .project-card.ai::before { background: linear-gradient(90deg, #1a5276, #2980b9); }
+  .project-card.ios::before { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+  .project-card.qrl::before { background: linear-gradient(90deg, #1a6b3a, #27ae60); }
+  .project-card.leadership::before { background: linear-gradient(90deg, #7d5a00, #b7860b); }
+  .project-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .project-card p {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  .project-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .tag-blue { background: #ddeaf7; color: #1a5276; }
+  .tag-red { background: #fde8e8; color: #c0392b; }
+  .tag-green { background: #d5f0e0; color: #1a6b3a; }
+  .tag-gold { background: #fdf3dc; color: #7d5a00; }
+
+  /* ── STORY CARDS ── */
+  .stories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .story-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2.5rem;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+  }
+  .story-chapter {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .story-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.25;
+  }
+  .story-card p {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .story-cta {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-weight: 500;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .story-cta::after {
+    content: '→';
+    transition: transform 0.2s;
+  }
+  .story-card:hover .story-cta::after { transform: translateX(4px); }
+
+  /* ── INTEGRATION SECTION ── */
+  .integration-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .integration-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--ink);
+    position: relative;
+    padding-left: 1.5rem;
+    border-left: 4px solid var(--accent);
+  }
+  .integration-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .integration-pillar {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .pillar-icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .pillar-blue { background: #ddeaf7; }
+  .pillar-red { background: #fde8e8; }
+  .pillar-gold { background: #fdf3dc; }
+  .pillar-text h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .pillar-text p {
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--light);
+    padding: 3rem 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--white);
+  }
+  footer .footer-brand span { color: var(--accent); }
+  footer nav ul { gap: 1.5rem; }
+  footer nav ul li a { color: var(--light); font-size: 0.8rem; }
+  footer nav ul li a:hover { color: var(--white); }
+  footer p { font-size: 0.78rem; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left::after { display: none; }
+    .hero-right { padding-top: 0; }
+    .stories-grid { grid-template-columns: 1fr; }
+    .integration-content { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    nav ul { gap: 1rem; }
+  }
+  @media (max-width: 560px) {
+    nav ul { display: none; }
+    section { padding: 4rem 6vw; }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Industrially Strong</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/reczipes/support">Reczipes</a></li>
-                <li><a href="/keeptrack/support">KeepTrack</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <h2>Building Tools for Better Living</h2>
-            <p>Quality iOS applications designed with your needs in mind</p>
-        </section>
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">Industrially<span>Strong</span></a>
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#integration">Leadership</a></li>
+    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+  </ul>
+</nav>
 
-        <section class="apps">
-            <div class="app-card">
-                <h3>📱 Reczipes</h3>
-                <p>Your intelligent recipe management companion. Organize recipes, analyze ingredients, and discover new culinary possibilities.</p>
-                <a href="/reczipes/support" class="btn">Learn More</a>
-            </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Engineering Leader · Innovator · Builder</div>
+    <h1 class="hero-name">Bridging<br>the <em>Board&shy;room</em><br>& the<br>Code&shy;base</h1>
+    <p class="hero-tagline">30+ years leading engineering organizations at Microsoft, IBM, and LSI — now building the next generation of AI-powered applications and quantum-resistant platforms.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">7<span>+</span></div>
+        <div class="stat-label">US Patents</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">$150<span>M</span></div>
+        <div class="stat-label">R&D Managed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">65<span>+</span></div>
+        <div class="stat-label">Global Team</div>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-card">
-                <h3>📊 KeepTrack</h3>
-                <p>Track what matters to you. Simple, powerful, and privacy-focused tracking for your daily life.</p>
-                <a href="/keeptrack/support" class="btn">Learn More</a>
-            </div>
-        </section>
+  <div class="hero-right">
+    <div class="capability-card">
+      <h3>Technical Vision</h3>
+      <p>From semiconductor lithography to quantum-resistant ledgers — architecting systems that matter before the market knows it needs them.</p>
+    </div>
+    <div class="capability-card accent-red">
+      <h3>People Leadership</h3>
+      <p>Built and scaled global engineering teams across three continents. Developing talent is not a program — it is a discipline.</p>
+    </div>
+    <div class="capability-card accent-gold">
+      <h3>AI & iOS Development</h3>
+      <p>Active hands-on builder. Shipping production iOS apps with Claude vision API integration, SwiftData, and CloudKit sync.</p>
+    </div>
+    <div class="capability-card" style="border-left-color:#1a6b3a;">
+      <h3>Decisive Execution</h3>
+      <p>Proven ability to align executive stakeholders, terminate failing initiatives without sentiment, and reallocate resources to winning bets.</p>
+    </div>
+  </div>
+</div>
 
-        <section class="contact">
-            <h3>Get in Touch</h3>
-            <p>Have questions or feedback? We'd love to hear from you.</p>
-            <form id="contactForm">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <select name="app">
-                    <option value="">Select an app</option>
-                    <option value="reczipes">Reczipes</option>
-                    <option value="keeptrack">KeepTrack</option>
-                    <option value="general">General Inquiry</option>
-                </select>
-                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-            <div id="formMessage"></div>
-        </section>
-    </main>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <h2 class="section-title">Active Projects</h2>
+    <div class="section-rule"></div>
+  </div>
+  <p class="section-subtitle">Current work spanning AI application development, quantum-resistant infrastructure, iOS apps, and organizational leadership frameworks.</p>
 
-    <footer>
-        <p>&copy; 2025 Industrially Strong. All rights reserved.</p>
-        <p>Contact: <a href="mailto:info@industriallystrong.com">info@industriallystrong.com</a></p>
-    </footer>
+  <div class="projects-grid reveal">
+    <div class="project-card ai">
+      <span class="project-icon">🤖</span>
+      <h3>AI-Powered iOS Apps</h3>
+      <p>Building production-grade iOS applications with Claude vision API for intelligent OCR, recipe extraction, and multi-modal input processing.</p>
+      <span class="project-tag tag-blue">Claude API</span>
+      <span class="project-tag tag-blue" style="margin-left:0.3rem">SwiftUI</span>
+    </div>
 
-    <script src="/script.js"></script>
+    <div class="project-card ios">
+      <span class="project-icon">📱</span>
+      <h3>Reczipes</h3>
+      <p>Intelligent recipe management with handwritten card OCR, FODMAP analysis, CloudKit sync, and multi-column cookbook processing. 2026 Swift Student Challenge candidate.</p>
+      <span class="project-tag tag-red">iOS 17+</span>
+      <span class="project-tag tag-red" style="margin-left:0.3rem">SwiftData</span>
+    </div>
+
+    <div class="project-card qrl">
+      <span class="project-icon">🔐</span>
+      <h3>Phoenix — QRL Trading Platform</h3>
+      <p>Quantum-resistant ledger technology authenticating trading strategies and creating tamper-evident verified performance records for institutional trust.</p>
+      <span class="project-tag tag-green">Post-Quantum</span>
+      <span class="project-tag tag-green" style="margin-left:0.3rem">FinTech</span>
+    </div>
+
+    <div class="project-card leadership">
+      <span class="project-icon">🏛</span>
+      <h3>myQRL Healthcare</h3>
+      <p>Applying quantum-resistant ledger solutions to streamline prior authorization workflows — reducing friction, protecting patient data integrity at the protocol layer.</p>
+      <span class="project-tag tag-gold">Healthcare</span>
+      <span class="project-tag tag-gold" style="margin-left:0.3rem">QRL</span>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section id="stories">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <h2 class="section-title">Leadership Stories</h2>
+    <div class="section-rule"></div>
+  </div>
+  <p class="section-subtitle">The moments that defined a career — not as a list of accomplishments, but as stories of judgment, courage, and consequence.</p>
+
+  <div class="stories-grid reveal">
+    <a class="story-card" href="people-stories.html">
+      <div class="story-chapter">People Leadership</div>
+      <h3>The PMP Who Changed the Culture</h3>
+      <p>A single difficult conversation with a high-performing engineer revealed a team culture that was eroding performance from the inside. What happened next set the standard for every engagement that followed.</p>
+      <div class="story-cta">Read the story</div>
+    </a>
+
+    <a class="story-card" href="people-stories.html#kill">
+      <div class="story-chapter">Executive Judgment</div>
+      <h3>The Courage to Kill a Project</h3>
+      <p>An acquired project with no momentum, a small team in another state, and executives reluctant to face the obvious. One Portfolio Management Committee meeting changed all of that — permanently.</p>
+      <div class="story-cta">Read the story</div>
+    </a>
+
+    <a class="story-card" href="project-stories.html" style="background: var(--white);">
+      <div class="story-chapter">Project Leadership</div>
+      <h3>Engineering Against the Clock</h3>
+      <p>Managing $150M in R&D across a 65-person global team means decisions rarely come with perfect information. These are the project stories — where strategy met execution in real time.</p>
+      <div class="story-cta">Explore project stories</div>
+    </a>
+
+    <a class="story-card" href="#integration" style="background: var(--white);">
+      <div class="story-chapter">Vision & Integration</div>
+      <h3>The Leader Who Builds and Leads</h3>
+      <p>Technical credibility that earns the room. Executive presence that moves organizations. The rare integration of boardroom vision and hands-on craft that defines what a modern engineering leader must be.</p>
+      <div class="story-cta">See the full picture</div>
+    </a>
+  </div>
+</section>
+
+<!-- INTEGRATION -->
+<section id="integration">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <h2 class="section-title">The Integration</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="integration-content reveal">
+    <blockquote class="integration-quote">
+      "The leader who can build it is the one who truly understands what it takes to ship it."
+    </blockquote>
+
+    <div class="integration-body">
+      <div class="integration-pillar">
+        <div class="pillar-icon pillar-blue">🧭</div>
+        <div class="pillar-text">
+          <h4>Technical Leadership</h4>
+          <p>7 US patents. Active iOS developer. Hands-on with Swift, Claude API, quantum-resistant protocols, and ML-assisted OCR. The technical depth that earns credibility in any engineering room — earned, not assumed.</p>
+        </div>
+      </div>
+      <div class="integration-pillar">
+        <div class="pillar-icon pillar-red">👥</div>
+        <div class="pillar-text">
+          <h4>People Leadership</h4>
+          <p>Built and led 65-person global engineering organizations. Navigated the full spectrum from difficult performance conversations to scaling high-functioning teams across time zones and cultures. Developing people is a craft.</p>
+        </div>
+      </div>
+      <div class="integration-pillar">
+        <div class="pillar-icon pillar-gold">🔭</div>
+        <div class="pillar-text">
+          <h4>Executive Vision</h4>
+          <p>Managed $150M+ R&D portfolios at Microsoft, IBM, and LSI. Identifies the bets worth making — and the projects worth killing. Translates engineering complexity into boardroom clarity with precision and conviction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <nav>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="people-stories.html">People Stories</a></li>
+      <li><a href="project-stories.html">Project Stories</a></li>
+      <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+    </ul>
+  </nav>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

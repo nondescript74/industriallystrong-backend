@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Stories — Industrially Strong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419; --steel: #2c3e50; --mid: #5a6a7a; --light: #8fa3b3;
+    --paper: #f7f5f0; --white: #ffffff; --accent: #c0392b;
+    --accent2: #1a5276; --rule: #d4c9bb;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+  .nav-brand span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a { text-decoration: none; color: var(--steel); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--accent); }
+
+  .page-header {
+    padding: 120px 8vw 60px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--white);
+  }
+  .page-eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent2); font-weight: 500; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 1.2rem; }
+  .page-header p { font-size: 1rem; color: var(--mid); max-width: 600px; line-height: 1.7; font-weight: 300; }
+
+  .stories-page { padding: 5rem 8vw; max-width: 900px; margin: 0 auto; }
+
+  /* STORY — same system as people-stories */
+  .story {
+    margin-bottom: 6rem;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .story.visible { opacity: 1; transform: translateY(0); }
+  .story-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .story-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--rule); line-height: 1; }
+  .story-category { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent2); font-weight: 500; margin-bottom: 0.3rem; }
+  .story-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--ink); line-height: 1.2; }
+
+  .story-timeline { position: relative; padding-left: 2.5rem; margin-top: 2rem; }
+  .story-timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent2), var(--accent)); }
+  .beat { position: relative; margin-bottom: 2rem; opacity: 0; transform: translateX(-16px); }
+  .beat.animate { animation: beatIn 0.5s ease forwards; }
+  @keyframes beatIn { to { opacity: 1; transform: translateX(0); } }
+  .beat::before { content: ''; position: absolute; left: -2.5rem; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--white); border: 2px solid var(--accent2); box-shadow: 0 0 0 3px rgba(26,82,118,0.12); }
+  .beat.climax::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(192,57,43,0.18); width: 14px; height: 14px; left: calc(-2.5rem - 2px); top: 4px; }
+  .beat-label { font-size: 0.67rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); font-weight: 500; margin-bottom: 0.4rem; }
+  .beat-text { font-size: 0.95rem; color: var(--steel); line-height: 1.7; font-weight: 300; }
+  .beat.climax .beat-text { font-size: 1rem; color: var(--ink); font-weight: 400; font-family: 'Playfair Display', serif; font-style: italic; }
+  .beat-outcome { margin-top: 0.5rem; font-size: 0.82rem; font-weight: 500; color: var(--accent2); display: inline-flex; align-items: center; gap: 0.4rem; }
+  .beat-outcome::before { content: '→'; color: var(--accent); }
+  .lesson-box { margin-top: 2.5rem; background: var(--white); border: 1px solid var(--rule); border-left: 4px solid var(--accent2); padding: 1.5rem 2rem; border-radius: 2px; }
+  .lesson-box .lesson-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent2); font-weight: 500; margin-bottom: 0.6rem; }
+  .lesson-box p { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic; color: var(--ink); line-height: 1.65; }
+
+  /* COMING SOON PLACEHOLDER */
+  .coming-soon {
+    text-align: center;
+    padding: 5rem 2rem;
+    border: 2px dashed var(--rule);
+    border-radius: 4px;
+    background: var(--white);
+  }
+  .coming-soon .cs-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .coming-soon h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--ink); margin-bottom: 0.8rem; }
+  .coming-soon p { font-size: 0.9rem; color: var(--mid); max-width: 440px; margin: 0 auto; line-height: 1.7; }
+
+  .story-divider { height: 1px; background: var(--rule); margin: 4rem 0; position: relative; }
+  .story-divider::after { content: '◆'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--paper); padding: 0 1rem; color: var(--rule); font-size: 0.7rem; }
+
+  .story-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0 4rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+  .story-nav a { text-decoration: none; color: var(--steel); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .story-nav a:hover { color: var(--accent); }
+
+  footer { background: var(--ink); color: var(--light); padding: 3rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+  footer .footer-brand span { color: var(--accent); }
+  footer p { font-size: 0.78rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Industrially<span>Strong</span></a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="people-stories.html">People</a></li>
+    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Chapter 01 — Project & Technical Leadership</div>
+  <h1>Engineering Against<br>the Clock</h1>
+  <p>Managing $150M in R&D across a 65-person global team means decisions rarely come with perfect information. These are the project stories — where strategy met execution under pressure.</p>
+</div>
+
+<div class="stories-page">
+
+  <!-- STORY PLACEHOLDER — ready for your first project story -->
+  <div class="story" id="story-1">
+    <div class="story-meta">
+      <div class="story-num">01</div>
+      <div class="story-meta-text">
+        <div class="story-category">R&D Portfolio Leadership</div>
+        <div class="story-title">Your First Project Story</div>
+      </div>
+    </div>
+
+    <div class="coming-soon">
+      <div class="cs-icon">📐</div>
+      <h3>Story Coming Soon</h3>
+      <p>This is a placeholder for your first project leadership story. Share the details and it will be built in the same animated timeline format as the People Stories.</p>
+    </div>
+  </div>
+
+  <div class="story-divider"></div>
+
+  <!-- STORY 2 PLACEHOLDER -->
+  <div class="story" id="story-2">
+    <div class="story-meta">
+      <div class="story-num">02</div>
+      <div class="story-meta-text">
+        <div class="story-category">Global Team Execution</div>
+        <div class="story-title">Your Second Project Story</div>
+      </div>
+    </div>
+
+    <div class="coming-soon">
+      <div class="cs-icon">🌐</div>
+      <h3>Story Coming Soon</h3>
+      <p>Another placeholder, ready for a story from your work at Microsoft, IBM, or LSI involving cross-functional execution, deadline management, or technical pivots under pressure.</p>
+    </div>
+  </div>
+
+  <div class="story-nav">
+    <a href="/">← Back to Home</a>
+    <a href="people-stories.html">People Stories →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+<script>
+  const stories = document.querySelectorAll('.story');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const story = entry.target;
+        story.classList.add('visible');
+        const beats = story.querySelectorAll('.beat');
+        beats.forEach(beat => {
+          const delay = parseInt(beat.dataset.delay || 0);
+          setTimeout(() => beat.classList.add('animate'), delay + 300);
+        });
+        obs.unobserve(story);
+      }
+    });
+  }, { threshold: 0.1 });
+  stories.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

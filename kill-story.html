@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Courage to Kill a Project — Zahirudeen Premji</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F4F5F7;
+  --bg-card: #FFFFFF;
+  --text-primary: #1B2A4A;
+  --text-secondary: #3D4F6A;
+  --text-muted: #6B7B94;
+  --accent: #1B2A4A;
+  --gold: #B8922D;
+  --gold-glow: rgba(184,146,45,0.25);
+  --dot-inactive: #C5D0DC;
+  --dot-active: #B8922D;
+  --border-subtle: rgba(27,42,74,0.1);
+  --control-bg: rgba(27,42,74,0.06);
+  --control-border: rgba(27,42,74,0.12);
+  --control-text: #6B7B94;
+  --control-hover: rgba(27,42,74,0.12);
+  --progress: #B8922D;
+  --quote-border: #B8922D;
+  --red: #B83232;
+  --red-glow: rgba(184,50,50,0.2);
+}
+@media (prefers-color-scheme: dark) {
+:root {
+  --bg-primary: #141E30;
+  --bg-secondary: #1A2740;
+  --bg-card: #1E2D45;
+  --text-primary: #E8EDF2;
+  --text-secondary: #B0BEC5;
+  --text-muted: #78909C;
+  --accent: #E8EDF2;
+  --gold: #C9A96E;
+  --gold-glow: rgba(201,169,110,0.3);
+  --dot-inactive: #37474F;
+  --dot-active: #C9A96E;
+  --border-subtle: rgba(255,255,255,0.08);
+  --control-bg: rgba(255,255,255,0.06);
+  --control-border: rgba(255,255,255,0.12);
+  --control-text: #78909C;
+  --control-hover: rgba(255,255,255,0.12);
+  --progress: #C9A96E;
+  --quote-border: #C9A96E;
+  --red: #E05555;
+  --red-glow: rgba(224,85,85,0.25);
+}
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg-primary); color:var(--text-primary); font-family:'Source Sans 3',sans-serif; overflow:hidden; height:100vh; width:100vw; transition:background 0.3s ease,color 0.3s ease; }
+.theater { position:relative; width:100vw; height:100vh; overflow:hidden; }
+.slide { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:60px 80px; opacity:0; transform:translateY(30px); transition:opacity 1.2s ease,transform 1.2s ease; pointer-events:none; background:var(--bg-primary); }
+.slide.active { opacity:1; transform:translateY(0); pointer-events:auto; }
+.slide.exit { opacity:0; transform:translateY(-30px); }
+
+/* TITLE SLIDE */
+.slide-title .category { font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:18px; letter-spacing:6px; text-transform:uppercase; color:var(--red); margin-bottom:30px; opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.3s; }
+.slide-title h1 { font-family:'Playfair Display',serif; font-size:clamp(48px,7vw,80px); font-weight:700; line-height:1.15; text-align:center; max-width:850px; color:var(--text-primary); opacity:0; animation:fadeUp 1s ease forwards; animation-delay:0.6s; }
+.slide-title .subtitle { font-family:'Source Sans 3',sans-serif; font-size:26px; font-weight:300; color:var(--text-muted); margin-top:24px; letter-spacing:1px; text-align:center; max-width:600px; opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1s; }
+.slide-title .author-line { font-family:'Source Sans 3',sans-serif; font-size:17px; font-weight:400; color:var(--text-muted); margin-top:40px; letter-spacing:2px; text-transform:uppercase; opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1.3s; }
+
+/* CONTENT SLIDES */
+.slide-content { text-align:left; align-items:flex-start; padding:80px 12%; }
+.phase-label { font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:16px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+.phase-label.red { color:var(--red); }
+.accent-line { width:60px; height:3px; background:var(--gold); margin-bottom:30px; }
+.accent-line.red { background:var(--red); }
+.slide-content h2 { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,60px); font-weight:700; line-height:1.2; margin-bottom:30px; max-width:750px; color:var(--text-primary); }
+.slide-content .narrative { font-family:'Source Sans 3',sans-serif; font-size:clamp(22px,2.4vw,28px); font-weight:300; line-height:1.8; color:var(--text-secondary); max-width:680px; margin-bottom:28px; }
+.slide-content .narrative em { color:var(--text-primary); font-weight:500; font-style:normal; }
+
+/* STAT ROW */
+.stat-row { display:flex; gap:50px; margin-top:24px; }
+.stat .number { font-family:'Playfair Display',serif; font-size:clamp(48px,6vw,72px); font-weight:700; color:var(--gold); line-height:1; }
+.stat .number.red { color:var(--red); }
+.stat .label { font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); margin-top:8px; }
+
+/* INSIGHT CARD */
+.insight-card { border-left:3px solid var(--red); padding:24px 32px; background:var(--bg-secondary); max-width:640px; margin-top:28px; border-radius:0 8px 8px 0; }
+.insight-card h3 { font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:14px; letter-spacing:4px; text-transform:uppercase; color:var(--red); margin-bottom:12px; }
+.insight-card p { font-family:'Source Sans 3',sans-serif; font-size:clamp(18px,2vw,22px); font-weight:300; line-height:1.7; color:var(--text-secondary); }
+
+/* BARRIER GRID */
+.barrier-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; max-width:640px; }
+.barrier-item { background:var(--bg-secondary); border:1px solid var(--border-subtle); border-radius:8px; padding:18px 22px; }
+.barrier-item .b-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--red); line-height:1; margin-bottom:8px; opacity:0.6; }
+.barrier-item .b-text { font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:400; color:var(--text-secondary); line-height:1.5; }
+
+/* OUTCOME SLIDE */
+.slide-outcome { text-align:center; }
+.slide-outcome h2 { font-family:'Playfair Display',serif; font-size:clamp(40px,5vw,66px); font-weight:700; line-height:1.2; max-width:750px; margin-bottom:30px; color:var(--text-primary); }
+.slide-outcome .narrative { font-family:'Source Sans 3',sans-serif; font-size:clamp(22px,2.4vw,28px); font-weight:300; line-height:1.8; color:var(--text-secondary); max-width:640px; text-align:center; margin-bottom:40px; }
+
+/* QUOTE */
+.quote-block { border-left:3px solid var(--quote-border); padding:24px 36px; max-width:680px; text-align:left; background:var(--bg-secondary); border-radius:0 8px 8px 0; }
+.quote-block p { font-family:'Playfair Display',serif; font-size:clamp(22px,2.2vw,30px); font-style:italic; color:var(--text-primary); line-height:1.6; }
+.quote-block .attribution { font-family:'Source Sans 3',sans-serif; font-size:16px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-top:18px; font-style:normal; }
+
+/* PMC VOTE ANIMATION */
+.vote-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; max-width:500px; }
+.vote-dot { width:44px; height:44px; border-radius:50%; background:var(--dot-inactive); transition:all 0.5s ease; display:flex; align-items:center; justify-content:center; font-size:18px; opacity:0.3; }
+.vote-dot.yes { background:var(--red); opacity:1; box-shadow:0 0 14px var(--red-glow); }
+
+/* PROGRESS BAR */
+.progress-bar { position:fixed; bottom:0; left:0; height:3px; background:var(--progress); transition:width 0.3s linear; z-index:999; }
+.slide-counter { position:fixed; bottom:22px; right:30px; font-family:'Source Sans 3',sans-serif; font-size:16px; letter-spacing:3px; color:var(--text-muted); z-index:999; }
+.controls { position:fixed; bottom:20px; left:30px; display:flex; gap:12px; z-index:999; }
+.controls button { background:var(--control-bg); border:1px solid var(--control-border); color:var(--control-text); font-family:'Source Sans 3',sans-serif; font-size:15px; letter-spacing:2px; text-transform:uppercase; padding:10px 18px; cursor:pointer; border-radius:4px; transition:all 0.3s ease; }
+.controls button:hover { background:var(--control-hover); color:var(--text-primary); }
+.home-link { position:fixed; top:20px; left:30px; font-family:'Source Sans 3',sans-serif; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); text-decoration:none; z-index:999; transition:color 0.2s; }
+.home-link:hover { color:var(--text-primary); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+.slide.active .phase-label { opacity:0; animation:fadeUp 0.7s ease forwards; animation-delay:0.2s; }
+.slide.active .accent-line { opacity:0; animation:fadeUp 0.5s ease forwards; animation-delay:0.3s; }
+.slide.active h2 { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.4s; }
+.slide.active .narrative { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.7s; }
+.slide.active .stat-row { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1s; }
+.slide.active .insight-card { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.9s; }
+.slide.active .barrier-grid { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.9s; }
+.slide.active .quote-block { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.8s; }
+.slide.active .vote-row { opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:0.9s; }
+
+@media (max-width:768px) { .slide{padding:40px 30px;} .slide-content{padding:60px 8%;} .stat-row{gap:30px;flex-wrap:wrap;} .barrier-grid{grid-template-columns:1fr;} .controls{left:15px;} .slide-counter{right:15px;} }
+</style>
+</head>
+<body>
+
+<a class="home-link" href="people-stories.html">← All Stories</a>
+
+<div class="theater">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide slide-title active" data-duration="6000">
+    <div class="category">Executive Judgment &bull; LSI Corporation</div>
+    <h1>The Courage<br>to Kill a Project</h1>
+    <div class="subtitle">When facts are clear and no one wants to see them</div>
+    <div class="author-line">Zahirudeen Premji &nbsp;&bull;&nbsp; Director of Program Management &nbsp;&bull;&nbsp; LSI Corporation</div>
+  </div>
+
+  <!-- SLIDE 2: THE INHERITANCE -->
+  <div class="slide slide-content" data-duration="7000">
+    <div class="phase-label">The Situation</div>
+    <div class="accent-line"></div>
+    <h2>An Acquisition<br>Left Behind</h2>
+    <div class="narrative">When I took over as Director of Program Management at LSI, I inherited a project in another state — the remnant of a small acquisition made before my arrival. A team of <em>3–4 people</em>. A senior program manager assigned to help them. And <em>no meaningful progress</em> to show for it.</div>
+    <div class="narrative">On paper, it was a project. In practice, it was a commitment no one wanted to examine too closely.</div>
+    <div class="stat-row">
+      <div class="stat"><div class="number red">3–4</div><div class="label">Team Members</div></div>
+      <div class="stat"><div class="number red">0</div><div class="label">Milestones Met</div></div>
+      <div class="stat"><div class="number">1</div><div class="label">Sr. PM Assigned<br>to "Help"</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE PATTERN -->
+  <div class="slide slide-content" data-duration="7500">
+    <div class="phase-label">The Investigation</div>
+    <div class="accent-line"></div>
+    <h2>Everyone Knew.<br>Nobody Said It.</h2>
+    <div class="narrative">I started talking to people across the organization — stakeholders, sponsors, peers. What I heard was consistent: <em>everyone sensed this project was failing</em>. But the conversation never happened.</div>
+    <div class="barrier-grid" id="barrierGrid">
+      <div class="barrier-item"><div class="b-num">01</div><div class="b-text">Sunk cost thinking — "we've already invested this"</div></div>
+      <div class="barrier-item"><div class="b-num">02</div><div class="b-text">Acquisition loyalty — nobody wanted to second-guess the deal</div></div>
+      <div class="barrier-item"><div class="b-num">03</div><div class="b-text">Organizational inertia — it was easier to let it continue</div></div>
+      <div class="barrier-item"><div class="b-num">04</div><div class="b-text">No one willing to own the uncomfortable conclusion</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE DECISION -->
+  <div class="slide slide-content" data-duration="7000">
+    <div class="phase-label red">The Turning Point</div>
+    <div class="accent-line red"></div>
+    <h2>Factual. Blunt.<br>To the Point.</h2>
+    <div class="narrative">After a thorough review, my conclusion was unambiguous: <em>this project had no viable path to value</em>. Resources were being consumed. Talent was being wasted. The only responsible course was termination — and it needed to happen at the right level.</div>
+    <div class="insight-card">
+      <h3>The Approach</h3>
+      <p>I arranged an executive-level review at the Portfolio Management Committee — composed of the company's senior executives — and laid out the case with facts, not politics. No hedging. No softening. No contrary arguments were possible because none existed.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: THE PMC -->
+  <div class="slide slide-content" data-duration="7000">
+    <div class="phase-label">The Presentation</div>
+    <div class="accent-line"></div>
+    <h2>The Room<br>Goes Quiet</h2>
+    <div class="narrative">The Portfolio Management Committee heard the full case. Every fact was on the table. The project's lack of progress. The resource drain. The absence of any credible path forward. The recommendation was clear: <em>terminate the project and redeploy the resources</em>.</div>
+    <div class="narrative">What surprised me was how few objections there were. <em>When the facts are laid out with clarity and courage, the room often already knows the answer.</em></div>
+    <div class="vote-row" id="voteRow">
+      <!-- dots populated by JS -->
+    </div>
+  </div>
+
+  <!-- SLIDE 6: OUTCOME -->
+  <div class="slide slide-outcome" data-duration="7000">
+    <h2>Decision Made.<br>One Week Later.</h2>
+    <div class="narrative">Within seven days of the PMC presentation, the project was formally terminated. The team was reassigned to work that mattered. The resources that had been quietly disappearing into a stalled initiative were redirected to initiatives with measurable outcomes.</div>
+    <div class="stat-row" style="justify-content:center;">
+      <div class="stat" style="text-align:center;"><div class="number">7</div><div class="label">Days to<br>Termination</div></div>
+      <div class="stat" style="text-align:center;"><div class="number">0</div><div class="label">Contrary<br>Arguments</div></div>
+      <div class="stat" style="text-align:center;"><div class="number">100%</div><div class="label">Resources<br>Redeployed</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: THE PRINCIPLE -->
+  <div class="slide slide-outcome" data-duration="7000">
+    <div class="phase-label" style="opacity:1;">The Leadership Principle</div>
+    <div class="accent-line" style="margin:0 auto 30px;opacity:1;"></div>
+    <h2 style="font-size:clamp(36px,5vw,58px);">Organizations don't fail<br>because they start bad projects.<br>They fail because they<br>can't stop them.</h2>
+    <div class="narrative" style="margin-top:24px;">Being factual, blunt, and to the point is not unkind. It is the clearest form of respect — for the team's time, the organization's resources, and the potential locked up in every initiative you free people to work on instead.</div>
+    <div style="margin-top:44px;font-family:'Source Sans 3',sans-serif;font-size:17px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);">Zahirudeen Premji &nbsp;&bull;&nbsp; industriallystrong.com</div>
+  </div>
+
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-counter" id="slideCounter">01 / 07</div>
+<div class="controls">
+  <button id="prevBtn">&larr; Prev</button>
+  <button id="pauseBtn">Pause</button>
+  <button id="nextBtn">Next &rarr;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progressBar');
+const slideCounter = document.getElementById('slideCounter');
+const pauseBtn = document.getElementById('pauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let currentSlide = 0, isPaused = false, timer = null, progressTimer = null, progressWidth = 0;
+
+// Build PMC vote dots
+const voteRow = document.getElementById('voteRow');
+for (let i = 0; i < 8; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'vote-dot';
+  dot.textContent = '✓';
+  dot.style.transitionDelay = `${i * 0.12}s`;
+  voteRow.appendChild(dot);
+}
+
+function animateVotes() {
+  document.querySelectorAll('.vote-dot').forEach((dot, i) => {
+    setTimeout(() => dot.classList.add('yes'), 800 + (i * 180));
+  });
+}
+function resetVotes() {
+  document.querySelectorAll('.vote-dot').forEach(dot => dot.classList.remove('yes'));
+}
+
+function updateCounter() {
+  slideCounter.textContent = `${String(currentSlide+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+}
+
+function goToSlide(index) {
+  if (index < 0 || index >= slides.length) return;
+  slides[currentSlide].classList.remove('active');
+  slides[currentSlide].classList.add('exit');
+  setTimeout(() => {
+    slides[currentSlide].classList.remove('exit');
+    currentSlide = index;
+    slides[currentSlide].classList.add('active');
+    updateCounter();
+    if (currentSlide === 4) { resetVotes(); setTimeout(animateVotes, 600); }
+    startProgress();
+  }, 400);
+}
+
+function nextSlide() { goToSlide(currentSlide < slides.length-1 ? currentSlide+1 : 0); }
+function prevSlide() { if (currentSlide > 0) goToSlide(currentSlide-1); }
+
+function startProgress() {
+  clearInterval(progressTimer); clearTimeout(timer); progressWidth = 0;
+  const duration = parseInt(slides[currentSlide].dataset.duration) || 6000;
+  const interval = 30, increment = (interval/duration)*100;
+  const slideProgress = (currentSlide/slides.length)*100;
+  const slideWidth = (1/slides.length)*100;
+  progressTimer = setInterval(() => {
+    if (!isPaused) {
+      progressWidth += increment;
+      progressBar.style.width = `${slideProgress + (progressWidth/100)*slideWidth}%`;
+      if (progressWidth >= 100) {
+        clearInterval(progressTimer);
+        if (!isPaused) timer = setTimeout(nextSlide, 200);
+      }
+    }
+  }, interval);
+}
+
+pauseBtn.addEventListener('click', () => {
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? 'Play' : 'Pause';
+});
+nextBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); nextSlide(); });
+prevBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); clearInterval(progressTimer); clearTimeout(timer); nextSlide(); }
+  else if (e.key==='ArrowLeft') { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); }
+  else if (e.key==='p') { isPaused=!isPaused; pauseBtn.textContent=isPaused?'Play':'Pause'; }
+});
+
+updateCounter();
+startProgress();
+</script>
+</body>
+</html>

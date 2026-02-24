@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadership Stories — Industrially Strong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419; --steel: #2c3e50; --mid: #5a6a7a; --light: #8fa3b3;
+    --paper: #f7f5f0; --white: #ffffff; --accent: #c0392b;
+    --accent2: #1a5276; --rule: #d4c9bb;
+    --gold: #b8922d; --green: #1a6b3a; --orange: #e8530a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(247,245,240,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.04em; }
+  .nav-brand span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a { text-decoration: none; color: var(--steel); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  nav ul li a:hover { color: var(--accent); }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 110px 8vw 60px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+  }
+  .page-eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 1.2rem; }
+  .page-header p { font-size: 1rem; color: var(--mid); max-width: 580px; line-height: 1.75; font-weight: 300; }
+
+  /* CHAPTER SECTIONS */
+  .chapter { padding: 4rem 8vw; }
+  .chapter:nth-child(even) { background: var(--white); }
+
+  .chapter-header {
+    display: flex; align-items: center; gap: 1.2rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chapter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--light); letter-spacing: 0.1em;
+  }
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; color: var(--ink);
+  }
+  .chapter-desc { font-size: 0.85rem; color: var(--mid); font-weight: 300; margin-top: 0.2rem; }
+
+  /* STORY CARDS */
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+
+  .story-card {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .chapter:nth-child(even) .story-card { background: var(--paper); }
+  .story-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+  .story-card-accent { height: 4px; }
+  .accent-navy { background: linear-gradient(90deg, #1B2A4A, #2e5f8a); }
+  .accent-red  { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+  .accent-gold { background: linear-gradient(90deg, #b8922d, #d4a843); }
+  .accent-orange { background: linear-gradient(90deg, #e8530a, #ff7a3c); }
+
+  .story-card-body { padding: 1.8rem 2rem; }
+  .story-category {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 0.8rem;
+  }
+  .cat-navy { color: #1B2A4A; }
+  .cat-red  { color: var(--accent); }
+  .cat-gold { color: var(--gold); }
+  .cat-orange { color: var(--orange); }
+
+  .story-card-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; color: var(--ink);
+    line-height: 1.25; margin-bottom: 0.8rem;
+  }
+  .story-card-body p {
+    font-size: 0.85rem; color: var(--mid); line-height: 1.65; margin-bottom: 1.4rem;
+  }
+
+  .story-meta-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .story-tag {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; padding: 0.25rem 0.7rem; border-radius: 2px;
+  }
+  .tag-navy { background: #dde8f5; color: #1B2A4A; }
+  .tag-red  { background: #fde8e8; color: var(--accent); }
+  .tag-gold { background: #fdf3dc; color: var(--gold); }
+  .tag-orange { background: #fde9dc; color: var(--orange); }
+
+  .story-cta {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; color: var(--mid);
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .story-card:hover .story-cta { color: var(--ink); }
+  .story-cta::after { content: '→'; transition: transform 0.2s; }
+  .story-card:hover .story-cta::after { transform: translateX(4px); }
+
+  /* FORMAT BADGE */
+  .format-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; padding: 0.2rem 0.55rem; border-radius: 2px;
+    background: rgba(0,0,0,0.06); color: var(--mid);
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2.5rem 8vw;
+    border-top: 1px solid var(--rule);
+    background: var(--white);
+  }
+  .bottom-nav a {
+    text-decoration: none; color: var(--steel);
+    font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .bottom-nav a:hover { color: var(--accent); }
+
+  footer {
+    background: var(--ink); color: var(--light);
+    padding: 3rem 8vw; display: flex;
+    justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+  footer .footer-brand span { color: var(--accent); }
+  footer p { font-size: 0.78rem; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    nav ul { display: none; }
+    .story-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Industrially<span>Strong</span></a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="project-stories.html">Projects</a></li>
+    <li><a href="mailto:info@industriallystrong.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Leadership Stories</div>
+  <h1>The Moments That<br>Define a Leader</h1>
+  <p>These are not job descriptions. They are the decisions made under pressure, with real people and real stakes — told as they happened.</p>
+</div>
+
+<!-- CHAPTER 1: PEOPLE LEADERSHIP -->
+<div class="chapter">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 01</div>
+    <div>
+      <div class="chapter-title">People Leadership</div>
+      <div class="chapter-desc">Building teams, developing talent, and the hard human moments that shape culture</div>
+    </div>
+  </div>
+
+  <div class="story-grid reveal">
+    <a class="story-card" href="pmp-story.html">
+      <div class="story-card-accent accent-navy"></div>
+      <div class="format-badge">Animated · 7 slides</div>
+      <div class="story-card-body">
+        <div class="story-category cat-navy">Culture &amp; Professional Development</div>
+        <h3>The PMP Who Changed the Culture</h3>
+        <p>26 direct reports. 40 concurrent projects. Zero PMP certifications. What happened over 18 months set the standard for every team that came after.</p>
+        <div class="story-meta-row">
+          <span class="story-tag tag-navy">IBM/Mylex → LSI · 2002–2005</span>
+          <span class="story-cta">View story</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="story-card" href="kill-story.html">
+      <div class="story-card-accent accent-red"></div>
+      <div class="format-badge">Animated · 7 slides</div>
+      <div class="story-card-body">
+        <div class="story-category cat-red">Executive Judgment</div>
+        <h3>The Courage to Kill a Project</h3>
+        <p>An acquired project draining resources, a team in another state, executives reluctant to face the obvious. One Portfolio Management Committee presentation changed everything.</p>
+        <div class="story-meta-row">
+          <span class="story-tag tag-red">LSI Corporation · Director of PM</span>
+          <span class="story-cta">View story</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CHAPTER 2: STRATEGIC ADVISORY -->
+<div class="chapter">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 02</div>
+    <div>
+      <div class="chapter-title">Strategic Advisory</div>
+      <div class="chapter-desc">Mentorship, business leadership, and building operating frameworks for growing organizations</div>
+    </div>
+  </div>
+
+  <div class="story-grid reveal">
+    <a class="story-card" href="ozo-story.html">
+      <div class="story-card-accent accent-orange"></div>
+      <div class="format-badge">Animated · 7 slides</div>
+      <div class="story-card-body">
+        <div class="story-category cat-orange">Strategic Mentorship · Boulder, CO</div>
+        <h3>From Barista to Brand</h3>
+        <p>Six-plus years advising Ozo Coffee's founder — navigating an equity-holder crisis, building the operational framework, and shaping every key leadership hire. Publicly acknowledged in a published interview.</p>
+        <div class="story-meta-row">
+          <span class="story-tag tag-orange">Ozo Coffee · 2018–Present</span>
+          <span class="story-cta">View story</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="story-card" style="cursor:default; opacity:0.55;">
+      <div class="story-card-accent" style="background:var(--rule); height:4px;"></div>
+      <div class="story-card-body">
+        <div class="story-category" style="color:var(--light); font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:500; margin-bottom:0.8rem;">Coming Soon</div>
+        <h3 style="color:var(--mid);">Your Next Story</h3>
+        <p>A placeholder for the next leadership or advisory story. Share it and it will be built in the same animated format.</p>
+        <div class="story-meta-row">
+          <span class="story-tag" style="background:var(--rule); color:var(--light);">In Progress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAPTER 3: PROJECT LEADERSHIP -->
+<div class="chapter">
+  <div class="chapter-header reveal">
+    <div class="chapter-num">Chapter 03</div>
+    <div>
+      <div class="chapter-title">Project Leadership</div>
+      <div class="chapter-desc">$150M R&D portfolios, global teams, and decisions made with incomplete information</div>
+    </div>
+  </div>
+
+  <div class="story-grid reveal">
+    <a class="story-card" href="project-stories.html" style="border-style:dashed; opacity:0.7;">
+      <div class="story-card-accent accent-gold"></div>
+      <div class="story-card-body">
+        <div class="story-category cat-gold">R&amp;D Portfolio Leadership</div>
+        <h3>Engineering Against the Clock</h3>
+        <p>Stories from managing $150M in R&amp;D across 65-person global teams at Microsoft, IBM, and LSI. Where strategy met execution under real pressure.</p>
+        <div class="story-meta-row">
+          <span class="story-tag tag-gold">Microsoft · IBM · LSI</span>
+          <span class="story-cta">Coming soon</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="/">← Back to Home</a>
+  <a href="project-stories.html">Project Stories →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Industrially<span>Strong</span></div>
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
