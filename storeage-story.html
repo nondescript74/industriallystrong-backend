@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StoreAge Integration — Strategic Advisory Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:    #0A6EBD;
+    --dark:    #0A0E17;
+    --cream:   #F0EDE6;
+    --steel:   #7A9BB5;
+    --mid:     #1A2535;
+    --accent:  #2A9FD6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    color: var(--cream);
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.4;
+  }
+
+  /* ─── STAGE ─── */
+  #stage {
+    position: relative;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 80px 120px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ─── NAV BAR ─── */
+  #nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center;
+    padding: 28px 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    z-index: 100;
+  }
+  .nav-btn {
+    background: transparent;
+    border: 1.5px solid rgba(10,110,189,0.5);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-right: 12px;
+    text-transform: uppercase;
+  }
+  .nav-btn:hover {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+  #counter {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: rgba(122,155,181,0.6);
+    letter-spacing: 3px;
+  }
+
+  /* ─── HOME LINK ─── */
+  #homeLink {
+    position: fixed; top: 24px; left: 60px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(122,155,181,0.5);
+    text-decoration: none;
+    z-index: 200;
+    transition: color 0.2s;
+  }
+  #homeLink:hover { color: var(--accent); }
+
+  /* ─── PROGRESS BAR ─── */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--blue);
+    transition: width 0.6s ease;
+    z-index: 200;
+    box-shadow: 0 0 12px rgba(10,110,189,0.6);
+  }
+
+  /* ─── SHARED ATOMS ─── */
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px);
+    transition: all 0.5s ease 0.1s;
+  }
+  .big-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 110px);
+    line-height: 0.92;
+    color: var(--cream);
+    opacity: 0; transform: translateY(24px);
+    transition: all 0.6s ease 0.25s;
+  }
+  .big-title span { color: var(--accent); }
+  .body-text {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.65;
+    color: rgba(240,237,230,0.75);
+    font-weight: 300;
+    opacity: 0; transform: translateY(16px);
+    transition: all 0.5s ease 0.4s;
+    max-width: 640px;
+  }
+  .rule {
+    width: 48px; height: 2px;
+    background: var(--blue);
+    margin: 24px 0;
+    opacity: 0; transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.5s ease 0.35s;
+  }
+
+  /* Animate-in */
+  .slide.active .eyebrow,
+  .slide.active .big-title,
+  .slide.active .body-text,
+  .slide.active .rule,
+  .slide.active .stat-block,
+  .slide.active .pill,
+  .slide.active .quote-mark,
+  .slide.active .quote-text,
+  .slide.active .quote-attr,
+  .slide.active .framework-grid,
+  .slide.active .outcome-row,
+  .slide.active .timeline-grid,
+  .slide.active .summary-list {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ─── BADGE ─── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(10,110,189,0.1);
+    border: 1px solid rgba(10,110,189,0.3);
+    border-radius: 2px;
+    padding: 8px 16px;
+    margin-bottom: 32px;
+    opacity: 0; transform: translateY(12px);
+    transition: all 0.5s ease 0s;
+  }
+  .slide.active .badge { opacity: 1; transform: none; }
+  .badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+  .badge-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .since {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--steel);
+    margin-top: 28px;
+    opacity: 0; transform: translateY(12px);
+    transition: all 0.5s ease 0.55s;
+  }
+  .slide.active .since { opacity: 1; transform: none; }
+
+  /* ─── SLIDE 2: CHALLENGE CARD ─── */
+  .challenge-card {
+    margin-top: 32px;
+    border-left: 3px solid var(--blue);
+    padding: 24px 32px;
+    background: rgba(10,110,189,0.06);
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.6s ease 0.5s;
+  }
+  .slide.active .challenge-card { opacity: 1; transform: none; }
+  .challenge-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .challenge-card p {
+    font-size: 15px; line-height: 1.6;
+    color: rgba(240,237,230,0.65);
+    font-weight: 300;
+  }
+
+  /* ─── SLIDE 3: TIMELINE GRID ─── */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 36px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+    border: 1px solid rgba(122,155,181,0.15);
+  }
+  .tl-item {
+    padding: 20px 24px;
+    border-right: 1px solid rgba(122,155,181,0.15);
+    position: relative;
+  }
+  .tl-item:last-child { border-right: none; }
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .tl-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--steel);
+    margin-bottom: 8px;
+  }
+  .tl-text {
+    font-size: 13px; line-height: 1.5;
+    color: rgba(240,237,230,0.6);
+    font-weight: 300;
+  }
+
+  /* ─── SLIDE 4: FRAMEWORK ─── */
+  .framework-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .fw-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(122,155,181,0.12);
+  }
+  .fw-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 1px; padding-top: 2px;
+    white-space: nowrap;
+  }
+  .fw-text {
+    font-size: 14px; line-height: 1.5;
+    color: rgba(240,237,230,0.65);
+    font-weight: 300;
+  }
+  .fw-text strong {
+    display: block; color: var(--cream);
+    font-weight: 500; font-size: 13px;
+    margin-bottom: 3px; letter-spacing: 0.5px;
+  }
+
+  /* ─── SLIDE 5: OUTCOME ─── */
+  .outcome-row {
+    display: flex; gap: 24px; margin-top: 36px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .outcome-card {
+    flex: 1; min-width: 180px;
+    background: var(--mid);
+    border-top: 3px solid var(--blue);
+    padding: 24px 20px;
+  }
+  .oc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .oc-label {
+    font-size: 13px; color: rgba(240,237,230,0.5);
+    line-height: 1.4; font-weight: 300;
+  }
+
+  /* ─── SLIDE 6: HONEST RECKONING ─── */
+  .honest-card {
+    margin-top: 32px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(122,155,181,0.2);
+    border-left: 3px solid var(--steel);
+    padding: 28px 32px;
+    max-width: 680px;
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.6s ease 0.5s;
+  }
+  .slide.active .honest-card { opacity: 1; transform: none; }
+  .honest-card p {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.7;
+    color: rgba(240,237,230,0.7);
+    font-weight: 300;
+  }
+  .honest-card p + p { margin-top: 14px; }
+  .honest-card em { color: var(--cream); font-style: normal; font-weight: 500; }
+
+  /* ─── SLIDE 7: SUMMARY ─── */
+  .summary-list {
+    margin-top: 32px;
+    list-style: none;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.4s;
+  }
+  .summary-list li {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(122,155,181,0.1);
+    font-size: 15px; line-height: 1.5;
+    color: rgba(240,237,230,0.7);
+    font-weight: 300;
+  }
+  .summary-list li:last-child { border-bottom: none; }
+  .summary-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; margin-top: 1px; flex-shrink: 0;
+  }
+  .summary-list strong { color: var(--cream); font-weight: 500; }
+  .url-tag {
+    display: inline-block;
+    margin-top: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--steel);
+    border-bottom: 1px solid rgba(122,155,181,0.3);
+    padding-bottom: 2px;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.7s;
+  }
+  .slide.active .url-tag { opacity: 1; }
+
+  /* ─── STAT BLOCK ─── */
+  .stat-block {
+    display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.45s;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 88px);
+    color: var(--accent); line-height: 1;
+    text-shadow: 0 0 40px rgba(10,110,189,0.3);
+  }
+  .stat-desc {
+    font-size: 13px; color: rgba(240,237,230,0.5);
+    letter-spacing: 0.5px; margin-top: 4px;
+    max-width: 180px; line-height: 1.4; font-weight: 300;
+  }
+  .pill {
+    display: inline-block;
+    background: rgba(10,110,189,0.1);
+    border: 1px solid rgba(10,110,189,0.3);
+    color: var(--steel);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    padding: 6px 14px;
+    margin-right: 8px; margin-top: 8px;
+    text-transform: uppercase;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.4s ease 0.6s;
+  }
+
+  /* ─── QUOTE SLIDE ─── */
+  #s8 { background: var(--blue); }
+  #s8 .inner { max-width: 800px; text-align: center; }
+  .quote-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px; color: rgba(0,0,0,0.15);
+    line-height: 0.6; margin-bottom: 24px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.1s;
+  }
+  .quote-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(20px, 2.6vw, 30px);
+    font-weight: 500; color: #fff;
+    line-height: 1.45;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.6s ease 0.3s;
+  }
+  .quote-text em { font-style: normal; font-weight: 700; }
+  .quote-attr {
+    margin-top: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    opacity: 0; transform: translateY(12px);
+    transition: all 0.5s ease 0.55s;
+  }
+
+  /* ─── BG WORDS ─── */
+  .bg-word {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 260px);
+    color: rgba(10,110,189,0.04);
+    line-height: 1; pointer-events: none;
+    user-select: none; letter-spacing: -2px;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<a id="homeLink" href="people-stories.html">← All Stories</a>
+
+<div id="stage">
+
+  <!-- SLIDE 1: THE MANDATE -->
+  <div class="slide active" id="s1">
+    <div class="bg-word" style="right:-40px;bottom:60px;">LSI</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="badge">
+        <div class="badge-dot"></div>
+        <span class="badge-label">Strategic Integration · LSI Engenio · 2007–2010</span>
+      </div>
+      <div class="eyebrow">The Assignment</div>
+      <div class="big-title">INTEGRATE.<br><span>THEN</span><br>LEAD.</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        In 2007, LSI acquired StoreAge — an Israeli storage software company — to strengthen its
+        high-availability enterprise storage portfolio. I was appointed Integration Manager
+        for the Engenio division, reporting directly to the CEO. My mandate: bring two companies,
+        two cultures, and two engineering organizations into one.
+      </div>
+      <div class="since">Acquisition closed · 2007 &nbsp;·&nbsp; Integration completed · 2008</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE CHALLENGE -->
+  <div class="slide" id="s2">
+    <div class="bg-word" style="left:-20px;top:40px;">MERGE</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Challenge</div>
+      <div class="big-title">TWO<br><span>COMPANIES</span><br>ONE VISION</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        StoreAge's product was a complementary fit — high-availability storage software designed to
+        work alongside LSI's direct-access enterprise systems. But complementary on paper and
+        integrated in practice are very different problems. Engineering teams on opposite sides
+        of the world, different development cultures, different definitions of done.
+      </div>
+      <div class="challenge-card">
+        <h3>My Role</h3>
+        <p>Cross-organizational integration across every LSI department — and hands-on time
+        in Israel working side-by-side with StoreAge's engineering team. Both companies on the
+        phone, both cultures in the room, one integration to deliver.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE WORK -->
+  <div class="slide" id="s3">
+    <div class="inner" style="max-width:960px; width:100%;">
+      <div class="eyebrow">The Integration Timeline</div>
+      <div class="big-title">9 <span>MONTHS.</span><br>TWO CONTINENTS.</div>
+      <div class="rule"></div>
+      <div class="body-text">A structured, methodical integration — department by department, team by team.</div>
+      <div class="timeline-grid">
+        <div class="tl-item">
+          <div class="tl-year">2007</div>
+          <div class="tl-label">Acquisition &amp; Mandate</div>
+          <div class="tl-text">LSI closes StoreAge acquisition. Integration Manager role established reporting to Engenio CEO.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2008</div>
+          <div class="tl-label">In-Country Work · Israel</div>
+          <div class="tl-text">Hands-on engineering integration in Israel. Hand-holding both teams through joint development workflows, communication protocols, and shared processes.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2008</div>
+          <div class="tl-label">Integration Complete</div>
+          <div class="tl-text">Full organizational integration across all LSI departments achieved. StoreAge team, IP, and roadmap absorbed. New product development mandate issued.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE FRAMEWORK -->
+  <div class="slide" id="s4">
+    <div class="inner" style="max-width:920px; width:100%;">
+      <div class="eyebrow">How the Integration Was Structured</div>
+      <div class="big-title">THE <span>METHOD</span><br>BEHIND THE<br>MERGER</div>
+      <div class="rule"></div>
+      <div class="body-text">Integration is not a checklist. It is a sustained act of translation — between organizations, languages, and ways of working.</div>
+      <div class="framework-grid">
+        <div class="fw-item">
+          <div class="fw-icon">01</div>
+          <div class="fw-text"><strong>Organizational Integration</strong>Every LSI department engaged — engineering, product, finance, HR, operations — with StoreAge counterparts mapped and connected</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">02</div>
+          <div class="fw-text"><strong>Engineering Hand-Hold</strong>In-person presence in Israel to build trust, align development practices, and work through integration challenges in real time</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">03</div>
+          <div class="fw-text"><strong>Joint Communication Cadence</strong>Both companies on synchronized calls and reviews — no information asymmetry, no "us vs. them" dynamic allowed to take root</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-icon">04</div>
+          <div class="fw-text"><strong>Product Roadmap Alignment</strong>StoreAge's high-availability software mapped to LSI's direct-access storage architecture — defining the new joint product opportunity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: PDT LEADERSHIP -->
+  <div class="slide" id="s5">
+    <div class="bg-word" style="right:-20px;top:60px;">PDT</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">Phase Two · 2008–2010</div>
+      <div class="big-title">ELEVATED<br>TO <span>LEAD</span><br>THE BUILD</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        Integration complete, I was given a new mandate: lead the Product Development Team
+        tasked with creating the joint product — a new high-availability storage solution
+        combining the best of both companies at lower cost and higher resilience.
+      </div>
+      <div class="stat-block">
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-desc">Years leading the PDT through design, engineering, architecture, and test</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-desc">Engineering organizations unified under one product development effort</div>
+        </div>
+      </div>
+      <div style="margin-top:24px;">
+        <span class="pill">Design</span>
+        <span class="pill">Architecture</span>
+        <span class="pill">Engineering</span>
+        <span class="pill">Test</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: THE HONEST RECKONING -->
+  <div class="slide" id="s6">
+    <div class="bg-word" style="left:-20px;bottom:60px;">HARD</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">The Honest Account</div>
+      <div class="big-title">WHEN THE<br><span>PRODUCT</span><br>WON'T SHIP</div>
+      <div class="rule"></div>
+      <div class="body-text">
+        The new product presented a problem no integration plan could solve: it would not meet
+        its resilience and high-availability targets. Repeated development and test cycles
+        failed to produce a shippable result.
+      </div>
+      <div class="honest-card">
+        <p>This was not a failure of leadership or process. It was a fundamental engineering
+        challenge that proved more difficult than anyone — on either side of the acquisition —
+        had anticipated. <em>The integration was delivered. The organizational mandate was met.
+        The product problem was inherited.</em></p>
+        <p>When new engineering leadership arrived in 2010, eight directors were restructured
+        out — a standard reset for incoming executives. The work done in 2007 and 2008
+        remained the foundation everything else was built on.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: THE FULL PICTURE -->
+  <div class="slide" id="s7">
+    <div class="bg-word" style="right:-30px;bottom:80px;">LEAD</div>
+    <div class="inner" style="max-width:880px;">
+      <div class="eyebrow">The Full Picture</div>
+      <div class="big-title">WHAT THIS<br><span>ENGAGEMENT</span><br>DEMONSTRATES</div>
+      <div class="rule"></div>
+      <ul class="summary-list">
+        <li><strong>CEO-level mandate</strong> — Integration Manager role reporting directly to Engenio CEO, trusted with a company-wide organizational assignment</li>
+        <li><strong>Cross-cultural leadership</strong> — Worked in-country in Israel; built trust across engineering teams on two continents</li>
+        <li><strong>Full organizational integration</strong> — Every LSI department engaged and aligned with StoreAge counterparts in under 9 months</li>
+        <li><strong>Elevated to PDT leadership</strong> — Trusted to lead design, engineering, architecture, and test for the joint product development effort</li>
+        <li><strong>Honest under pressure</strong> — Led through repeated test failures without deflecting accountability; maintained team cohesion through a difficult engineering challenge</li>
+        <li><strong>Strategic credibility</strong> — The kind of assignment given to leaders who can be trusted when the stakes are company-wide</li>
+      </ul>
+      <span class="url-tag">industriallystrong.com</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: THE PRINCIPLE -->
+  <div class="slide" id="s8">
+    <div class="inner">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">
+        Integration is not a project.<br>
+        It is a <em>sustained act of trust-building</em> —<br>
+        between organizations, cultures,<br>
+        and people who have every reason<br>
+        not to work together yet.
+      </div>
+      <div class="quote-attr">— Zahirudeen Premji · Integration Manager, LSI Engenio · 2007–2010</div>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)">← PREV</button>
+  <button class="nav-btn" id="btnPause" onclick="togglePause()">PAUSE</button>
+  <button class="nav-btn" onclick="changeSlide(1)">NEXT →</button>
+  <div id="counter">01 / 08</div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const btnPause = document.getElementById('btnPause');
+  const TOTAL = slides.length;
+  const AUTO_MS = 7000;
+
+  let current = 0;
+  let paused = false;
+  let timer = null;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    current = (n + TOTAL) % TOTAL;
+    slides[current].classList.add('active');
+    const num = String(current + 1).padStart(2, '0');
+    counter.textContent = `${num} / ${String(TOTAL).padStart(2, '0')}`;
+    progress.style.width = `${((current + 1) / TOTAL) * 100}%`;
+  }
+
+  function changeSlide(dir) {
+    goTo(current + dir);
+    if (!paused) resetTimer();
+  }
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(() => changeSlide(1), AUTO_MS);
+  }
+
+  function togglePause() {
+    paused = !paused;
+    btnPause.textContent = paused ? 'PLAY' : 'PAUSE';
+    if (paused) clearTimeout(timer);
+    else resetTimer();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft')  changeSlide(-1);
+    if (e.key === ' ') { e.preventDefault(); togglePause(); }
+  });
+
+  goTo(0);
+  resetTimer();
+</script>
+</body>
+</html>
