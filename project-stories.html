@@ -44,7 +44,7 @@
   /* STORY — same system as people-stories */
   .story {
     margin-bottom: 6rem;
-    opacity: 0; transform: translateY(40px);
+    opacity: 1; transform: translateY(0);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .story.visible { opacity: 1; transform: translateY(0); }
@@ -161,14 +161,5 @@
   <p>© 2026 Industrially Strong. All rights reserved.</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const stories = document.querySelectorAll('.story');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const story = entry.target;
-        story.classList.add('visible');
-        const beats = story.querySelectorAll('.beat');
-        beats.forEach(beat => {
-          const delay = parseInt(beat.dataset.delay || 0);
-          setTimeout(() => beat.classList.add('animate'), delay 
+</body>
+</html>
