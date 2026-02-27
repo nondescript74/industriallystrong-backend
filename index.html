@@ -404,6 +404,113 @@
   footer nav ul li a:hover { color: var(--white); }
   footer p { font-size: 0.78rem; }
 
+  /* ── CURRENT FRONTIERS ── */
+  #frontiers {
+    background: var(--ink);
+    padding: 6rem 8vw;
+    position: relative;
+    overflow: hidden;
+  }
+  #frontiers::before {
+    content: 'NEXT';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(100px, 18vw, 220px);
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    right: -20px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    letter-spacing: -4px;
+    line-height: 1;
+  }
+  .frontiers-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .frontiers-eyebrow::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 2px; background: var(--accent);
+  }
+  .frontiers-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900; color: #ffffff;
+    line-height: 1.15; margin-bottom: 1rem; max-width: 680px;
+  }
+  .frontiers-headline em { font-style: italic; color: var(--accent); }
+  .frontiers-intro {
+    font-size: 1rem; color: rgba(255,255,255,0.5);
+    max-width: 600px; line-height: 1.75;
+    font-weight: 300; margin-bottom: 4rem;
+  }
+  .frontiers-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 4rem;
+  }
+  .frontier-card {
+    background: var(--ink); padding: 2.4rem 2rem;
+    position: relative; transition: background 0.3s;
+  }
+  .frontier-card:hover { background: #161e28; }
+  .frontier-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+  }
+  .fc-bridge::before { background: linear-gradient(90deg, var(--accent), #e74c3c); }
+  .fc-complex::before { background: linear-gradient(90deg, #1a5276, #2e86c1); }
+  .fc-state::before { background: linear-gradient(90deg, #1a6b3a, #27ae60); }
+  .frontier-icon { font-size: 1.4rem; margin-bottom: 1rem; display: block; }
+  .frontier-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); font-weight: 500; margin-bottom: 0.6rem;
+  }
+  .frontier-statement {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    font-weight: 900; color: #ffffff;
+    line-height: 1.3; margin-bottom: 1rem;
+  }
+  .frontier-statement em { font-style: italic; color: var(--accent); }
+  .fc-complex .frontier-statement em { color: #2e86c1; }
+  .fc-state .frontier-statement em { color: #27ae60; }
+  .frontier-divider { width: 24px; height: 1px; background: rgba(255,255,255,0.2); margin: 1rem 0; }
+  .frontier-problem {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); font-weight: 500; margin-bottom: 0.4rem;
+  }
+  .frontier-solution-text {
+    font-size: 0.85rem; color: rgba(255,255,255,0.55);
+    line-height: 1.6; font-weight: 300;
+  }
+  .frontier-solution-text strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+  .frontier-matrix { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; }
+  .matrix-header {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .matrix-header div {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); font-weight: 500;
+  }
+  .matrix-header div:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.08); }
+  .matrix-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .matrix-row:last-child { border-bottom: none; }
+  .matrix-cell {
+    padding: 1.2rem 1.5rem; font-size: 0.85rem;
+    line-height: 1.55; color: rgba(255,255,255,0.5); font-weight: 300;
+  }
+  .matrix-cell:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.06); }
+  .matrix-cell strong { color: rgba(255,255,255,0.85); font-weight: 500; display: block; margin-bottom: 0.3rem; }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -430,6 +537,9 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 860px) {
+    .frontiers-grid { grid-template-columns: 1fr; }
+    .matrix-header, .matrix-row { grid-template-columns: 1fr; }
+    .matrix-header div:not(:last-child), .matrix-cell:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .hero { grid-template-columns: 1fr; }
     .hero-left::after { display: none; }
     .hero-right { padding-top: 0; }
@@ -450,6 +560,7 @@
 <nav>
   <a href="/" class="nav-brand">Industrially<a href="about.html" style="color:var(--accent);text-decoration:none;">Strong</a></a>
   <ul>
+    <li><a href="#frontiers">Frontiers</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#stories">Stories</a></li>
     <li><a href="#integration">Leadership</a></li>
@@ -478,8 +589,12 @@
         <div class="stat-label">Global Team</div>
       </div>
     </div>
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="#frontiers" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--ink);color:#fff;text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1.6rem;transition:background 0.2s;" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='var(--ink)'">What's Next →</a>
+      <a href="people-stories.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--steel);text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1.6rem;border:1px solid var(--rule);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='var(--ink)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--rule)';this.style.color='var(--steel)'">Leadership Stories</a>
+    </div>
   </div>
-
+  
   <div class="hero-right">
     <div class="capability-card">
       <h3>Technical Vision</h3>
@@ -500,10 +615,87 @@
   </div>
 </div>
 
+<!-- CURRENT FRONTIERS -->
+<section id="frontiers">
+  <div class="frontiers-eyebrow">Current Frontiers</div>
+  <h2 class="frontiers-headline">The move from<br><em>managing the past</em><br>to predicting the future.</h2>
+  <p class="frontiers-intro">30 years building precision systems — from xerographic print engines to semiconductor storage to global R&D portfolios. Now applying that same systems-level thinking to the hardest problems in financial intelligence, AI, and quantum-resistant infrastructure.</p>
+
+  <!-- THREE POSITIONING CARDS -->
+  <div class="frontiers-grid">
+
+    <div class="frontier-card fc-bridge">
+      <span class="frontier-icon">🎯</span>
+      <div class="frontier-label">Positioning 01 — Bridge-Builder</div>
+      <div class="frontier-statement">Translating <em>Defense-Grade Logic</em> into Market-Defining Intelligence.</div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Problem</div>
+      <div class="frontier-solution-text">Financial markets generate asynchronous, multi-source event streams — the same class of problem radar systems solved decades ago. <strong>Most quant teams don't know that.</strong></div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Solution</div>
+      <div class="frontier-solution-text">Repurposing <strong>Multiple Hypothesis Tracking (MHT)</strong> — a defense-originated algorithm — to identify real trading signals in high-frequency noise. Finding value where others see chaos.</div>
+    </div>
+
+    <div class="frontier-card fc-complex">
+      <span class="frontier-icon">🧩</span>
+      <div class="frontier-label">Positioning 02 — Complexity Architect</div>
+      <div class="frontier-statement">Unlocking Scalability in <em>Legacy Monoliths</em> through Advanced Dependency Mapping.</div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Problem</div>
+      <div class="frontier-solution-text">Enterprise systems built over decades resist modernization — not because the code is bad, but because <strong>no one has mapped the dependency graph</strong> well enough to surgically upgrade it.</div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Solution</div>
+      <div class="frontier-solution-text">Combining deep systems experience with <strong>FAISS vector similarity search</strong> to map semantic relationships in legacy codebases — making them compatible with next-generation AI infrastructure.</div>
+    </div>
+
+    <div class="frontier-card fc-state">
+      <span class="frontier-icon">⚡</span>
+      <div class="frontier-label">Positioning 03 — State-Estimation Specialist</div>
+      <div class="frontier-statement">Designing the Blueprint for <em>Low-Latency</em>, Multi-Dimensional Decision Engines.</div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Problem</div>
+      <div class="frontier-solution-text">Modern decision systems must process <strong>asynchronous event streams</strong> across multiple dimensions simultaneously — faster than current state-of-the-art architectures allow.</div>
+      <div class="frontier-divider"></div>
+      <div class="frontier-problem">The Solution</div>
+      <div class="frontier-solution-text">A provisional patent-pending architecture combining <strong>ANN-based hypothesis tracking with real-time state estimation</strong> — built for the speed and precision financial and AI systems demand.</div>
+    </div>
+
+  </div>
+
+  <!-- PROBLEM / SOLUTION MATRIX -->
+  <div class="frontier-matrix">
+    <div class="matrix-header">
+      <div>Domain</div>
+      <div>Legacy Approach</div>
+      <div>What's Next</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell"><strong>Financial Signal Detection</strong>Statistical filters, lag indicators</div>
+      <div class="matrix-cell">Rule-based screening — misses multi-dimensional anomalies</div>
+      <div class="matrix-cell highlight"><strong>MHT + FAISS</strong> — real-time hypothesis tracking across asynchronous streams, modeled on defense radar logic</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell"><strong>Legacy System Modernization</strong>Monolithic enterprise codebases</div>
+      <div class="matrix-cell">Manual refactoring — slow, brittle, high risk of regression</div>
+      <div class="matrix-cell highlight"><strong>Semantic dependency mapping</strong> — vector search identifies upgrade paths AI tools can safely traverse</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell"><strong>Multi-Source Decision Systems</strong>Distributed event processing</div>
+      <div class="matrix-cell">Sequential processing — latency compounds across dimensions</div>
+      <div class="matrix-cell highlight"><strong>Parallel state estimation engine</strong> — provisional patent architecture handles asynchronous inputs at sub-millisecond latency</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell"><strong>Trust Infrastructure</strong>Financial &amp; healthcare records</div>
+      <div class="matrix-cell">Centralized ledgers — vulnerable to tampering, audit gaps</div>
+      <div class="matrix-cell highlight"><strong>Quantum-resistant ledger (QRL)</strong> — post-quantum cryptography for tamper-evident, institution-grade record integrity</div>
+    </div>
+  </div>
+</section>
+
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-header">
-    <div class="section-num">01</div>
+    <div class="section-num">02</div>
     <h2 class="section-title">Active Projects</h2>
     <div class="section-rule"></div>
   </div>
@@ -547,7 +739,7 @@
 <!-- STORIES -->
 <section id="stories">
   <div class="section-header">
-    <div class="section-num">02</div>
+    <div class="section-num">03</div>
     <h2 class="section-title">Leadership Stories</h2>
     <div class="section-rule"></div>
   </div>
@@ -587,7 +779,7 @@
 <!-- INTEGRATION -->
 <section id="integration">
   <div class="section-header">
-    <div class="section-num">03</div>
+    <div class="section-num">04</div>
     <h2 class="section-title">The Integration</h2>
     <div class="section-rule"></div>
   </div>
