@@ -43,7 +43,7 @@
   .slide {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 60px 80px 120px;
+    padding: 112px 80px 120px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.7s ease;
@@ -449,6 +449,41 @@
     user-select: none;
     letter-spacing: -2px;
   }
+
+  /* ── PERSISTENT TOP NAV ── */
+  #story-topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 52px;
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .topnav-back {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #E8813A; text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: opacity 0.2s; opacity: 0.75;
+  }
+  .topnav-back:hover { opacity: 1; }
+  .topnav-section {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .topnav-section a {
+    color: #E8813A; text-decoration: none; opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .topnav-section a:hover { opacity: 1; }
+  .topnav-home {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .topnav-home:hover { color: rgba(255,255,255,0.8); }
+
 </style>
 </head>
 <body>
@@ -627,6 +662,7 @@
   <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)">← PREV</button>
   <button class="nav-btn" id="btnPause" onclick="togglePause()">PAUSE</button>
   <button class="nav-btn" onclick="changeSlide(1)">NEXT →</button>
+  <button class="nav-btn" onclick="window.location.href='people-stories.html'">PEOPLE STORIES ↑</button>
   <div id="counter">01 / 07</div>
 </div>
 
