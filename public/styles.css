@@ -73,6 +73,27 @@ main {
     padding: 2rem;
 }
 
+
+.deck-link {
+  display:inline-flex;
+  align-items:center;
+  gap:0.8rem;
+  background:rgba(0,200,83,0.08);
+  border:1px solid rgba(0,200,83,0.25);
+  color:#00c853;
+  text-decoration:none;
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:0.85rem 1.8rem;
+  transition:all 0.25s;
+}
+
+.deck-link:hover {
+  background:rgba(0,200,83,0.16);
+}
+
 /* Hero Section */
 .hero,
 .support-hero {
