@@ -628,15 +628,27 @@
     border: 1px solid rgba(255,255,255,0.08);
     margin-bottom: 4rem;
   }
-  .frontier-card {
-    background: var(--ink); padding: 2.4rem 2rem;
-    position: relative; transition: background 0.3s;
-  }
-  .frontier-card:hover { background: #161e28; }
-  .frontier-card::before {
-    content: ''; position: absolute;
-    top: 0; left: 0; right: 0; height: 3px;
-  }
+  <div class="frontier-card fc-bridge">
+    <span class="frontier-icon">🎯</span>
+    <div class="frontier-label">Financial Signal Architecture</div>
+    <div class="frontier-statement">
+      Applying defense-grade state estimation to modern financial intelligence systems.
+    </div>
+    <div class="frontier-divider"></div>
+    <div class="frontier-problem">Architectural Gap</div>
+    <div class="frontier-solution-text">
+      Financial markets generate asynchronous, multi-source event streams. 
+      Most trading architectures remain linear and filter-based—unsuited for 
+      probabilistic, multi-hypothesis environments.
+    </div>
+    <div class="frontier-divider"></div>
+    <div class="frontier-problem">Strategic Direction</div>
+    <div class="frontier-solution-text">
+      Adapting <strong>Multiple Hypothesis Tracking (MHT)</strong> frameworks—originally 
+      developed for radar systems—to identify persistent signal in high-frequency noise.
+    </div>
+  </div>
+
   .fc-bridge::before { background: linear-gradient(90deg, var(--accent), #e74c3c); }
   .fc-complex::before { background: linear-gradient(90deg, #1a5276, #2e86c1); }
   .fc-state::before { background: linear-gradient(90deg, #1a6b3a, #27ae60); }
