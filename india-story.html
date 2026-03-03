@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Going Global — Zahirudeen Premji</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1B2A4A;
+  --deep: #0F1B33;
+  --charcoal: #2D3436;
+  --steel: #546E7A;
+  --silver: #90A4AE;
+  --light: #E8EDF2;
+  --cream: #F8F9FA;
+  --gold: #C9A96E;
+  --gold-dim: rgba(201,169,110,0.3);
+  --white: #FFFFFF;
+  --saffron: #FF9933;
+  --green-india: #138808;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--deep);
+  color: var(--white);
+  font-family: 'Source Sans 3', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.theater {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Grain overlay */
+.theater::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ── SLIDES ── */
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ── TYPOGRAPHY ── */
+.kicker {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.slide.active .kicker { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.3s; }
+.slide.active .headline { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.6s; }
+.slide.active .body-text { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.9s; }
+.slide.active .stat-row { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.0s; }
+.slide.active .detail { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.2s; }
+
+.headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  max-width: 900px;
+  margin-bottom: 28px;
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.body-text {
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 300;
+  line-height: 1.7;
+  text-align: center;
+  max-width: 720px;
+  color: var(--light);
+}
+
+.stat-row {
+  display: flex;
+  gap: 60px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--silver);
+  margin-top: 8px;
+}
+
+.detail {
+  font-size: 16px;
+  color: var(--silver);
+  margin-top: 16px;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+}
+
+/* ── COMPANY LOGOS (TEXT-BASED) ── */
+.company-grid {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.1s;
+}
+
+.slide.active .company-grid {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.1s;
+}
+
+.company-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 12px;
+  padding: 20px 28px;
+  text-align: center;
+  min-width: 140px;
+  transition: all 0.4s ease;
+}
+
+.company-card.selected {
+  border-color: var(--gold);
+  background: rgba(201,169,110,0.08);
+  box-shadow: 0 0 30px rgba(201,169,110,0.12);
+}
+
+.company-card.dimmed {
+  opacity: 0.35;
+}
+
+.company-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.company-card.selected .company-name {
+  color: var(--gold);
+}
+
+.company-tag {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  color: var(--silver);
+}
+
+.company-card.selected .company-tag {
+  color: var(--gold);
+}
+
+/* ── MAP DOTS ── */
+.map-visual {
+  position: relative;
+  width: 500px;
+  height: 200px;
+  margin-top: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.0s;
+}
+
+.slide.active .map-visual {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.0s;
+}
+
+.map-line {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent 20%, transparent 80%, var(--gold));
+  opacity: 0.3;
+}
+
+.map-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  transform: translate(-50%, -50%);
+}
+
+.map-dot::after {
+  content: '';
+  position: absolute;
+  top: -6px; left: -6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  opacity: 0.4;
+  animation: pulse-ring 2s ease infinite;
+}
+
+.map-dot-label {
+  position: absolute;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.dot-colorado { top: 45%; left: 10%; }
+.dot-chennai { top: 55%; left: 72%; }
+.dot-bengaluru { top: 65%; left: 78%; }
+
+.label-colorado { top: 25%; left: 2%; }
+.label-chennai { top: 35%; left: 64%; }
+.label-bengaluru { top: 78%; left: 72%; }
+
+/* ── FLIGHT PATH ── */
+.flight-path {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.flight-path svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flight-arc {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-dasharray: 8 6;
+  opacity: 0.5;
+  animation: dash 20s linear infinite;
+}
+
+/* ── RESISTANCE VISUAL ── */
+.resistance-row {
+  display: flex;
+  gap: 40px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.slide.active .resistance-row {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.resistance-item {
+  text-align: center;
+  max-width: 200px;
+}
+
+.resistance-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.resistance-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--light);
+  margin-bottom: 4px;
+}
+
+.resistance-desc {
+  font-size: 13px;
+  color: var(--silver);
+  line-height: 1.5;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  z-index: 500;
+}
+
+.controls button {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--silver);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls button:hover {
+  background: rgba(201,169,110,0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.counter {
+  position: fixed;
+  bottom: 34px;
+  right: 40px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--silver);
+  z-index: 500;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-track {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  z-index: 500;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--saffron));
+  transition: width 0.1s linear;
+}
+
+/* ── BRAND MARK ── */
+.brand {
+  position: fixed;
+  top: 28px;
+  left: 40px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+  z-index: 500;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -200; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ── TEAM DOTS ── */
+.team-visual {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 600px;
+}
+
+.team-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--steel);
+  opacity: 0.3;
+  transition: all 0.6s ease;
+}
+
+.team-dot.filled {
+  background: var(--gold);
+  opacity: 1;
+  box-shadow: 0 0 12px rgba(201,169,110,0.4);
+}
+
+.team-dot.core {
+  background: var(--white);
+  opacity: 1;
+  border: 2px solid var(--gold);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .slide { padding: 40px 30px; }
+  .stat-row { gap: 30px; }
+  .company-grid { gap: 16px; }
+  .company-card { padding: 14px 18px; min-width: 110px; }
+  .map-visual { width: 300px; height: 140px; }
+}
+</style>
+</head>
+<body>
+
+<div class="theater">
+  <div class="brand">industriallystrong.com</div>
+  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- ═══════ SLIDE 1: TITLE ═══════ -->
+  <div class="slide active" data-duration="7000">
+    <div class="kicker">International Integration &bull; LSI Logic &bull; 2005–2008</div>
+    <div class="headline">Going <em>Global</em></div>
+    <div class="body-text">
+      How a Director of Program Management transformed a resource-starved engineering organization
+      by building international partnerships from the ground up.
+    </div>
+    <div class="detail">Zahirudeen Premji &mdash; Director of Program Management, LSI Storage</div>
+  </div>
+
+  <!-- ═══════ SLIDE 2: THE PROBLEM ═══════ -->
+  <div class="slide" data-duration="9000">
+    <div class="kicker">The Situation</div>
+    <div class="headline">Never Enough <em>Hands</em></div>
+    <div class="body-text">
+      LSI Logic's storage division was perennially under-resourced. Projects piled up faster
+      than teams could deliver. Technical debt climbed. Engineering management guarded the
+      firmware codebase tightly — but the software layer was wide open and critically understaffed.
+    </div>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-number">High</div>
+        <div class="stat-label">Technical Debt</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Global Partners</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Chronic</div>
+        <div class="stat-label">Staff Shortage</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 3: THE STRATEGIC MOVE ═══════ -->
+  <div class="slide" data-duration="10000">
+    <div class="kicker">The Strategic Shift</div>
+    <div class="headline">See the Opening. <em>Take It.</em></div>
+    <div class="body-text">
+      Engineering wouldn't release the firmware. So I reframed the problem: the products had
+      a significant software component that was equally starved for resources. I proposed
+      going to India — not to outsource, but to find genuine engineering partners for the
+      software work that was falling behind.
+    </div>
+    <div class="detail">
+      Reporting directly to the EVP of LSI Storage, I had the executive air cover to make the case.
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 4: THE NETWORK ═══════ -->
+  <div class="slide" data-duration="10000">
+    <div class="kicker">Leveraging Networks</div>
+    <div class="headline">The Right <em>Connection</em></div>
+    <div class="body-text">
+      I brought in a strategic consultant — an executive who had built US West's cellular
+      business connections across India. Through her deep network of C-suite relationships,
+      we secured executive-level meetings at five of India's most prominent IT services firms.
+    </div>
+    <div class="company-grid" id="companyGrid">
+      <div class="company-card" data-company="wipro">
+        <div class="company-name">Wipro</div>
+        <div class="company-tag">Bengaluru</div>
+      </div>
+      <div class="company-card" data-company="mindtree">
+        <div class="company-name">Mindtree</div>
+        <div class="company-tag">Bengaluru</div>
+      </div>
+      <div class="company-card" data-company="satyam">
+        <div class="company-name">Satyam</div>
+        <div class="company-tag">Hyderabad</div>
+      </div>
+      <div class="company-card" data-company="hcl">
+        <div class="company-name">HCL</div>
+        <div class="company-tag">Noida</div>
+      </div>
+      <div class="company-card" data-company="fifth">
+        <div class="company-name">+1</div>
+        <div class="company-tag">Evaluated</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 5: THE TRIP ═══════ -->
+  <div class="slide" data-duration="10000">
+    <div class="kicker">On The Ground</div>
+    <div class="headline">Two Weeks. Two Cities. <em>Five Firms.</em></div>
+    <div class="body-text">
+      I personally led a team of four to India. Two weeks across Chennai and Bengaluru,
+      conducting executive-level interviews, evaluating technical capabilities, assessing
+      cultural alignment, and building a formal selection process to identify the right partners.
+    </div>
+    <div class="map-visual">
+      <div class="map-line"></div>
+      <svg class="flight-path" viewBox="0 0 500 200">
+        <path class="flight-arc" d="M 50,90 Q 250,10 360,110" />
+        <path class="flight-arc" d="M 50,90 Q 260,20 390,130" />
+      </svg>
+      <div class="map-dot dot-colorado"></div>
+      <div class="map-dot-label label-colorado">Colorado</div>
+      <div class="map-dot dot-chennai"></div>
+      <div class="map-dot-label label-chennai">Chennai</div>
+      <div class="map-dot dot-bengaluru"></div>
+      <div class="map-dot-label label-bengaluru">Bengaluru</div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 6: SELECTION ═══════ -->
+  <div class="slide" data-duration="9000">
+    <div class="kicker">The Decision</div>
+    <div class="headline">Five Evaluated. <em>Two Chosen.</em></div>
+    <div class="body-text">
+      Through a structured selection process — assessing technical depth, domain experience,
+      communication quality, and partnership readiness — we narrowed five world-class firms down to two.
+      Work began immediately on the projects that had been waiting.
+    </div>
+    <div class="company-grid" id="selectionGrid">
+      <div class="company-card selected">
+        <div class="company-name">Partner 1</div>
+        <div class="company-tag">&#10003; Selected</div>
+      </div>
+      <div class="company-card selected">
+        <div class="company-name">Partner 2</div>
+        <div class="company-tag">&#10003; Selected</div>
+      </div>
+      <div class="company-card dimmed">
+        <div class="company-name">&mdash;</div>
+        <div class="company-tag">Evaluated</div>
+      </div>
+      <div class="company-card dimmed">
+        <div class="company-name">&mdash;</div>
+        <div class="company-tag">Evaluated</div>
+      </div>
+      <div class="company-card dimmed">
+        <div class="company-name">&mdash;</div>
+        <div class="company-tag">Evaluated</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 7: SCALE ═══════ -->
+  <div class="slide" data-duration="9000">
+    <div class="kicker">The Scale</div>
+    <div class="headline"><em>30+</em> Engineers Integrated</div>
+    <div class="body-text">
+      Within months, over thirty contracted engineers were embedded across multiple
+      previously understaffed projects — expanding LSI's software delivery capacity
+      and attacking the backlog of technical debt.
+    </div>
+    <div class="team-visual" id="teamDots"></div>
+    <div class="detail">Each dot represents an engineer brought into the organization</div>
+  </div>
+
+  <!-- ═══════ SLIDE 8: NAVIGATING RESISTANCE ═══════ -->
+  <div class="slide" data-duration="11000">
+    <div class="kicker">The Real Challenge</div>
+    <div class="headline">Leading Through <em>Resistance</em></div>
+    <div class="body-text">
+      The hardest part wasn't India. It was back home. NIH syndrome and cultural bias
+      created friction around work quality — but the root cause was poor communication of requirements,
+      not poor engineering. The real leadership was in bridging that gap.
+    </div>
+    <div class="resistance-row">
+      <div class="resistance-item">
+        <div class="resistance-icon">🛡️</div>
+        <div class="resistance-label">NIH Syndrome</div>
+        <div class="resistance-desc">"Not invented here" — internal teams protective of their domain</div>
+      </div>
+      <div class="resistance-item">
+        <div class="resistance-icon">🌐</div>
+        <div class="resistance-label">Cultural Gap</div>
+        <div class="resistance-desc">Bias masked as quality concerns needed to be addressed directly</div>
+      </div>
+      <div class="resistance-item">
+        <div class="resistance-icon">📋</div>
+        <div class="resistance-label">Requirements Gap</div>
+        <div class="resistance-desc">Poor specs, not poor talent — the real fix was process, not people</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 9: OUTCOME ═══════ -->
+  <div class="slide" data-duration="8000">
+    <div class="kicker">The Results</div>
+    <div class="headline">From Zero to <em>Global</em></div>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-number">30+</div>
+        <div class="stat-label">Engineers Added</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Firms Evaluated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Partners Selected</div>
+      </div>
+    </div>
+    <div class="body-text" style="margin-top: 36px;">
+      Cost savings realized. Understaffed projects fully resourced. And an organization
+      that had never looked beyond its walls learned to operate globally.
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 10: PRINCIPLE ═══════ -->
+  <div class="slide" data-duration="8000">
+    <div class="kicker">The Leadership Principle</div>
+    <div class="headline">I don't wait for resources.<br><em>I go find them.</em></div>
+    <div class="body-text">
+      Strategic vision. The right network. Executive-level execution.
+      And the persistence to drive change through organizational resistance.
+    </div>
+    <div class="detail">industriallystrong.com</div>
+  </div>
+
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button id="prevBtn">&#9664; Prev</button>
+  <button id="pauseBtn">Pause</button>
+  <button id="nextBtn">Next &#9654;</button>
+</div>
+<div class="counter" id="counter">1 / 10</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progressBar');
+const counter = document.getElementById('counter');
+const pauseBtn = document.getElementById('pauseBtn');
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+
+let current = 0;
+let isPaused = false;
+let timer = null;
+let progressTimer = null;
+let progressStart = 0;
+
+function getDuration() {
+  return parseInt(slides[current].dataset.duration) || 8000;
+}
+
+function goTo(index) {
+  slides[current].classList.remove('active');
+  current = ((index % slides.length) + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  updateCounter();
+
+  // Animate team dots on slide 7 (index 6)
+  if (current === 6) {
+    animateTeamDots();
+  }
+
+  startProgress();
+}
+
+function nextSlide() {
+  goTo(current + 1);
+}
+
+function prevSlide() {
+  goTo(current - 1);
+}
+
+function updateCounter() {
+  counter.textContent = `${current + 1} / ${slides.length}`;
+}
+
+function startProgress() {
+  clearInterval(progressTimer);
+  clearTimeout(timer);
+
+  const duration = getDuration();
+  progressStart = Date.now();
+  progressBar.style.width = '0%';
+
+  progressTimer = setInterval(() => {
+    if (isPaused) return;
+    const elapsed = Date.now() - progressStart;
+    const pct = Math.min((elapsed / duration) * 100, 100);
+    progressBar.style.width = pct + '%';
+  }, 50);
+
+  timer = setTimeout(() => {
+    if (!isPaused) nextSlide();
+  }, duration);
+}
+
+// Team dots animation for slide 7
+function animateTeamDots() {
+  const container = document.getElementById('teamDots');
+  container.innerHTML = '';
+
+  // 4 core team + 30 contracted
+  for (let i = 0; i < 34; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'team-dot';
+    if (i < 4) dot.className += ' core';
+    container.appendChild(dot);
+
+    if (i >= 4) {
+      setTimeout(() => {
+        dot.classList.add('filled');
+      }, 300 + (i - 4) * 100);
+    }
+  }
+}
+
+// Controls
+pauseBtn.addEventListener('click', () => {
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? 'Play' : 'Pause';
+  if (!isPaused) {
+    progressStart = Date.now() - (parseFloat(progressBar.style.width) / 100 * getDuration());
+    const remaining = getDuration() - (Date.now() - progressStart);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (!isPaused) nextSlide();
+    }, Math.max(remaining, 500));
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  clearInterval(progressTimer);
+  clearTimeout(timer);
+  nextSlide();
+});
+
+prevBtn.addEventListener('click', () => {
+  clearInterval(progressTimer);
+  clearTimeout(timer);
+  prevSlide();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    clearInterval(progressTimer);
+    clearTimeout(timer);
+    nextSlide();
+  } else if (e.key === 'ArrowLeft') {
+    clearInterval(progressTimer);
+    clearTimeout(timer);
+    prevSlide();
+  } else if (e.key === 'p') {
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? 'Play' : 'Pause';
+  }
+});
+
+// Initialize
+updateCounter();
+startProgress();
+</script>
+
+</body>
+</html>
