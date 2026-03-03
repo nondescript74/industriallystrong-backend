@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leadership Stories — Zahirudeen Premji</title>
-<meta name="description" content="Two stories that define how Z leads: developing people and strategic advisory at scale.">
+<meta name="description" content="Three stories that define how Z leads: developing people, strategic advisory, and international integration at scale.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --dark:#0C0C0C; --mid:#161616; --surface:#1E1E1E;
   --border:rgba(255,255,255,0.07); --cream:#F0EBE3;
   --muted:rgba(240,235,227,0.4); --ozo:#E8530A; --gold:#B8922D;
+  --teal:#0E8A7D;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -38,47 +39,56 @@ h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235
 .section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:60px;display:flex;align-items:center;gap:20px;}
 .section-label::after{content:'';flex:1;max-width:200px;height:1px;background:var(--border);}
 
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;}
-@media(max-width:800px){.cards{grid-template-columns:1fr;}}
+.cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:1400px;}
+@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr;}}
+@media(max-width:700px){.cards{grid-template-columns:1fr;}}
 
 .card{position:relative;background:var(--mid);border:1px solid var(--border);padding:48px 44px 44px;cursor:pointer;overflow:hidden;transition:border-color 0.3s,transform 0.3s;opacity:0;transform:translateY(28px);}
 .card.visible{opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease,border-color 0.3s;}
 .card:nth-child(2).visible{transition-delay:0.15s;}
+.card:nth-child(3).visible{transition-delay:0.3s;}
 .card:hover{transform:translateY(-4px);}
 .card-1:hover{border-color:rgba(184,146,45,0.4);}
 .card-2:hover{border-color:rgba(232,83,10,0.4);}
+.card-3:hover{border-color:rgba(14,138,125,0.4);}
 
 .card-accent{position:absolute;top:0;left:0;right:0;height:3px;}
 .card-1 .card-accent{background:linear-gradient(90deg,var(--gold),transparent);}
 .card-2 .card-accent{background:linear-gradient(90deg,var(--ozo),transparent);}
+.card-3 .card-accent{background:linear-gradient(90deg,var(--teal),transparent);}
 .card-bg-num{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:180px;line-height:1;right:-10px;bottom:-20px;pointer-events:none;user-select:none;opacity:0.04;}
 .card-1 .card-bg-num{color:var(--gold);}
 .card-2 .card-bg-num{color:var(--ozo);}
+.card-3 .card-bg-num{color:var(--teal);}
 .card-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;padding:5px 12px;border:1px solid;display:inline-block;margin-bottom:28px;}
 .card-1 .card-tag{color:var(--gold);border-color:rgba(184,146,45,0.35);}
 .card-2 .card-tag{color:var(--ozo);border-color:rgba(232,83,10,0.35);}
-.card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,4vw,52px);line-height:0.95;color:var(--cream);margin-bottom:16px;}
+.card-3 .card-tag{color:var(--teal);border-color:rgba(14,138,125,0.35);}
+.card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,3.5vw,48px);line-height:0.95;color:var(--cream);margin-bottom:16px;}
 .card-sub{font-size:14px;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:32px;max-width:340px;}
 .card-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:36px;}
 .card-meta-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;font-weight:300;color:var(--muted);}
 .card-meta-item::before{content:'→';font-family:'Space Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;}
 .card-1 .card-meta-item::before{color:var(--gold);}
 .card-2 .card-meta-item::before{color:var(--ozo);}
+.card-3 .card-meta-item::before{color:var(--teal);}
 .card-meta-item strong{color:var(--cream);font-weight:500;}
 .card-cta{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:12px 22px;border:1px solid;cursor:pointer;background:transparent;transition:all 0.25s;}
 .card-1 .card-cta{color:var(--gold);border-color:rgba(184,146,45,0.4);}
 .card-1 .card-cta:hover{background:var(--gold);color:#000;border-color:var(--gold);}
 .card-2 .card-cta{color:var(--ozo);border-color:rgba(232,83,10,0.4);}
 .card-2 .card-cta:hover{background:var(--ozo);color:#fff;border-color:var(--ozo);}
+.card-3 .card-cta{color:var(--teal);border-color:rgba(14,138,125,0.4);}
+.card-3 .card-cta:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
 .card-slides-count{position:absolute;top:44px;right:44px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);}
 
-.quote-strip{margin:0 60px;padding:60px;background:var(--mid);border:1px solid var(--border);border-left:3px solid var(--ozo);display:flex;flex-direction:column;gap:16px;max-width:1200px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 0.1s,transform 0.7s ease 0.1s;}
+.quote-strip{margin:0 60px;padding:60px;background:var(--mid);border:1px solid var(--border);border-left:3px solid var(--ozo);display:flex;flex-direction:column;gap:16px;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 0.1s,transform 0.7s ease 0.1s;}
 .quote-strip.visible{opacity:1;transform:none;}
 .quote-strip blockquote{font-family:'DM Sans',sans-serif;font-size:clamp(18px,2.2vw,26px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.55;max-width:760px;}
 .quote-strip blockquote em{font-style:normal;font-weight:500;color:var(--ozo);}
 .quote-strip cite{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-style:normal;}
 
-.linkedin-cta{margin:80px 60px 0;padding:60px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;max-width:1200px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.linkedin-cta{margin:80px 60px 0;padding:60px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
 .linkedin-cta.visible{opacity:1;transform:none;}
 .cta-text h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,4vw,48px);color:var(--cream);margin-bottom:10px;}
 .cta-text p{font-size:15px;font-weight:300;color:var(--muted);max-width:440px;line-height:1.6;}
@@ -113,9 +123,9 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;co
 <section class="hero">
   <div class="hero-bg">STORIES</div>
   <div class="eyebrow">Leadership in Practice</div>
-  <h1>TWO<br><em>STORIES</em><br>THAT DEFINE<br>HOW I LEAD</h1>
+  <h1>THREE<br><em>STORIES</em><br>THAT DEFINE<br>HOW I LEAD</h1>
   <div class="hero-rule"></div>
-  <p class="hero-sub">Not slide decks. Not bullet points. Two real situations, with real stakes, and the outcomes that followed.</p>
+  <p class="hero-sub">Not slide decks. Not bullet points. Three real situations, with real stakes, and the outcomes that followed.</p>
   <div class="scroll-cue">
     <div class="scroll-arrow">↓</div>
     <span>Explore the stories</span>
@@ -152,6 +162,21 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;co
         <div class="card-meta-item"><strong>Equity-holder separation</strong> — zero litigation</div>
         <div class="card-meta-item"><strong>Operating framework</strong> — authored and deployed</div>
         <div class="card-meta-item"><strong>Publicly named mentor</strong> — ShoutOut Colorado</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
+
+    <div class="card card-3" onclick="openStory('https://industriallystrong.com/india-story.html','International Integration — LSI Logic')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">03</div>
+      <span class="card-slides-count">10 SLIDES</span>
+      <div class="card-tag">International Integration</div>
+      <h2>GOING<br>GLOBAL</h2>
+      <p class="card-sub">How I proposed, led, and executed an international staff acquisition strategy — from identifying the opening to interviewing five firms across India.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>30+ engineers</strong> — contracted across projects</div>
+        <div class="card-meta-item"><strong>5 firms evaluated</strong> — Chennai &amp; Bengaluru</div>
+        <div class="card-meta-item"><strong>Led team of 4</strong> — 2 weeks on the ground</div>
       </div>
       <button class="card-cta">Watch Story →</button>
     </div>
