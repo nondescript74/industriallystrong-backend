@@ -53,6 +53,7 @@
   .chapter-desc { font-size: 0.85rem; color: var(--mid); font-weight: 300; margin-top: 0.2rem; }
 
   .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-grid.single { grid-template-columns: 1fr; max-width: 640px; }
 
   .project-card {
     display: block; text-decoration: none; color: inherit;
@@ -66,11 +67,14 @@
   .project-card-accent { height: 4px; }
   .project-card-body { padding: 1.8rem 2rem; }
 
+  .project-card.flagship { border: 1px solid rgba(26,107,58,0.3); }
+  .project-card.flagship .project-card-accent { height: 5px; }
+
   .project-category { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.8rem; }
   .project-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--ink); line-height: 1.25; margin-bottom: 0.8rem; }
   .project-card-body p { font-size: 0.85rem; color: var(--mid); line-height: 1.65; margin-bottom: 1.4rem; }
 
-  .project-meta-row { display: flex; align-items: center; justify-content: space-between; }
+  .project-meta-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   .project-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; padding: 0.25rem 0.7rem; border-radius: 2px; }
 
   .project-cta { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--mid); display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
@@ -83,6 +87,9 @@
   .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
   .dot-live { background: var(--green); box-shadow: 0 0 6px rgba(26,158,110,0.5); }
   .dot-dev  { background: var(--gold); box-shadow: 0 0 6px rgba(184,146,45,0.5); }
+
+  .tech-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
+  .tech-stack .project-tag { font-size: 0.62rem; }
 
   .bottom-nav { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 8vw; border-top: 1px solid var(--rule); background: var(--white); }
   .bottom-nav a { text-decoration: none; color: var(--steel); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
@@ -102,39 +109,77 @@
   <a href="/" class="nav-brand">Industrially<a href="about.html" style="color:var(--accent);text-decoration:none;">Strong</a></a>
   <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="people-stories.html">Stories</a></li>
+    <li><a href="stories.html">Stories</a></li>
     <li><a href="/cdn-cgi/l/email-protection#50393e363f10393e342523242239313c3c292324223f3e377e333f3d">Contact</a></li>
-      <li><a href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a></li>
+    <li><a href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a></li>
   </ul>
 </nav>
 
 <div id="projects" class="page-header">
   <div class="page-eyebrow">Active Projects</div>
   <h1>Building While<br>Leading</h1>
-  <p>Hands-on development across iOS apps, quantum-resistant platforms, and AI integrations — because technical credibility is earned, not assumed.</p>
+  <p>Hands-on development across trading platforms, iOS apps, and healthcare infrastructure — because technical credibility is earned, not assumed.</p>
 </div>
 
-<!-- CHAPTER 1: iOS APPS -->
+<!-- CHAPTER 1: PLATFORM -->
 <div class="chapter">
   <div class="chapter-header">
     <div class="chapter-num">Chapter 01</div>
     <div>
-      <div class="chapter-title">iOS Applications</div>
-      <div class="chapter-desc">Production apps built with modern Swift — shipped to the App Store and actively maintained</div>
+      <div class="chapter-title">Platform &amp; Trading Infrastructure</div>
+      <div class="chapter-desc">Defense-grade signal detection applied to financial markets</div>
     </div>
   </div>
 
   <div class="project-grid">
-    <a class="project-card" href="keeptrack-story.html">
-      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a9e6e, #26c98a);"></div>
-      <div class="format-badge">Animated · 6 slides</div>
+    <a class="project-card flagship" href="#">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a6b3a, #27ae60);"></div>
+      <div class="format-badge">Flagship</div>
       <div class="project-card-body">
-        <div class="project-category" style="color:#1a9e6e;"><span class="status-dot dot-live"></span>Live on App Store</div>
-        <h3>KeepTrack</h3>
-        <p>Daily intake tracker for water, medications, supplements, and habits — with goal-based progress tracking and Siri integration for hands-free logging.</p>
+        <div class="project-category" style="color:#1a6b3a;"><span class="status-dot dot-dev"></span>Active Development</div>
+        <h3>Phoenix — QRL Trading Platform</h3>
+        <p>A strategy intelligence platform applying Multiple Hypothesis Tracking — a defense-originated radar algorithm — to financial signal detection. FastAPI backend on Railway integrating Databento market data across 30+ futures, options chains, ETFs, and equities. Claude-powered coach system with live market context injection. SwiftUI iOS frontend with settlement cards and ATM options ladder.</p>
+        <div class="tech-stack">
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">FastAPI</span>
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">Databento</span>
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">SwiftUI</span>
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">Claude API</span>
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">MHT</span>
+          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">Patent Pending</span>
+        </div>
         <div class="project-meta-row">
-          <span class="project-tag" style="background:#d5f0e4; color:#1a6b4a;">SwiftUI · Siri · iOS 17+</span>
-          <span class="project-cta">View story</span>
+          <span class="project-cta">View capability deck</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CHAPTER 2: iOS APPS -->
+<div class="chapter">
+  <div class="chapter-header">
+    <div class="chapter-num">Chapter 02</div>
+    <div>
+      <div class="chapter-title">iOS Applications</div>
+      <div class="chapter-desc">Production apps built with modern Swift — shipped and actively maintained</div>
+    </div>
+  </div>
+
+  <div class="project-grid">
+    <a class="project-card" href="#">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #b8922d, #d4a843);"></div>
+      <div class="project-card-body">
+        <div class="project-category" style="color:#b8922d;"><span class="status-dot dot-dev"></span>In Development</div>
+        <h3>Reczipes</h3>
+        <p>Intelligent recipe management with handwritten card OCR via Claude vision API, FODMAP analysis with substitute suggestions, allergen detection, multi-column cookbook processing, and CloudKit sync across devices. SwiftData architecture with batch image processing using Vision framework validation.</p>
+        <div class="tech-stack">
+          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">Claude API</span>
+          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">SwiftData</span>
+          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">CloudKit</span>
+          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">Vision</span>
+        </div>
+        <div class="project-meta-row">
+          <span class="project-cta">Story coming soon</span>
         </div>
       </div>
     </a>
@@ -145,61 +190,62 @@
       <div class="project-card-body">
         <div class="project-category" style="color:#c0392b;"><span class="status-dot dot-dev"></span>In Development</div>
         <h3>KanjiKanaTrainer</h3>
-        <p>Learn Japanese kanji and Chinese characters through stroke-order animation. 100 foundational characters, SVG rendering, Python data pipeline, full offline mode.</p>
+        <p>Learn Japanese kanji and Chinese characters through stroke-order animation. MVVM+Coordinator architecture with PencilKit stroke recognition, KanjiVG SVG-to-JSON data pipeline, and Claude API integration for mnemonics and cultural context.</p>
+        <div class="tech-stack">
+          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">SwiftUI</span>
+          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">PencilKit</span>
+          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">Claude API</span>
+          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">Python</span>
+        </div>
         <div class="project-meta-row">
-          <span class="project-tag" style="background:#fde8e8; color:#c0392b;">SwiftUI · Python · SVG</span>
           <span class="project-cta">View story</span>
         </div>
       </div>
     </a>
 
-    <a class="project-card" href="reczipes-story.html" style="opacity:0.65; border-style:dashed;">
-      <div class="project-card-accent" style="background: linear-gradient(90deg, #b8922d, #d4a843);"></div>
+    <a class="project-card" href="keeptrack-story.html">
+      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a9e6e, #26c98a);"></div>
+      <div class="format-badge">Animated · 6 slides</div>
       <div class="project-card-body">
-        <div class="project-category" style="color:#b8922d;"><span class="status-dot dot-dev"></span>In Development</div>
-        <h3>Reczipes</h3>
-        <p>Intelligent recipe management with handwritten card OCR via Claude vision API, FODMAP analysis, multi-column cookbook processing, and CloudKit sync.</p>
+        <div class="project-category" style="color:#1a9e6e;"><span class="status-dot dot-live"></span>Live on App Store</div>
+        <h3>KeepTrack</h3>
+        <p>Daily intake tracker for water, medications, supplements, and habits — with goal-based progress tracking and Siri integration for hands-free logging.</p>
+        <div class="tech-stack">
+          <span class="project-tag" style="background:#d5f0e4; color:#1a6b4a;">SwiftUI</span>
+          <span class="project-tag" style="background:#d5f0e4; color:#1a6b4a;">Siri</span>
+          <span class="project-tag" style="background:#d5f0e4; color:#1a6b4a;">iOS 17+</span>
+        </div>
         <div class="project-meta-row">
-          <span class="project-tag" style="background:#fdf3dc; color:#7d5a00;">Claude API · SwiftData · CloudKit</span>
-          <span class="project-cta">Story coming soon</span>
+          <span class="project-cta">View story</span>
         </div>
       </div>
     </a>
   </div>
 </div>
 
-<!-- CHAPTER 2: PLATFORM PROJECTS -->
+<!-- CHAPTER 3: HEALTHCARE -->
 <div class="chapter">
   <div class="chapter-header">
-    <div class="chapter-num">Chapter 02</div>
+    <div class="chapter-num">Chapter 03</div>
     <div>
-      <div class="chapter-title">Platform & Infrastructure</div>
-      <div class="chapter-desc">Quantum-resistant ledger technology for trading and healthcare</div>
+      <div class="chapter-title">Healthcare Infrastructure</div>
+      <div class="chapter-desc">Quantum-resistant trust architecture for healthcare workflows</div>
     </div>
   </div>
 
-  <div class="project-grid">
-    <a class="project-card" href="#" style="opacity:0.7; border-style:dashed; cursor:default;">
-      <div class="project-card-accent" style="background: linear-gradient(90deg, #1a6b3a, #27ae60);"></div>
-      <div class="project-card-body">
-        <div class="project-category" style="color:#1a6b3a;"><span class="status-dot dot-dev"></span>In Development</div>
-        <h3>Phoenix — QRL Trading Platform</h3>
-        <p>Quantum-resistant ledger technology authenticating trading strategies and creating tamper-evident verified performance records for institutional trust.</p>
-        <div class="project-meta-row">
-          <span class="project-tag" style="background:#d5f0e0; color:#1a6b3a;">Post-Quantum · FinTech</span>
-          <span class="project-cta" style="color:var(--mid);">Story coming soon</span>
-        </div>
-      </div>
-    </a>
-
+  <div class="project-grid single">
     <a class="project-card" href="#" style="opacity:0.7; border-style:dashed; cursor:default;">
       <div class="project-card-accent" style="background: linear-gradient(90deg, #0a6ebd, #2a9fd6);"></div>
       <div class="project-card-body">
         <div class="project-category" style="color:#0a6ebd;"><span class="status-dot dot-dev"></span>In Development</div>
         <h3>myQRL Healthcare</h3>
-        <p>Quantum-resistant ledger solutions streamlining prior authorization workflows — protecting patient data integrity at the protocol layer.</p>
+        <p>Applying quantum-resistant ledger technology to streamline prior authorization workflows — reducing friction between providers and payers while protecting patient data integrity at the protocol layer. Revenue model informed by CAQH 2024 data with integrations to Change Healthcare, Cohere Health, Availity, Waystar, and Stedi.</p>
+        <div class="tech-stack">
+          <span class="project-tag" style="background:#ddeaf7; color:#0a6ebd;">Healthcare</span>
+          <span class="project-tag" style="background:#ddeaf7; color:#0a6ebd;">QRL</span>
+          <span class="project-tag" style="background:#ddeaf7; color:#0a6ebd;">XMSS</span>
+        </div>
         <div class="project-meta-row">
-          <span class="project-tag" style="background:#ddeaf7; color:#0a6ebd;">Healthcare · QRL</span>
           <span class="project-cta" style="color:var(--mid);">Story coming soon</span>
         </div>
       </div>
@@ -209,9 +255,13 @@
 
 <div class="bottom-nav">
   <a href="/">← Back to Home</a>
-  <a href="people-stories.html">Leadership Stories →</a>
+  <a href="stories.html">Leadership Stories →</a>
 </div>
 
 <footer>
   <div class="footer-brand">Industrially<span>Strong</span></div>
-  <p>© 2026 Industrially Strong. Al
+  <p>© 2026 Industrially Strong. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
