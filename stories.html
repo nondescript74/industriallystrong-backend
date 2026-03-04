@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -20,31 +19,31 @@ body{background:var(--dark);color:var(--cream);font-family:'DM Sans',sans-serif;
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.5;}
 
 nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:linear-gradient(to bottom,rgba(12,12,12,0.96) 0%,transparent 100%);z-index:500;}
-.nav-logo{font-family:‘Space Mono’,monospace;font-size:11px;letter-spacing:3px;color:var(–muted);text-decoration:none;text-transform:uppercase;}
-.nav-logo span{color:var(–cream);}
-.nav-link{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;color:var(–muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
-.nav-link:hover{color:var(–cream);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);text-decoration:none;text-transform:uppercase;}
+.nav-logo span{color:var(--cream);}
+.nav-link{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-link:hover{color:var(--cream);}
 
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:140px 60px 80px;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(160px,26vw,360px);color:rgba(255,255,255,0.022);line-height:1;right:-10px;bottom:20px;pointer-events:none;user-select:none;letter-spacing:-4px;}
-.eyebrow{font-family:‘Space Mono’,monospace;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(–muted);margin-bottom:22px;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
-h1{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(60px,11vw,148px);line-height:0.88;color:var(–cream);max-width:920px;opacity:0;animation:fadeUp 0.9s ease 0.35s forwards;}
+.hero-bg{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:clamp(160px,26vw,360px);color:rgba(255,255,255,0.022);line-height:1;right:-10px;bottom:20px;pointer-events:none;user-select:none;letter-spacing:-4px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:22px;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,11vw,148px);line-height:0.88;color:var(--cream);max-width:920px;opacity:0;animation:fadeUp 0.9s ease 0.35s forwards;}
 h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235,227,0.25);}
-.hero-rule{width:52px;height:2px;background:linear-gradient(90deg,var(–ozo),var(–gold));margin:28px 0;opacity:0;animation:fadeUp 0.5s ease 0.55s forwards;}
-.hero-sub{font-size:clamp(15px,1.7vw,19px);font-weight:300;color:var(–muted);max-width:500px;line-height:1.75;opacity:0;animation:fadeUp 0.7s ease 0.65s forwards;}
-.scroll-cue{margin-top:56px;display:flex;align-items:center;gap:12px;font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;color:var(–muted);text-transform:uppercase;opacity:0;animation:fadeUp 0.6s ease 1s forwards;}
+.hero-rule{width:52px;height:2px;background:linear-gradient(90deg,var(--ozo),var(--gold));margin:28px 0;opacity:0;animation:fadeUp 0.5s ease 0.55s forwards;}
+.hero-sub{font-size:clamp(15px,1.7vw,19px);font-weight:300;color:var(--muted);max-width:500px;line-height:1.75;opacity:0;animation:fadeUp 0.7s ease 0.65s forwards;}
+.scroll-cue{margin-top:56px;display:flex;align-items:center;gap:12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;opacity:0;animation:fadeUp 0.6s ease 1s forwards;}
 .scroll-arrow{width:24px;height:24px;border:1px solid rgba(240,235,227,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;animation:bob 2s ease-in-out infinite;}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
 .stories-section{padding:100px 60px 120px;}
-.section-label{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(–muted);margin-bottom:60px;display:flex;align-items:center;gap:20px;}
-.section-label::after{content:’’;flex:1;max-width:200px;height:1px;background:var(–border);}
+.section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:60px;display:flex;align-items:center;gap:20px;}
+.section-label::after{content:'';flex:1;max-width:200px;height:1px;background:var(--border);}
 
 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:1400px;}
-@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr;}}
-@media(max-width:700px){.cards{grid-template-columns:1fr;}}
+@media(max-width:860px){.cards{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.cards{grid-template-columns:1fr;}}
 
-.card{position:relative;background:var(–mid);border:1px solid var(–border);padding:48px 44px 44px;cursor:pointer;overflow:hidden;transition:border-color 0.3s,transform 0.3s;opacity:0;transform:translateY(28px);}
+.card{position:relative;background:var(--mid);border:1px solid var(--border);padding:40px 36px 38px;cursor:pointer;overflow:hidden;transition:border-color 0.3s,transform 0.3s;opacity:0;transform:translateY(28px);}
 .card.visible{opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease,border-color 0.3s;}
 .card:nth-child(2).visible{transition-delay:0.15s;}
 .card:nth-child(3).visible{transition-delay:0.3s;}
@@ -54,66 +53,65 @@ h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235
 .card-3:hover{border-color:rgba(14,138,125,0.4);}
 
 .card-accent{position:absolute;top:0;left:0;right:0;height:3px;}
-.card-1 .card-accent{background:linear-gradient(90deg,var(–gold),transparent);}
-.card-2 .card-accent{background:linear-gradient(90deg,var(–ozo),transparent);}
-.card-3 .card-accent{background:linear-gradient(90deg,var(–teal),transparent);}
-.card-bg-num{position:absolute;font-family:‘Bebas Neue’,sans-serif;font-size:180px;line-height:1;right:-10px;bottom:-20px;pointer-events:none;user-select:none;opacity:0.04;}
-.card-1 .card-bg-num{color:var(–gold);}
-.card-2 .card-bg-num{color:var(–ozo);}
-.card-3 .card-bg-num{color:var(–teal);}
-.card-tag{font-family:‘Space Mono’,monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;padding:5px 12px;border:1px solid;display:inline-block;margin-bottom:28px;}
-.card-1 .card-tag{color:var(–gold);border-color:rgba(184,146,45,0.35);}
-.card-2 .card-tag{color:var(–ozo);border-color:rgba(232,83,10,0.35);}
-.card-3 .card-tag{color:var(–teal);border-color:rgba(14,138,125,0.35);}
-.card h2{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(32px,3.5vw,48px);line-height:0.95;color:var(–cream);margin-bottom:16px;}
-.card-sub{font-size:14px;font-weight:300;color:var(–muted);line-height:1.6;margin-bottom:32px;max-width:340px;}
+.card-1 .card-accent{background:linear-gradient(90deg,var(--gold),transparent);}
+.card-2 .card-accent{background:linear-gradient(90deg,var(--ozo),transparent);}
+.card-3 .card-accent{background:linear-gradient(90deg,var(--teal),transparent);}
+.card-bg-num{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:180px;line-height:1;right:-10px;bottom:-20px;pointer-events:none;user-select:none;opacity:0.04;}
+.card-1 .card-bg-num{color:var(--gold);}
+.card-2 .card-bg-num{color:var(--ozo);}
+.card-3 .card-bg-num{color:var(--teal);}
+.card-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;padding:5px 12px;border:1px solid;display:inline-block;margin-bottom:28px;}
+.card-1 .card-tag{color:var(--gold);border-color:rgba(184,146,45,0.35);}
+.card-2 .card-tag{color:var(--ozo);border-color:rgba(232,83,10,0.35);}
+.card-3 .card-tag{color:var(--teal);border-color:rgba(14,138,125,0.35);}
+.card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,3.5vw,48px);line-height:0.95;color:var(--cream);margin-bottom:16px;}
+.card-sub{font-size:14px;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:32px;max-width:340px;}
 .card-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:36px;}
-.card-meta-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;font-weight:300;color:var(–muted);}
-.card-meta-item::before{content:‘→’;font-family:‘Space Mono’,monospace;font-size:11px;flex-shrink:0;margin-top:1px;}
-.card-1 .card-meta-item::before{color:var(–gold);}
-.card-2 .card-meta-item::before{color:var(–ozo);}
-.card-3 .card-meta-item::before{color:var(–teal);}
-.card-meta-item strong{color:var(–cream);font-weight:500;}
-.card-cta{display:inline-flex;align-items:center;gap:10px;font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:12px 22px;border:1px solid;cursor:pointer;background:transparent;transition:all 0.25s;}
-.card-1 .card-cta{color:var(–gold);border-color:rgba(184,146,45,0.4);}
-.card-1 .card-cta:hover{background:var(–gold);color:#000;border-color:var(–gold);}
-.card-2 .card-cta{color:var(–ozo);border-color:rgba(232,83,10,0.4);}
-.card-2 .card-cta:hover{background:var(–ozo);color:#fff;border-color:var(–ozo);}
-.card-3 .card-cta{color:var(–teal);border-color:rgba(14,138,125,0.4);}
-.card-3 .card-cta:hover{background:var(–teal);color:#fff;border-color:var(–teal);}
-.card-slides-count{position:absolute;top:44px;right:44px;font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:2px;color:var(–muted);}
+.card-meta-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;font-weight:300;color:var(--muted);}
+.card-meta-item::before{content:'→';font-family:'Space Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;}
+.card-1 .card-meta-item::before{color:var(--gold);}
+.card-2 .card-meta-item::before{color:var(--ozo);}
+.card-3 .card-meta-item::before{color:var(--teal);}
+.card-meta-item strong{color:var(--cream);font-weight:500;}
+.card-cta{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:12px 22px;border:1px solid;cursor:pointer;background:transparent;transition:all 0.25s;}
+.card-1 .card-cta{color:var(--gold);border-color:rgba(184,146,45,0.4);}
+.card-1 .card-cta:hover{background:var(--gold);color:#000;border-color:var(--gold);}
+.card-2 .card-cta{color:var(--ozo);border-color:rgba(232,83,10,0.4);}
+.card-2 .card-cta:hover{background:var(--ozo);color:#fff;border-color:var(--ozo);}
+.card-3 .card-cta{color:var(--teal);border-color:rgba(14,138,125,0.4);}
+.card-3 .card-cta:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+.card-slides-count{position:absolute;top:36px;right:36px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);}
 
-.quote-strip{margin:0 60px;padding:60px;background:var(–mid);border:1px solid var(–border);border-left:3px solid var(–ozo);display:flex;flex-direction:column;gap:16px;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 0.1s,transform 0.7s ease 0.1s;}
+.quote-strip{margin:0 60px;padding:60px;background:var(--mid);border:1px solid var(--border);border-left:3px solid var(--ozo);display:flex;flex-direction:column;gap:16px;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 0.1s,transform 0.7s ease 0.1s;}
 .quote-strip.visible{opacity:1;transform:none;}
-.quote-strip blockquote{font-family:‘DM Sans’,sans-serif;font-size:clamp(18px,2.2vw,26px);font-weight:300;font-style:italic;color:var(–cream);line-height:1.55;max-width:760px;}
-.quote-strip blockquote em{font-style:normal;font-weight:500;color:var(–ozo);}
-.quote-strip cite{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–muted);font-style:normal;}
+.quote-strip blockquote{font-family:'DM Sans',sans-serif;font-size:clamp(18px,2.2vw,26px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.55;max-width:760px;}
+.quote-strip blockquote em{font-style:normal;font-weight:500;color:var(--ozo);}
+.quote-strip cite{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-style:normal;}
 
-.linkedin-cta{margin:80px 60px 0;padding:60px;background:var(–surface);border:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.linkedin-cta{margin:80px 60px 0;padding:60px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
 .linkedin-cta.visible{opacity:1;transform:none;}
-.cta-text h3{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(28px,4vw,48px);color:var(–cream);margin-bottom:10px;}
-.cta-text p{font-size:15px;font-weight:300;color:var(–muted);max-width:440px;line-height:1.6;}
+.cta-text h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,4vw,48px);color:var(--cream);margin-bottom:10px;}
+.cta-text p{font-size:15px;font-weight:300;color:var(--muted);max-width:440px;line-height:1.6;}
 .cta-links{display:flex;gap:14px;flex-wrap:wrap;}
-.cta-btn{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;border:1px solid rgba(240,235,227,0.2);color:var(–cream);text-decoration:none;transition:all 0.25s;white-space:nowrap;}
-.cta-btn:hover{background:var(–cream);color:#000;border-color:var(–cream);}
-.cta-btn.primary{background:var(–ozo);border-color:var(–ozo);color:#fff;}
+.cta-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:14px 24px;border:1px solid rgba(240,235,227,0.2);color:var(--cream);text-decoration:none;transition:all 0.25s;white-space:nowrap;}
+.cta-btn:hover{background:var(--cream);color:#000;border-color:var(--cream);}
+.cta-btn.primary{background:var(--ozo);border-color:var(--ozo);color:#fff;}
 .cta-btn.primary:hover{background:#c94608;}
 
-footer{margin-top:100px;padding:40px 60px;border-top:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-footer p{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;}
+footer{margin-top:100px;padding:40px 60px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:9000;display:none;flex-direction:column;}
 .modal-overlay.open{display:flex;}
 .modal-bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:20px 32px;z-index:9100;background:linear-gradient(to bottom,rgba(0,0,0,0.8) 0%,transparent 100%);}
-.modal-title{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;}
-.modal-close{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.15);padding:8px 16px;cursor:pointer;transition:all 0.2s;}
+.modal-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+.modal-close{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,0.15);padding:8px 16px;cursor:pointer;transition:all 0.2s;}
 .modal-close:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
 .modal-frame{flex:1;width:100%;border:none;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){nav,nav{padding:20px 24px;}.hero{padding:120px 24px 60px;}.stories-section{padding:80px 24px 80px;}.quote-strip{margin:0 24px;padding:32px;}.linkedin-cta{margin:60px 24px 0;padding:32px;}footer{padding:32px 24px;}}
 </style>
-
 </head>
 <body>
 
@@ -138,52 +136,50 @@ footer p{font-family:‘Space Mono’,monospace;font-size:10px;letter-spacing:2p
   <div class="section-label">Featured Stories</div>
   <div class="cards">
 
-```
-<div class="card card-1" onclick="openStory('https://industriallystrong.com/pmp-story.html','People Development — IBM/Mylex → LSI')">
-  <div class="card-accent"></div>
-  <div class="card-bg-num">01</div>
-  <span class="card-slides-count">7 SLIDES</span>
-  <div class="card-tag">People Leadership</div>
-  <h2>BUILDING<br>EXCELLENCE<br>THROUGH<br>PEOPLE</h2>
-  <p class="card-sub">How I took a capable but inconsistent team of 26 and built a shared culture of professional excellence — one certification at a time.</p>
-  <div class="card-meta">
-    <div class="card-meta-item"><strong>26 direct reports</strong> — 40 concurrent projects</div>
-    <div class="card-meta-item"><strong>~100% PMP certified</strong> — within 18 months</div>
-    <div class="card-meta-item"><strong>CEO-recognized</strong> — 2005 Annual Review</div>
-  </div>
-  <button class="card-cta">Watch Story →</button>
-</div>
+    <div class="card card-1" onclick="openStory('https://industriallystrong.com/pmp-story.html','People Development — IBM/Mylex → LSI')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">01</div>
+      <span class="card-slides-count">7 SLIDES</span>
+      <div class="card-tag">People Leadership</div>
+      <h2>BUILDING<br>EXCELLENCE<br>THROUGH<br>PEOPLE</h2>
+      <p class="card-sub">How I took a capable but inconsistent team of 26 and built a shared culture of professional excellence — one certification at a time.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>26 direct reports</strong> — 40 concurrent projects</div>
+        <div class="card-meta-item"><strong>~100% PMP certified</strong> — within 18 months</div>
+        <div class="card-meta-item"><strong>CEO-recognized</strong> — 2005 Annual Review</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
 
-<div class="card card-2" onclick="openStory('https://industriallystrong.com/ozo-story.html','Strategic Advisory — Ozo Coffee Company')">
-  <div class="card-accent"></div>
-  <div class="card-bg-num">02</div>
-  <span class="card-slides-count">7 SLIDES</span>
-  <div class="card-tag">Strategic Advisory</div>
-  <h2>FROM<br>BARISTA<br>TO BRAND</h2>
-  <p class="card-sub">Six-plus years as strategic advisor to Ozo Coffee's founder — navigating equity disputes, building the operating framework, and shaping every key leadership hire.</p>
-  <div class="card-meta">
-    <div class="card-meta-item"><strong>Equity-holder separation</strong> — zero litigation</div>
-    <div class="card-meta-item"><strong>Operating framework</strong> — authored and deployed</div>
-    <div class="card-meta-item"><strong>Publicly named mentor</strong> — ShoutOut Colorado</div>
-  </div>
-  <button class="card-cta">Watch Story →</button>
-</div>
+    <div class="card card-2" onclick="openStory('https://industriallystrong.com/ozo-story.html','Strategic Advisory — Ozo Coffee Company')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">02</div>
+      <span class="card-slides-count">7 SLIDES</span>
+      <div class="card-tag">Strategic Advisory</div>
+      <h2>FROM<br>BARISTA<br>TO BRAND</h2>
+      <p class="card-sub">Six-plus years as strategic advisor to Ozo Coffee's founder — navigating equity disputes, building the operating framework, and shaping every key leadership hire.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>Equity-holder separation</strong> — zero litigation</div>
+        <div class="card-meta-item"><strong>Operating framework</strong> — authored and deployed</div>
+        <div class="card-meta-item"><strong>Publicly named mentor</strong> — ShoutOut Colorado</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
 
-<div class="card card-3" onclick="openStory('https://industriallystrong.com/india-story.html','International Integration — LSI Logic')">
-  <div class="card-accent"></div>
-  <div class="card-bg-num">03</div>
-  <span class="card-slides-count">10 SLIDES</span>
-  <div class="card-tag">International Integration</div>
-  <h2>GOING<br>GLOBAL</h2>
-  <p class="card-sub">How a resource-starved engineering organization built its first international partnerships — and learned that the hardest bridge to build was cultural, not contractual.</p>
-  <div class="card-meta">
-    <div class="card-meta-item"><strong>30+ engineers</strong> — integrated across projects</div>
-    <div class="card-meta-item"><strong>5 firms evaluated</strong> — Chennai &amp; Bengaluru</div>
-    <div class="card-meta-item"><strong>Cultural bridge built</strong> — process over blame</div>
-  </div>
-  <button class="card-cta">Watch Story →</button>
-</div>
-```
+    <div class="card card-3" onclick="openStory('https://industriallystrong.com/india-story.html','International Integration — LSI Logic')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">03</div>
+      <span class="card-slides-count">10 SLIDES</span>
+      <div class="card-tag">International Integration</div>
+      <h2>GOING<br>GLOBAL</h2>
+      <p class="card-sub">How a resource-starved engineering organization built its first international partnerships — and learned that the hardest bridge to build was cultural, not contractual.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>30+ engineers</strong> — integrated across projects</div>
+        <div class="card-meta-item"><strong>5 firms evaluated</strong> — Chennai &amp; Bengaluru</div>
+        <div class="card-meta-item"><strong>Cultural bridge built</strong> — process over blame</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
 
   </div>
 </section>
@@ -233,6 +229,5 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeStory();});
 const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
 document.querySelectorAll('.card,.quote-strip,.linkedin-cta').forEach(el=>observer.observe(el));
 </script>
-
 </body>
 </html>
