@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leadership Stories — Zahirudeen Premji</title>
-<meta name="description" content="Three stories that define how Z leads: developing people, strategic advisory, and international integration at scale.">
+<title>Stories — Zahirudeen Premji</title>
+<meta name="description" content="Leadership and project stories that define how Z leads — people development, strategic advisory, international integration, and executive decision-making.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --dark:#0C0C0C; --mid:#161616; --surface:#1E1E1E;
   --border:rgba(255,255,255,0.07); --cream:#F0EBE3;
   --muted:rgba(240,235,227,0.4); --ozo:#E8530A; --gold:#B8922D;
-  --teal:#0E8A7D;
+  --teal:#0E8A7D; --blue:#2E6EC1; --plum:#8B4F8A;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -30,17 +30,18 @@ nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-
 h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,11vw,148px);line-height:0.88;color:var(--cream);max-width:920px;opacity:0;animation:fadeUp 0.9s ease 0.35s forwards;}
 h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235,227,0.25);}
 .hero-rule{width:52px;height:2px;background:linear-gradient(90deg,var(--ozo),var(--gold));margin:28px 0;opacity:0;animation:fadeUp 0.5s ease 0.55s forwards;}
-.hero-sub{font-size:clamp(15px,1.7vw,19px);font-weight:300;color:var(--muted);max-width:500px;line-height:1.75;opacity:0;animation:fadeUp 0.7s ease 0.65s forwards;}
+.hero-sub{font-size:clamp(15px,1.7vw,19px);font-weight:300;color:var(--muted);max-width:540px;line-height:1.75;opacity:0;animation:fadeUp 0.7s ease 0.65s forwards;}
 .scroll-cue{margin-top:56px;display:flex;align-items:center;gap:12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;opacity:0;animation:fadeUp 0.6s ease 1s forwards;}
 .scroll-arrow{width:24px;height:24px;border:1px solid rgba(240,235,227,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;animation:bob 2s ease-in-out infinite;}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
-.stories-section{padding:100px 60px 120px;}
+.stories-section{padding:100px 60px 80px;}
 .section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:60px;display:flex;align-items:center;gap:20px;}
 .section-label::after{content:'';flex:1;max-width:200px;height:1px;background:var(--border);}
 
 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:1400px;}
-@media(max-width:860px){.cards{grid-template-columns:1fr 1fr;}}
+.cards.two-col{grid-template-columns:1fr 1fr;max-width:960px;}
+@media(max-width:860px){.cards{grid-template-columns:1fr 1fr;}.cards.two-col{grid-template-columns:1fr;}}
 @media(max-width:600px){.cards{grid-template-columns:1fr;}}
 
 .card{position:relative;background:var(--mid);border:1px solid var(--border);padding:40px 36px 38px;cursor:pointer;overflow:hidden;transition:border-color 0.3s,transform 0.3s;opacity:0;transform:translateY(28px);}
@@ -51,19 +52,27 @@ h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235
 .card-1:hover{border-color:rgba(184,146,45,0.4);}
 .card-2:hover{border-color:rgba(232,83,10,0.4);}
 .card-3:hover{border-color:rgba(14,138,125,0.4);}
+.card-4:hover{border-color:rgba(46,110,193,0.4);}
+.card-5:hover{border-color:rgba(139,79,138,0.4);}
 
 .card-accent{position:absolute;top:0;left:0;right:0;height:3px;}
 .card-1 .card-accent{background:linear-gradient(90deg,var(--gold),transparent);}
 .card-2 .card-accent{background:linear-gradient(90deg,var(--ozo),transparent);}
 .card-3 .card-accent{background:linear-gradient(90deg,var(--teal),transparent);}
+.card-4 .card-accent{background:linear-gradient(90deg,var(--blue),transparent);}
+.card-5 .card-accent{background:linear-gradient(90deg,var(--plum),transparent);}
 .card-bg-num{position:absolute;font-family:'Bebas Neue',sans-serif;font-size:180px;line-height:1;right:-10px;bottom:-20px;pointer-events:none;user-select:none;opacity:0.04;}
 .card-1 .card-bg-num{color:var(--gold);}
 .card-2 .card-bg-num{color:var(--ozo);}
 .card-3 .card-bg-num{color:var(--teal);}
+.card-4 .card-bg-num{color:var(--blue);}
+.card-5 .card-bg-num{color:var(--plum);}
 .card-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;padding:5px 12px;border:1px solid;display:inline-block;margin-bottom:28px;}
 .card-1 .card-tag{color:var(--gold);border-color:rgba(184,146,45,0.35);}
 .card-2 .card-tag{color:var(--ozo);border-color:rgba(232,83,10,0.35);}
 .card-3 .card-tag{color:var(--teal);border-color:rgba(14,138,125,0.35);}
+.card-4 .card-tag{color:var(--blue);border-color:rgba(46,110,193,0.35);}
+.card-5 .card-tag{color:var(--plum);border-color:rgba(139,79,138,0.35);}
 .card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,3.5vw,48px);line-height:0.95;color:var(--cream);margin-bottom:16px;}
 .card-sub{font-size:14px;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:32px;max-width:340px;}
 .card-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:36px;}
@@ -72,6 +81,8 @@ h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235
 .card-1 .card-meta-item::before{color:var(--gold);}
 .card-2 .card-meta-item::before{color:var(--ozo);}
 .card-3 .card-meta-item::before{color:var(--teal);}
+.card-4 .card-meta-item::before{color:var(--blue);}
+.card-5 .card-meta-item::before{color:var(--plum);}
 .card-meta-item strong{color:var(--cream);font-weight:500;}
 .card-cta{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:12px 22px;border:1px solid;cursor:pointer;background:transparent;transition:all 0.25s;}
 .card-1 .card-cta{color:var(--gold);border-color:rgba(184,146,45,0.4);}
@@ -80,6 +91,10 @@ h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(240,235
 .card-2 .card-cta:hover{background:var(--ozo);color:#fff;border-color:var(--ozo);}
 .card-3 .card-cta{color:var(--teal);border-color:rgba(14,138,125,0.4);}
 .card-3 .card-cta:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+.card-4 .card-cta{color:var(--blue);border-color:rgba(46,110,193,0.4);}
+.card-4 .card-cta:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+.card-5 .card-cta{color:var(--plum);border-color:rgba(139,79,138,0.4);}
+.card-5 .card-cta:hover{background:var(--plum);color:#fff;border-color:var(--plum);}
 .card-slides-count{position:absolute;top:36px;right:36px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);}
 
 .quote-strip{margin:0 60px;padding:60px;background:var(--mid);border:1px solid var(--border);border-left:3px solid var(--ozo);display:flex;flex-direction:column;gap:16px;max-width:1400px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 0.1s,transform 0.7s ease 0.1s;}
@@ -122,18 +137,19 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;co
 
 <section class="hero">
   <div class="hero-bg">STORIES</div>
-  <div class="eyebrow">Leadership in Practice</div>
-  <h1>THREE<br><em>STORIES</em><br>THAT DEFINE<br>HOW I LEAD</h1>
+  <div class="eyebrow">Leadership &amp; Project Stories</div>
+  <h1>THE<br><em>STORIES</em><br>BEHIND<br>THE WORK</h1>
   <div class="hero-rule"></div>
-  <p class="hero-sub">Not slide decks. Not bullet points. Three real situations, with real stakes, and the outcomes that followed.</p>
+  <p class="hero-sub">Not slide decks. Not bullet points. Real situations with real stakes — from building teams and bridging cultures to making the calls that shape an organization.</p>
   <div class="scroll-cue">
     <div class="scroll-arrow">↓</div>
     <span>Explore the stories</span>
   </div>
 </section>
 
+<!-- ═══════ LEADERSHIP STORIES ═══════ -->
 <section class="stories-section">
-  <div class="section-label">Featured Stories</div>
+  <div class="section-label">Leadership Stories</div>
   <div class="cards">
 
     <div class="card card-1" onclick="openStory('https://industriallystrong.com/pmp-story.html','People Development — IBM/Mylex → LSI')">
@@ -184,6 +200,42 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;co
   </div>
 </section>
 
+<!-- ═══════ PROJECT STORIES ═══════ -->
+<section class="stories-section" style="padding-top:40px;">
+  <div class="section-label">Project &amp; Executive Stories</div>
+  <div class="cards two-col">
+
+    <div class="card card-4" onclick="openStory('https://industriallystrong.com/kill-story.html','The Courage to Kill a Project — LSI')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">04</div>
+      <div class="card-tag">Executive Judgment</div>
+      <h2>THE COURAGE<br>TO KILL<br>A PROJECT</h2>
+      <p class="card-sub">An acquired project with no momentum, a small team in another state, and executives reluctant to face the obvious. One Portfolio Management Committee meeting changed all of that — permanently.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>Portfolio governance</strong> — data over politics</div>
+        <div class="card-meta-item"><strong>$120M portfolio</strong> — resource reallocation</div>
+        <div class="card-meta-item"><strong>Executive alignment</strong> — one meeting, one decision</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
+
+    <div class="card card-5" onclick="openStory('https://industriallystrong.com/storeage-story.html','StorAge Acquisition — Haifa, Israel')">
+      <div class="card-accent"></div>
+      <div class="card-bg-num">05</div>
+      <div class="card-tag">Acquisition Integration</div>
+      <h2>ACQUIRING<br>A TEAM<br>IN HAIFA</h2>
+      <p class="card-sub">Sent to Israel to integrate an acquired company. Relocated on-site, learned conversational Hebrew, and retained 100% of the acquired employees through personal engagement and a team-first approach.</p>
+      <div class="card-meta">
+        <div class="card-meta-item"><strong>100% retention</strong> — of acquired employees</div>
+        <div class="card-meta-item"><strong>On-site relocation</strong> — Haifa, Israel</div>
+        <div class="card-meta-item"><strong>Earned second acquisition</strong> — $50M+ combined value</div>
+      </div>
+      <button class="card-cta">Watch Story →</button>
+    </div>
+
+  </div>
+</section>
+
 <div class="quote-strip">
   <blockquote>"A big shout out to… <em>my Mentor Z Premji for all his knowledge and support over the years.</em>"</blockquote>
   <cite>— Justin Hartman, CEO &amp; Founder · Ozo Coffee Company · ShoutOut Colorado</cite>
@@ -195,7 +247,7 @@ footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;co
     <p>Seeking VP/Director of Engineering roles in the Boulder/Denver area. Bridging the boardroom and the codebase for 30+ years.</p>
   </div>
   <div class="cta-links">
-    <a href="www.linkedin.com/in/zahirudeen-premji-5a7a553b1" target="_blank" class="cta-btn primary">LinkedIn Profile →</a>
+    <a href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1" target="_blank" class="cta-btn primary">LinkedIn Profile →</a>
     <a href="/" class="cta-btn">Full Portfolio</a>
   </div>
 </div>
