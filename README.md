@@ -1,15 +1,35 @@
 # Industrially Strong Backend
 
-Backend server for iOS apps including Reczipes and KeepTrack as well as Z. Premji portfolio of stories. Built with Node.js/Express and designed for deployment on Vercel.
+Backend services powering the Industrially Strong ecosystem.
 
-## 🚀 Features
+This repository contains the server-side components used to support applications, experiments, and AI-enabled tools built under the Industrially Strong project.
 
-- Express.js backend with API endpoints
-- Static site hosting for support pages
-- Apple App Clips support (apple-app-site-association)
-- Contact form handling (ready for email service integration)
-- Version checking API for iOS apps
-- CORS enabled for cross-origin requests
+## Purpose
+
+The backend provides infrastructure for:
+
+- API services used by Industrially Strong applications
+- integrations with AI services and external data sources
+- deployment and hosting configuration
+- experimentation with new backend capabilities
+
+## Deployment
+
+The services are designed to be deployable across multiple modern platforms including:
+
+- Railway
+- Vercel
+- other cloud hosting environments
+
+Configuration files for specific platforms are included where relevant.
+
+## Architecture
+
+Typical flow:
+
+Client Application → API Layer → Service Integrations → Data / AI Services
+
+The repository serves as a flexible backend foundation for rapid experimentation and production deployment.
 
 ## 📁 Project Structure
 
