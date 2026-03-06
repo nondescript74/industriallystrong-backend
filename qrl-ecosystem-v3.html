@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>myQRL — Live Ecosystem Flow</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:#020c14; --surface:#071825; --green:#00ff88;
+  --cyan:#00d4ff; --amber:#ffcc00; --purple:#c4b0ff;
+  --red:#ff5070; --muted:#9ac0d0; --border:#1a4a6a;
+}
+body {
+  background:var(--bg); color:#f0f8ff;
+  font-family:'Courier New',Consolas,monospace;
+  min-height:100vh; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.018) 1px, transparent 1px);
+  background-size:52px 52px;
+}
+
+/* ── HEADER ── */
+.hdr { text-align:center; padding:28px 24px 16px; position:relative; z-index:2; }
+.eyebrow { font-size:10px; letter-spacing:4px; color:var(--cyan); text-transform:uppercase; margin-bottom:8px; }
+.title { font-family:'Arial Black',sans-serif; font-size:clamp(20px,3.2vw,40px); font-weight:900; color:#f0f8ff; line-height:1.1; }
+.title span { color:var(--green); }
+.subtitle { font-size:12px; color:var(--muted); margin-top:7px; letter-spacing:.5px; }
+
+/* ── OUTER WRAPPER for SVG overlay ── */
+.stage { position:relative; max-width:1200px; margin:0 auto; padding:0 20px 20px; }
+.svg-layer {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:3; overflow:visible;
+}
+
+/* ── GRID ── */
+.grid {
+  display:grid;
+  grid-template-columns:1fr 230px 1fr;
+  grid-template-rows:auto auto auto;
+  gap:18px;
+  position:relative; z-index:2;
+}
+
+/* ── HUB ── */
+.hub {
+  grid-column:2; grid-row:1/3;
+  background:linear-gradient(160deg,#030f1a,#071825);
+  border:2px solid var(--green); border-radius:14px;
+  padding:22px 16px; text-align:center;
+  box-shadow:0 0 60px rgba(0,255,136,.18), inset 0 0 30px rgba(0,255,136,.04);
+  position:relative; align-self:stretch;
+}
+.hub::before {
+  content:''; position:absolute; inset:-8px;
+  border:1px solid rgba(0,255,136,.1); border-radius:20px;
+  animation:ringPulse 3s ease-in-out infinite;
+}
+@keyframes ringPulse {
+  0%,100%{ opacity:.6; } 50%{ opacity:.15; }
+}
+.hub-badge {
+  display:inline-block; font-size:9px; letter-spacing:3px;
+  color:var(--green); background:rgba(0,255,136,.08);
+  border:1px solid rgba(0,255,136,.25); padding:3px 9px;
+  border-radius:2px; margin-bottom:10px;
+}
+.hub-name { font-family:'Arial Black',sans-serif; font-size:32px; font-weight:900; color:var(--green); line-height:1; }
+.hub-url { font-size:9px; color:rgba(0,255,136,.45); letter-spacing:1px; margin-bottom:12px; }
+.hub-divider { height:1px; margin:0 auto 12px; background:linear-gradient(90deg,transparent,var(--green),transparent); width:75%; }
+.hub-props { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+.hub-prop {
+  font-size:8px; color:var(--green); letter-spacing:.5px;
+  background:rgba(0,255,136,.05); border-left:2px solid var(--green);
+  padding:4px 8px; text-align:left;
+}
+
+/* TX COUNTER */
+.tx-counter {
+  background:rgba(0,255,136,.07); border:1px solid rgba(0,255,136,.2);
+  border-radius:5px; padding:9px 10px; margin-bottom:10px;
+}
+.tc-label { font-size:8px; letter-spacing:2px; color:var(--muted); margin-bottom:4px; }
+.tc-val { font-size:26px; font-weight:900; font-family:'Arial Black',sans-serif; color:var(--green); line-height:1.1; }
+.tc-sub { font-size:8px; color:rgba(0,255,136,.45); letter-spacing:1px; }
+
+/* $ SCORECARD */
+.scorecard {
+  background:rgba(0,255,136,.05); border:1px solid rgba(0,255,136,.18);
+  border-radius:5px; padding:10px;
+}
+.sc-label { font-size:8px; letter-spacing:2px; color:var(--muted); margin-bottom:6px; }
+.sc-val { font-size:22px; font-weight:900; font-family:'Arial Black',sans-serif; color:#00ff88; line-height:1; }
+.sc-sub { font-size:8px; color:rgba(0,255,136,.45); letter-spacing:1px; margin-bottom:8px; }
+.sc-rows { display:flex; flex-direction:column; gap:4px; }
+.sc-row {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:9px; padding:3px 5px;
+  border-radius:2px;
+}
+.sc-co { color:var(--muted); }
+.sc-amt { font-weight:700; font-family:'Arial Black',sans-serif; }
+
+/* ── COMPANY CARDS ── */
+.company {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:15px; position:relative;
+  transition:box-shadow .4s;
+}
+.company.flash-in  { animation:flashIn  .7s ease-out; }
+.company.flash-out { animation:flashOut .7s ease-out; }
+@keyframes flashIn {
+  0%  { box-shadow:0 0 0 0 rgba(0,255,136,0); }
+  40% { box-shadow:0 0 28px 6px rgba(0,255,136,.4); }
+  100%{ box-shadow:0 0 0 0 rgba(0,255,136,0); }
+}
+@keyframes flashOut {
+  0%  { box-shadow:0 0 0 0 rgba(0,255,136,0); }
+  40% { box-shadow:0 0 22px 4px rgba(0,255,136,.25); }
+  100%{ box-shadow:0 0 0 0 rgba(0,255,136,0); }
+}
+.c-change  { border-left:3px solid var(--red);    grid-column:1; grid-row:1; }
+.c-cohere  { border-left:3px solid var(--purple);  grid-column:3; grid-row:1; }
+.c-availity{ border-left:3px solid var(--cyan);    grid-column:1; grid-row:2; }
+.c-waystar { border-left:3px solid var(--amber);   grid-column:3; grid-row:2; }
+.c-stedi   { border-left:3px solid var(--green);   grid-column:1/4; grid-row:3; }
+
+.co-head { display:flex; align-items:center; gap:9px; margin-bottom:9px; }
+.co-icon { width:30px; height:30px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.c-change  .co-icon { background:rgba(255,80,112,.12); }
+.c-cohere  .co-icon { background:rgba(196,176,255,.12); }
+.c-availity .co-icon { background:rgba(0,212,255,.12); }
+.c-waystar .co-icon { background:rgba(255,204,0,.12); }
+.c-stedi   .co-icon { background:rgba(0,255,136,.12); }
+
+.co-name { font-family:'Arial Black',sans-serif; font-size:12px; font-weight:900; color:#f0f8ff; line-height:1.2; }
+.co-cat  { font-size:8px; letter-spacing:1.5px; margin-top:2px; }
+.c-change  .co-cat { color:var(--red); }
+.c-cohere  .co-cat { color:var(--purple); }
+.c-availity .co-cat { color:var(--cyan); }
+.c-waystar .co-cat { color:var(--amber); }
+.c-stedi   .co-cat { color:var(--green); }
+
+.co-desc { font-size:10px; color:var(--muted); line-height:1.5; margin-bottom:9px; }
+.vrows { display:flex; flex-direction:column; gap:5px; }
+.vrow { display:flex; align-items:flex-start; gap:6px; }
+.vdot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.vtext { font-size:10px; color:#d0e8f0; line-height:1.45; }
+.vmoney { font-size:8px; letter-spacing:.8px; margin-top:2px; }
+
+/* stedi two-col */
+.stedi-cols { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+/* ── TX LOG PANEL ── */
+.tx-wrap { max-width:1200px; margin:0 auto; padding:0 20px 20px; position:relative; z-index:2; }
+.tx-panel {
+  background:#040f1a; border:1px solid var(--border);
+  border-top:2px solid var(--green); border-radius:7px; padding:13px 16px;
+}
+.tx-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.live-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 1s step-end infinite; flex-shrink:0; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+.tx-title { font-size:10px; letter-spacing:3px; color:var(--green); }
+#txFeed { display:flex; flex-direction:column; gap:5px; min-height:90px; }
+.tx-entry {
+  font-size:11px; color:#5a8a9a; line-height:1.5;
+  display:grid; grid-template-columns:70px 120px 180px 1fr 80px 70px;
+  gap:8px; align-items:center;
+  opacity:0; animation:fadeIn .5s forwards;
+  padding:4px 6px; border-radius:3px;
+}
+.tx-entry:nth-child(odd) { background:rgba(255,255,255,.02); }
+@keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+.tx-time { color:rgba(0,255,136,.45); }
+.tx-hash { color:var(--cyan); }
+.tx-type { color:var(--green); }
+.tx-dest { color:var(--muted); }
+.tx-dir  { text-align:center; }
+.tx-amt  { color:var(--amber); font-weight:700; text-align:right; font-family:'Arial Black',sans-serif; font-size:12px; }
+
+/* ── LEGEND ── */
+.legend { display:flex; justify-content:center; gap:18px; flex-wrap:wrap; padding:10px 24px 16px; position:relative; z-index:2; }
+.lg { display:flex; align-items:center; gap:6px; font-size:9px; color:var(--muted); letter-spacing:1px; }
+.lg-dot { width:7px; height:7px; border-radius:50%; }
+.footnote { text-align:center; padding:0 24px 24px; font-size:8px; letter-spacing:2px; color:#2a5a6a; position:relative; z-index:2; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="eyebrow">Live Transaction Flow · Investor View · Feb 2026</div>
+  <div class="title">Where <span>myQRL</span> Captures Value — In Real Time</div>
+  <div class="subtitle">Every pulse = a monetizable XMSS anchoring event flowing between myQRL and its ecosystem partners</div>
+</div>
+
+<div class="stage" id="stage">
+<svg class="svg-layer" id="svgLayer" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-sm" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- arrowhead markers -->
+    <marker id="arrow-green"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#00ff88" opacity=".7"/>
+    </marker>
+    <marker id="arrow-red"    markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#ff5070" opacity=".7"/>
+    </marker>
+    <marker id="arrow-cyan"   markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#00d4ff" opacity=".7"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#c4b0ff" opacity=".7"/>
+    </marker>
+    <marker id="arrow-amber"  markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#ffcc00" opacity=".7"/>
+    </marker>
+  </defs>
+  <g id="lines"></g>
+  <g id="pulses"></g>
+  <g id="labels"></g>
+</svg>
+
+<div class="grid" id="mainGrid">
+
+  <!-- Change Healthcare -->
+  <div class="company c-change" id="card-change">
+    <div class="co-head">
+      <div class="co-icon">⚡</div>
+      <div>
+        <div class="co-name">Change Healthcare / Optum</div>
+        <div class="co-cat">THE GIANT · CLAIMS CLEARINGHOUSE</div>
+      </div>
+    </div>
+    <div class="co-desc">15B tx/yr. 192.7M records breached 2024. $14B halted 3 wks. Rebuilding trust — needs distributed resilience layer &amp; quantum-proof audit trail.</div>
+    <div class="vrows">
+      <div class="vrow"><div class="vdot" style="background:var(--red)"></div><div>
+        <div class="vtext"><strong>QRL Resilience Layer</strong> — distributed anchor, survives outage</div>
+        <div class="vmoney" style="color:var(--red)">💰 LICENSE FEE — per-tx XMSS anchoring on clearinghouse</div>
+      </div></div>
+      <div class="vrow"><div class="vdot" style="background:var(--red)"></div><div>
+        <div class="vtext"><strong>QRL Trust Recovery</strong> — immutable proof-of-tx, CMS-0057-F audit</div>
+        <div class="vmoney" style="color:var(--red)">💰 COMPLIANCE SaaS — quantum-safe audit product</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- HUB -->
+  <div class="hub" id="hub">
+    <div class="hub-badge">◉ TRUST ANCHOR</div>
+    <div class="hub-name">myQRL</div>
+    <div class="hub-url">myqrl.netlify.app</div>
+    <div class="hub-divider"></div>
+    <div class="hub-props">
+      <div class="hub-prop">✓ XMSS-SHA2-256 Quantum-Proof</div>
+      <div class="hub-prop">✓ FHIR-Native PA Anchoring</div>
+      <div class="hub-prop">✓ Real-Time 3-Party Visibility</div>
+      <div class="hub-prop">✓ Immutable Audit Trail</div>
+      <div class="hub-prop">✓ No Single Point of Failure</div>
+      <div class="hub-prop">✓ CMS-0057-F Compatible</div>
+    </div>
+    <div class="tx-counter">
+      <div class="tc-label">ANCHORED TODAY</div>
+      <div class="tc-val" id="txCount">0</div>
+      <div class="tc-sub">XMSS TRANSACTIONS</div>
+    </div>
+    <div class="scorecard">
+      <div class="sc-label">DEMO REVENUE SIMULATION</div>
+      <div class="sc-val" id="scTotal">$0.00</div>
+      <div class="sc-sub" style="display:flex;align-items:center;gap:4px;justify-content:center;margin-bottom:6px;">
+        <span>@ $0.04/ANCHOR</span>
+        <span id="fee-src-toggle" style="cursor:pointer;color:var(--cyan);font-size:9px;border:1px solid rgba(0,212,255,.3);padding:1px 4px;border-radius:2px;" title="Tap for source">src</span>
+      </div>
+      <div id="fee-src-box" style="display:none;background:rgba(0,0,0,.5);border:1px solid rgba(0,212,255,.25);border-radius:3px;padding:6px 7px;margin-bottom:7px;font-size:8px;line-height:1.5;text-align:left;">
+        <span style="color:var(--cyan);">BASIS:</span> CAQH 2024 Index reports fully-electronic PA costs <span style="color:var(--amber)">$0.05/tx</span>. QRL anchor fee of <span style="color:var(--green)">$0.04</span> = 80% of that benchmark — a security add-on to an existing electronic flow, not a new process cost.<br>
+        <span style="color:rgba(255,255,255,.4);">⚠ Fee is proposed, not contracted.</span>
+      </div>
+      <div class="sc-rows">
+        <div class="sc-row" id="sc-change">
+          <span class="sc-co">Change <span style="font-size:7px;color:rgba(255,80,112,.5)">15B tx/yr¹</span></span>
+          <span class="sc-amt" style="color:var(--red)">$0.00</span>
+        </div>
+        <div class="sc-row" id="sc-cohere">
+          <span class="sc-co">Cohere <span style="font-size:7px;color:rgba(196,176,255,.5)">12M PA/yr²</span></span>
+          <span class="sc-amt" style="color:var(--purple)">$0.00</span>
+        </div>
+        <div class="sc-row" id="sc-availity">
+          <span class="sc-co">Availity <span style="font-size:7px;color:rgba(0,212,255,.5)">13B tx/yr³</span></span>
+          <span class="sc-amt" style="color:var(--cyan)">$0.00</span>
+        </div>
+        <div class="sc-row" id="sc-waystar">
+          <span class="sc-co">Waystar <span style="font-size:7px;color:rgba(255,204,0,.5)">7.5B tx/yr⁴</span></span>
+          <span class="sc-amt" style="color:var(--amber)">$0.00</span>
+        </div>
+        <div class="sc-row" id="sc-stedi">
+          <span class="sc-co">Stedi <span style="font-size:7px;color:rgba(0,255,136,.5)">3,400+ payers⁵</span></span>
+          <span class="sc-amt" style="color:var(--green)">$0.00</span>
+        </div>
+      </div>
+      <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(0,255,136,.1);font-size:7px;color:rgba(255,255,255,.25);line-height:1.6;text-align:left;">
+        ¹UHG public filings · ²Cohere press releases · ³Availity.com ·
+        ⁴Waystar Q4'25 earnings · ⁵Stedi.com<br>
+        <span style="color:rgba(255,204,0,.4);">★ DEMO SIMULATION — volumes illustrative only</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cohere Health -->
+  <div class="company c-cohere" id="card-cohere">
+    <div class="co-head">
+      <div class="co-icon">🧠</div>
+      <div>
+        <div class="co-name">Cohere Health</div>
+        <div class="co-cat">AI DISRUPTOR · PRIOR AUTHORIZATION</div>
+      </div>
+    </div>
+    <div class="co-desc">$200M funded. Auto-approves 90% of 12M+ annual PAs. Microsoft Dragon Copilot integration. Gap: approved PAs can still be retroactively disputed.</div>
+    <div class="vrows">
+      <div class="vrow"><div class="vdot" style="background:var(--purple)"></div><div>
+        <div class="vtext"><strong>QRL Approval Permanence</strong> — unforgeable, retroactive denial impossible</div>
+        <div class="vmoney" style="color:var(--purple)">💰 PER-APPROVAL FEE — pennies × 12M PAs/yr</div>
+      </div></div>
+      <div class="vrow"><div class="vdot" style="background:var(--purple)"></div><div>
+        <div class="vtext"><strong>QRL Compliance Module</strong> — white-label XMSS audit for CMS-0057-F</div>
+        <div class="vmoney" style="color:var(--purple)">💰 WHITE-LABEL SaaS — sold through Cohere platform</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Availity -->
+  <div class="company c-availity" id="card-availity">
+    <div class="co-head">
+      <div class="co-icon">🔗</div>
+      <div>
+        <div class="co-name">Availity</div>
+        <div class="co-cat">THE BRIDGE · MULTI-PAYER PORTAL</div>
+      </div>
+    </div>
+    <div class="co-desc">3M providers, 13B tx/yr, 170M covered lives. Markets "air-gapped backup." FHIR compliance platform just launched. Top differentiator: cybersecurity.</div>
+    <div class="vrows">
+      <div class="vrow"><div class="vdot" style="background:var(--cyan)"></div><div>
+        <div class="vtext"><strong>QRL PA Audit API</strong> — XMSS signatures in PA flow, all parties same chain</div>
+        <div class="vmoney" style="color:var(--cyan)">💰 API REVENUE — per-auth anchoring via Availity dev platform</div>
+      </div></div>
+      <div class="vrow"><div class="vdot" style="background:var(--cyan)"></div><div>
+        <div class="vtext"><strong>QRL Air-Gap Upgrade</strong> — blockchain tx state backup, survives any outage</div>
+        <div class="vmoney" style="color:var(--cyan)">💰 RESILIENCE TIER — premium security add-on</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Waystar -->
+  <div class="company c-waystar" id="card-waystar">
+    <div class="co-head">
+      <div class="co-icon">📊</div>
+      <div>
+        <div class="co-name">Waystar</div>
+        <div class="co-cat">WORKFLOW KING · REVENUE CYCLE</div>
+      </div>
+    </div>
+    <div class="co-desc">$1B+ revenue, 24% growth. AltitudeAI prevented $15.5B in denials. Goal: autonomous revenue cycle. Cybersecurity top competitive differentiator post-Change.</div>
+    <div class="vrows">
+      <div class="vrow"><div class="vdot" style="background:var(--amber)"></div><div>
+        <div class="vtext"><strong>QRL Denial-Proof Record</strong> — cryptographic proof auto-wins appeals</div>
+        <div class="vmoney" style="color:var(--amber)">💰 APPEAL AUTOMATION UPGRADE — chain as evidence layer</div>
+      </div></div>
+      <div class="vrow"><div class="vdot" style="background:var(--amber)"></div><div>
+        <div class="vtext"><strong>QRL Security Tier</strong> — quantum-proof records for IDN enterprise clients</div>
+        <div class="vmoney" style="color:var(--amber)">💰 ENTERPRISE PREMIUM SKU</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Stedi -->
+  <div class="company c-stedi" id="card-stedi">
+    <div class="co-head" style="margin-bottom:10px;">
+      <div class="co-icon">⚙️</div>
+      <div>
+        <div class="co-name">Stedi — "The Stripe of Healthcare"</div>
+        <div class="co-cat">THE INFRASTRUCTURE · EDI/API DEVELOPER TOOLS · JSON-NATIVE · MCP SERVER · 3,400+ PAYERS</div>
+      </div>
+    </div>
+    <div class="stedi-cols">
+      <div>
+        <div class="co-desc">X12 EDI → developer JSON APIs. Stedi MCP Server lets AI agents autonomously trigger healthcare transactions. Post-Change go-to for resilient builders.</div>
+        <div class="vrows">
+          <div class="vrow"><div class="vdot" style="background:var(--green)"></div><div>
+            <div class="vtext"><strong>QRL Developer Primitive</strong> — one API call adds XMSS anchoring to any Stedi flow</div>
+            <div class="vmoney" style="color:var(--green)">💰 API REVENUE — per-call anchoring; Stedi bills, QRL provides trust</div>
+          </div></div>
+        </div>
+      </div>
+      <div>
+        <div class="co-desc">MCP Server = AI agents submit PAs autonomously. New attack surface: who validates that an AI agent's submission is authentic? No one answers this yet.</div>
+        <div class="vrows">
+          <div class="vrow"><div class="vdot" style="background:var(--green)"></div><div>
+            <div class="vtext"><strong>QRL Agentic AI Trust Layer</strong> — cryptographic proof agent-submitted tx are authentic. Zero competition.</div>
+            <div class="vmoney" style="color:var(--green)">💰 NEW CATEGORY — first-mover, no competitor has this</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid -->
+</div><!-- /stage -->
+
+<!-- DATA TRANSPARENCY STRIP -->
+<div style="max-width:1200px;margin:0 auto;padding:0 20px 10px;position:relative;z-index:2;">
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+    <div style="background:#040f1a;border:1px solid rgba(255,80,112,.2);border-top:2px solid var(--red);border-radius:5px;padding:8px 10px;text-align:center;">
+      <div style="font-size:14px;font-weight:900;font-family:'Arial Black',sans-serif;color:var(--red)">15B</div>
+      <div style="font-size:7px;color:var(--muted);letter-spacing:1px;">TX/YR · CHANGE</div>
+      <div style="font-size:7px;color:rgba(255,255,255,.25);margin-top:2px;">UHG public filings ✓</div>
+    </div>
+    <div style="background:#040f1a;border:1px solid rgba(196,176,255,.2);border-top:2px solid var(--purple);border-radius:5px;padding:8px 10px;text-align:center;">
+      <div style="font-size:14px;font-weight:900;font-family:'Arial Black',sans-serif;color:var(--purple)">12M</div>
+      <div style="font-size:7px;color:var(--muted);letter-spacing:1px;">PA/YR · COHERE</div>
+      <div style="font-size:7px;color:rgba(255,255,255,.25);margin-top:2px;">Cohere press release ✓</div>
+    </div>
+    <div style="background:#040f1a;border:1px solid rgba(0,212,255,.2);border-top:2px solid var(--cyan);border-radius:5px;padding:8px 10px;text-align:center;">
+      <div style="font-size:14px;font-weight:900;font-family:'Arial Black',sans-serif;color:var(--cyan)">13B</div>
+      <div style="font-size:7px;color:var(--muted);letter-spacing:1px;">TX/YR · AVAILITY</div>
+      <div style="font-size:7px;color:rgba(255,255,255,.25);margin-top:2px;">Availity.com ✓</div>
+    </div>
+    <div style="background:#040f1a;border:1px solid rgba(255,204,0,.2);border-top:2px solid var(--amber);border-radius:5px;padding:8px 10px;text-align:center;">
+      <div style="font-size:14px;font-weight:900;font-family:'Arial Black',sans-serif;color:var(--amber)">7.5B</div>
+      <div style="font-size:7px;color:var(--muted);letter-spacing:1px;">TX/YR · WAYSTAR</div>
+      <div style="font-size:7px;color:rgba(255,255,255,.25);margin-top:2px;">Q4'25 earnings call ✓</div>
+    </div>
+    <div style="background:#040f1a;border:1px solid rgba(0,255,136,.2);border-top:2px solid var(--green);border-radius:5px;padding:8px 10px;text-align:center;">
+      <div style="font-size:14px;font-weight:900;font-family:'Arial Black',sans-serif;color:var(--green)">$0.05</div>
+      <div style="font-size:7px;color:var(--muted);letter-spacing:1px;">ePa COST BENCHMARK</div>
+      <div style="font-size:7px;color:rgba(255,255,255,.25);margin-top:2px;">CAQH 2024 Index ✓</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:6px;font-size:8px;color:rgba(255,255,255,.2);letter-spacing:1px;">
+    ✓ = INDEPENDENTLY VERIFIED FROM PUBLIC SOURCES &nbsp;·&nbsp; $0.04/ANCHOR FEE = PROPOSED (80% OF CAQH $0.05 ePa BENCHMARK) &nbsp;·&nbsp; ANIMATED COUNTER = DEMO SIMULATION
+  </div>
+</div>
+
+<!-- TX LOG -->
+<div class="tx-wrap">
+  <div class="tx-panel">
+    <div class="tx-head">
+      <div class="live-dot"></div>
+      <span class="tx-title">LIVE QRL CHAIN FEED — BIDIRECTIONAL ANCHORING EVENTS</span>
+    </div>
+    <div id="txFeed"></div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="lg"><div class="lg-dot" style="background:var(--red)"></div>CHANGE — RESILIENCE + AUDIT</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--cyan)"></div>AVAILITY — PA AUDIT + AIR-GAP</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--purple)"></div>COHERE — APPROVAL PERMANENCE</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--amber)"></div>WAYSTAR — DENIAL-PROOF RECORDS</div>
+  <div class="lg"><div class="lg-dot" style="background:var(--green)"></div>STEDI — DEV PRIMITIVE + AGENTIC TRUST</div>
+  <div class="lg" style="border-left:2px dashed rgba(0,255,136,.4);padding-left:10px;">━━ outbound XMSS anchor</div>
+  <div class="lg" style="border-left:2px dashed rgba(255,255,255,.2);padding-left:10px;">- - - inbound confirmation</div>
+</div>
+<div class="footnote">myQRL IS NOT A COMPETITOR — IT IS THE MISSING QUANTUM-PROOF TRUST LAYER EACH COMPANY NEEDS · XMSS-SHA2-256 · QRL MAINNET</div>
+
+<script>
+// ─── COMPANY DATA ─────────────────────────────────────────────────────────────
+const COMPANIES = [
+  {
+    id:'change', color:'#ff5070', marker:'arrow-red',
+    label:'Change Healthcare',
+    outLabel:'XMSS-ANCHOR',     outDesc:'PA request anchored to QRL chain',
+    inLabel:'CONFIRM+HASH',     inDesc:'Block hash + audit receipt returned',
+    txType:'RESILIENCE-ANCHOR', fee:0.05
+  },
+  {
+    id:'cohere', color:'#c4b0ff', marker:'arrow-purple',
+    label:'Cohere Health',
+    outLabel:'PA-PERMANENCE',   outDesc:'Approval record anchored immutably',
+    inLabel:'PROOF-OF-APPROVAL',inDesc:'Quantum-proof approval certificate',
+    txType:'PA-PERMANENCE',     fee:0.03
+  },
+  {
+    id:'availity', color:'#00d4ff', marker:'arrow-cyan',
+    label:'Availity',
+    outLabel:'PA-XMSS-SIG',     outDesc:'PA submission with XMSS signature',
+    inLabel:'CHAIN-RECEIPT',    inDesc:'Multi-party chain visibility token',
+    txType:'PA-AUDIT-XMSS',     fee:0.04
+  },
+  {
+    id:'waystar', color:'#ffcc00', marker:'arrow-amber',
+    label:'Waystar',
+    outLabel:'DENIAL-ANCHOR',   outDesc:'Denial event anchored for appeal',
+    inLabel:'PROOF-OF-DENIAL',  inDesc:'Cryptographic denial evidence chain',
+    txType:'DENIAL-PROOF',      fee:0.04
+  },
+  {
+    id:'stedi', color:'#00ff88', marker:'arrow-green',
+    label:'Stedi',
+    outLabel:'AGENTIC-AUTH',    outDesc:'AI agent tx submitted for auth',
+    inLabel:'AGENT-PROOF',      inDesc:'Cryptographic agent authenticity proof',
+    txType:'AGENTIC-AUTH',      fee:0.02
+  }
+];
+
+const PER_TX_RATE = 0.04;
+let txTotal = 0;
+const revenue = {change:0, cohere:0, availity:0, waystar:0, stedi:0};
+let grandTotal = 0;
+
+const svgLines  = document.getElementById('lines');
+const svgPulses = document.getElementById('pulses');
+const svgLabels = document.getElementById('labels');
+const txFeed    = document.getElementById('txFeed');
+const txCountEl = document.getElementById('txCount');
+const scTotalEl = document.getElementById('scTotal');
+
+// ─── GEOMETRY ────────────────────────────────────────────────────────────────
+function getRect(el) {
+  const stage = document.getElementById('stage');
+  const sr = stage.getBoundingClientRect();
+  const er = el.getBoundingClientRect();
+  return {
+    left:   er.left - sr.left,
+    top:    er.top  - sr.top,
+    right:  er.left - sr.left + er.width,
+    bottom: er.top  - sr.top  + er.height,
+    cx:     er.left - sr.left + er.width  / 2,
+    cy:     er.top  - sr.top  + er.height / 2,
+    w:      er.width,
+    h:      er.height,
+  };
+}
+
+// Find the best edge point on card to connect toward hub
+function edgePoint(cardRect, hubRect) {
+  // Determine which side of the card is closest to hub
+  const dx = hubRect.cx - cardRect.cx;
+  const dy = hubRect.cy - cardRect.cy;
+  const absDx = Math.abs(dx), absDy = Math.abs(dy);
+
+  // For stedi (bottom card), connect from top-center
+  // For left cards, connect from right edge
+  // For right cards, connect from left edge
+  if (absDy > absDx * 1.5) {
+    // mostly vertical → top or bottom
+    if (dy < 0) return { x: cardRect.cx, y: cardRect.top    + 8 };
+    else        return { x: cardRect.cx, y: cardRect.bottom - 8 };
+  } else if (dx > 0) {
+    // hub is to the right → right edge of card
+    const frac = 0.5 + (dy / (absDx + absDy)) * 0.4;
+    return { x: cardRect.right, y: cardRect.top + cardRect.h * frac };
+  } else {
+    // hub is to the left → left edge of card
+    const frac = 0.5 + (dy / (absDx + absDy)) * 0.4;
+    return { x: cardRect.left,  y: cardRect.top + cardRect.h * frac };
+  }
+}
+
+// Hub edge point facing a card
+function hubEdgePoint(hubRect, cardPt) {
+  const dx = cardPt.x - hubRect.cx;
+  const dy = cardPt.y - hubRect.cy;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  const r = Math.min(hubRect.w, hubRect.h) * 0.48;
+  return {
+    x: hubRect.cx + (dx/len) * r,
+    y: hubRect.cy + (dy/len) * r,
+  };
+}
+
+// Build bezier control points with a slight offset so out/in don't overlap
+function bezierPath(from, to, offset=0) {
+  const dx = to.x - from.x, dy = to.y - from.y;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  // perpendicular offset
+  const px = -dy/len * offset, py = dx/len * offset;
+  const cx1 = from.x + dx*0.45 + px, cy1 = from.y + dy*0.1  + py;
+  const cx2 = from.x + dx*0.55 + px, cy2 = from.y + dy*0.9  + py;
+  return `M ${from.x.toFixed(1)} ${from.y.toFixed(1)} C ${cx1.toFixed(1)} ${cy1.toFixed(1)}, ${cx2.toFixed(1)} ${cy2.toFixed(1)}, ${to.x.toFixed(1)} ${to.y.toFixed(1)}`;
+}
+
+// Midpoint of bezier (approx t=0.5)
+function bezierMid(from, to, offset=0) {
+  const dx = to.x - from.x, dy = to.y - from.y;
+  const len = Math.sqrt(dx*dx + dy*dy) || 1;
+  const px = -dy/len * offset, py = dx/len * offset;
+  const cx1 = from.x + dx*0.45 + px, cy1 = from.y + dy*0.1  + py;
+  const cx2 = from.x + dx*0.55 + px, cy2 = from.y + dy*0.9  + py;
+  // De Casteljau at t=0.5
+  const t=0.5, t1=1-t;
+  const x = t1*t1*t1*from.x + 3*t1*t1*t*cx1 + 3*t1*t*t*cx2 + t*t*t*to.x;
+  const y = t1*t1*t1*from.y + 3*t1*t1*t*cy1 + 3*t1*t*t*cy2 + t*t*t*to.y;
+  return {x, y};
+}
+
+// ─── DRAW STATIC LINES ───────────────────────────────────────────────────────
+const pathData = {}; // store path strings for animation
+
+function drawLines() {
+  svgLines.innerHTML = '';
+  svgLabels.innerHTML = '';
+
+  const hub = document.getElementById('hub');
+  const hubR = getRect(hub);
+
+  COMPANIES.forEach(co => {
+    const card = document.getElementById('card-' + co.id);
+    if (!card) return;
+    const cardR = getRect(card);
+
+    const cardPt = edgePoint(cardR, hubR);
+    const hubPt  = hubEdgePoint(hubR, cardPt);
+
+    // OUTBOUND path (hub → card), slight left offset
+    const dOut = bezierPath(hubPt, cardPt, 10);
+    // INBOUND path (card → hub), slight right offset
+    const dIn  = bezierPath(cardPt, hubPt, 10);
+
+    pathData[co.id] = { out: { from:hubPt,  to:cardPt, offset:10 },
+                        in:  { from:cardPt, to:hubPt,  offset:10 } };
+
+    // Static outbound line (solid, colored)
+    const lineOut = document.createElementNS('http://www.w3.org/2000/svg','path');
+    lineOut.setAttribute('id', 'path-out-'+co.id);
+    lineOut.setAttribute('d', dOut);
+    lineOut.setAttribute('stroke', co.color);
+    lineOut.setAttribute('stroke-opacity', '0.2');
+    lineOut.setAttribute('stroke-width', '1.8');
+    lineOut.setAttribute('fill', 'none');
+    lineOut.setAttribute('stroke-dasharray', '5 7');
+    lineOut.setAttribute('marker-end', `url(#${co.marker})`);
+    svgLines.appendChild(lineOut);
+
+    // Static inbound line (dashed, dimmer)
+    const lineIn = document.createElementNS('http://www.w3.org/2000/svg','path');
+    lineIn.setAttribute('id', 'path-in-'+co.id);
+    lineIn.setAttribute('d', dIn);
+    lineIn.setAttribute('stroke', co.color);
+    lineIn.setAttribute('stroke-opacity', '0.1');
+    lineIn.setAttribute('stroke-width', '1.2');
+    lineIn.setAttribute('fill', 'none');
+    lineIn.setAttribute('stroke-dasharray', '2 9');
+    svgLines.appendChild(lineIn);
+
+    // Label at midpoint of outbound
+    const midOut = bezierMid(hubPt, cardPt, 10);
+    drawLabel(midOut, co.outLabel, co.color, 'out-lbl-'+co.id, cardR, hubR);
+
+    // Label at midpoint of inbound
+    const midIn  = bezierMid(cardPt, hubPt, 10);
+    drawLabel(midIn,  co.inLabel,  co.color, 'in-lbl-'+co.id,  cardR, hubR, true);
+  });
+}
+
+function drawLabel(pt, text, color, id, cardR, hubR, dim=false) {
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('id', id);
+
+  const w = text.length * 6.4 + 12;
+  const h = 16;
+
+  const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+  rect.setAttribute('x', (pt.x - w/2).toFixed(1));
+  rect.setAttribute('y', (pt.y - h/2).toFixed(1));
+  rect.setAttribute('width', w.toFixed(1));
+  rect.setAttribute('height', h);
+  rect.setAttribute('rx', '3');
+  rect.setAttribute('fill', '#020c14');
+  rect.setAttribute('stroke', color);
+  rect.setAttribute('stroke-opacity', dim ? '0.25' : '0.5');
+  rect.setAttribute('stroke-width', '1');
+
+  const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+  txt.setAttribute('x', pt.x.toFixed(1));
+  txt.setAttribute('y', (pt.y + 4.5).toFixed(1));
+  txt.setAttribute('text-anchor','middle');
+  txt.setAttribute('font-family','Courier New, monospace');
+  txt.setAttribute('font-size','8');
+  txt.setAttribute('fill', color);
+  txt.setAttribute('fill-opacity', dim ? '0.45' : '0.8');
+  txt.setAttribute('letter-spacing','0.5');
+  txt.textContent = text;
+
+  g.appendChild(rect); g.appendChild(txt);
+  svgLabels.appendChild(g);
+}
+
+// ─── ANIMATE PULSE ───────────────────────────────────────────────────────────
+function firePulse(co, direction /* 'out'|'in' */, onArrive) {
+  const pathEl = document.getElementById(`path-${direction}-${co.id}`);
+  if (!pathEl) return;
+  const totalLen = pathEl.getTotalLength();
+
+  const isOut = direction === 'out';
+  const radius = isOut ? 6 : 4;
+  const opacity = isOut ? '0.95' : '0.65';
+
+  // Main dot
+  const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  dot.setAttribute('r', radius);
+  dot.setAttribute('fill', co.color);
+  dot.setAttribute('filter', 'url(#glow)');
+  dot.setAttribute('opacity', opacity);
+  svgPulses.appendChild(dot);
+
+  // Trail dot
+  const trail = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  trail.setAttribute('r', radius * 0.5);
+  trail.setAttribute('fill', co.color);
+  trail.setAttribute('opacity', '0.35');
+  svgPulses.appendChild(trail);
+
+  // $ label riding the pulse (outbound only)
+  let dollarEl = null;
+  if (isOut) {
+    dollarEl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    dollarEl.setAttribute('font-family','Arial Black, sans-serif');
+    dollarEl.setAttribute('font-size','10');
+    dollarEl.setAttribute('fill', co.color);
+    dollarEl.setAttribute('opacity','0.9');
+    dollarEl.setAttribute('text-anchor','middle');
+    dollarEl.setAttribute('filter','url(#glow-sm)');
+    dollarEl.textContent = `+$${co.fee.toFixed(2)}`;
+    svgPulses.appendChild(dollarEl);
+  }
+
+  const duration = isOut ? 1800 : 1400;
+  const start = performance.now();
+
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+    const pos = pathEl.getPointAtLength(ease * totalLen);
+    dot.setAttribute('cx', pos.x);
+    dot.setAttribute('cy', pos.y);
+
+    const trailT = Math.max(0, ease - 0.06);
+    const trailPos = pathEl.getPointAtLength(trailT * totalLen);
+    trail.setAttribute('cx', trailPos.x);
+    trail.setAttribute('cy', trailPos.y);
+
+    if (dollarEl) {
+      dollarEl.setAttribute('x', (pos.x + 2).toFixed(1));
+      dollarEl.setAttribute('y', (pos.y - 9).toFixed(1));
+    }
+
+    if (t < 1) {
+      requestAnimationFrame(step);
+    } else {
+      dot.remove(); trail.remove();
+      if (dollarEl) dollarEl.remove();
+      if (onArrive) onArrive();
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── TX EVENT ────────────────────────────────────────────────────────────────
+function randHex(n) {
+  return [...Array(n)].map(()=>'0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
+}
+
+function doTransaction(co) {
+  // Fire outbound pulse hub→card
+  firePulse(co, 'out', () => {
+    // Card flashes on receive
+    const card = document.getElementById('card-'+co.id);
+    if (card) { card.classList.remove('flash-in'); void card.offsetWidth; card.classList.add('flash-in'); }
+
+    // 300ms later fire inbound return
+    setTimeout(() => {
+      firePulse(co, 'in', () => {
+        // Hub gets a subtle flash on return
+        const hub = document.getElementById('hub');
+        if (hub) { hub.style.boxShadow = `0 0 80px rgba(0,255,136,.5), inset 0 0 30px rgba(0,255,136,.08)`; setTimeout(()=>{ hub.style.boxShadow=''; }, 500); }
+      });
+    }, 300);
+
+    // Update counters
+    txTotal++;
+    revenue[co.id] = (revenue[co.id] || 0) + co.fee;
+    grandTotal += co.fee;
+
+    txCountEl.textContent = txTotal.toLocaleString();
+    scTotalEl.textContent = '$' + grandTotal.toFixed(2);
+
+    // Update per-company scorecard
+    const scEl = document.getElementById('sc-'+co.id);
+    if (scEl) {
+      const amtEl = scEl.querySelector('.sc-amt');
+      if (amtEl) amtEl.textContent = '$' + revenue[co.id].toFixed(2);
+    }
+
+    // Log to feed
+    logTx(co);
+  });
+}
+
+function logTx(co) {
+  const ts = new Date().toTimeString().slice(0,8);
+  const hash = '0x'+randHex(4)+'…'+randHex(4);
+  const block = (48291 + txTotal).toLocaleString();
+
+  const entry = document.createElement('div');
+  entry.className = 'tx-entry';
+  entry.innerHTML = `
+    <span class="tx-time">${ts}</span>
+    <span class="tx-hash">${hash}</span>
+    <span class="tx-type">${co.txType}</span>
+    <span class="tx-dest">→ ${co.label}</span>
+    <span class="tx-dir">⇄</span>
+    <span class="tx-amt">+$${co.fee.toFixed(2)}</span>
+  `;
+  txFeed.insertBefore(entry, txFeed.firstChild);
+  while (txFeed.children.length > 6) txFeed.removeChild(txFeed.lastChild);
+}
+
+// ─── SCHEDULER ───────────────────────────────────────────────────────────────
+function schedule() {
+  // Stagger initial wave
+  COMPANIES.forEach((co, i) => {
+    setTimeout(() => doTransaction(co), 800 + i * 900);
+  });
+
+  // Ongoing loop — pick random company every 1.6–3.2s
+  let count = 0;
+  function loop() {
+    const co = COMPANIES[count % COMPANIES.length];
+    doTransaction(co);
+    count++;
+    // Vary delay: Cohere fires more often (more PAs)
+    const baseDelay = co.id === 'cohere' ? 1400 : co.id === 'stedi' ? 2200 : 1800;
+    const delay = baseDelay + Math.random() * 1200;
+    setTimeout(loop, delay);
+  }
+  setTimeout(loop, COMPANIES.length * 900 + 1200);
+}
+
+// ─── SOURCE TOGGLE ────────────────────────────────────────────────────────────
+document.getElementById('fee-src-toggle').addEventListener('click', () => {
+  const box = document.getElementById('fee-src-box');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+function init() {
+  setTimeout(() => {
+    drawLines();
+    schedule();
+  }, 400);
+}
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    svgPulses.innerHTML = '';
+    drawLines();
+  }, 200);
+});
+
+window.addEventListener('load', init);
+</script>
+</body>
+</html>

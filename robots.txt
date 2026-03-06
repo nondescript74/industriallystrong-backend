@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Industrially Strong — not for public indexing
+# Direct links only
