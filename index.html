@@ -55,9 +55,9 @@
   nav ul { list-style: none; display: flex; gap: 2rem; }
   nav ul li a {
     text-decoration: none;
-    color: var(--steel);
+    color: var(--ink);
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition: color 0.2s;
@@ -65,183 +65,6 @@
   nav ul li a:hover { color: var(--accent); }
 
   /* ── HERO ── */
-  .is-hero {
-  background: #f6f3ee; /* matches your warm off-white */
-  padding: 72px 0 52px;
-}
-
-.is-proof__item { display: flex; flex-direction: column; gap: 2px; }
-  
-.is-hero__inner {
-  width: min(1160px, calc(100% - 48px));
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 56px;
-  align-items: start;
-}
-
-.is-kicker {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #9b3a2c; /* restrained signal color */
-  margin-bottom: 18px;
-}
-
-.is-title {
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  font-weight: 700;
-  line-height: 0.92;
-  font-size: clamp(48px, 6vw, 86px);
-  margin: 0 0 18px;
-  color: #111418;
-}
-
-.is-title__accent {
-  color: #1c5d7a; /* your blue */
-}
-
-.is-subtitle {
-  max-width: 52ch;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #2a2f36;
-  margin: 0 0 22px;
-}
-
-.is-proof {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin: 18px 0 26px;
-}
-
-.is-proof__value {
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  font-size: 34px;
-  font-weight: 700;
-  color: #111418;
-}
-
-.is-proof__plus {
-  font-size: 0.85em;
-  font-weight: 700;
-  color: #9b3a2c;
-  margin-left: 1px;
-}
-
-.is-proof__label {
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #616b76;
-  margin-top: 4px;
-}
-
-.is-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 10px 0 16px;
-}
-
-.is-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 16px;
-  border-radius: 2px;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1px solid rgba(17, 20, 24, 0.18);
-}
-
-.is-btn--primary {
-  background: #111418;
-  color: #ffffff;
-  border-color: #111418;
-}
-
-.is-btn--ghost {
-  background: transparent;
-  color: #111418;
-}
-
-.is-footnote {
-  font-size: 13px;
-  line-height: 1.6;
-  color: #4b5662;
-  max-width: 62ch;
-  margin: 0;
-}
-
-/* Right-side pillars */
-.is-hero__right {
-  display: grid;
-  gap: 18px;
-  margin-top: 72px; /* aligns with your current right-column placement */
-}
-
-.is-card {
-  background: #fbfaf7;
-  border: 1px solid rgba(17, 20, 24, 0.12);
-  padding: 18px 18px 16px;
-  position: relative;
-}
-
-.is-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: #1c5d7a;
-}
-
-.is-card__title {
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  font-size: 18px;
-  margin: 0 0 8px;
-  color: #111418;
-}
-
-.is-card__body {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #3c4651;
-}
-
-/* Accent bars (match your existing multi-color theme) */
-.is-card--blue::before { background: #1c5d7a; }
-.is-card--red::before  { background: #9b3a2c; }
-.is-card--gold::before { background: #a8791f; }
-.is-card--green::before{ background: #2b6b4b; }
-
-/* Responsive */
-@media (max-width: 920px) {
-  .is-hero__inner {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .is-hero__right {
-    margin-top: 0;
-  }
-  .is-proof {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
-  .is-proof {
-    grid-template-columns: 1fr;
-  }
-}
   .hero {
     min-height: 100vh;
     display: grid;
@@ -623,33 +446,21 @@
     font-weight: 300; margin-bottom: 4rem;
   }
   .frontiers-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 1px; background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.08);
     margin-bottom: 4rem;
+    width: 100%;
   }
-
-  <div class="frontier-card fc-state">
-    <span class="frontier-icon">⚡</span>
-    <div class="frontier-label">Low-Latency Decision Systems</div>
-    <div class="frontier-statement">
-      Multi-dimensional state estimation at sub-millisecond scale.
-    </div>
-    <div class="frontier-divider"></div>
-    <div class="frontier-problem">Architectural Requirement</div>
-    <div class="frontier-solution-text">
-      Modern AI and financial systems require parallel evaluation of 
-      asynchronous event streams without cumulative latency.
-    </div>
-    <div class="frontier-divider"></div>
-    <div class="frontier-problem">Strategic Direction</div>
-    <div class="frontier-solution-text">
-      A provisional architecture combining ANN-based hypothesis tracking 
-      with real-time state estimation for high-speed, high-precision decision environments.
-    </div>
-  </div>
-
-
+  .frontier-card {
+    background: var(--ink); padding: 2.4rem 2rem;
+    position: relative; transition: background 0.3s;
+  }
+  .frontier-card:hover { background: #161e28; }
+  .frontier-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+  }
   .fc-bridge::before { background: linear-gradient(90deg, var(--accent), #e74c3c); }
   .fc-complex::before { background: linear-gradient(90deg, #1a5276, #2e86c1); }
   .fc-state::before { background: linear-gradient(90deg, #1a6b3a, #27ae60); }
@@ -748,127 +559,69 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-brand">Industrially<a href="about.html" style="color:var(--accent);text-decoration:none;">Strong</a></a>
+  <a href="index.html" class="nav-brand">Industrially<span>Strong</span></a>
   <ul>
     <li><a href="#frontiers">Frontiers</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#stories">Stories</a></li>
     <li><a href="#integration">Leadership</a></li>
-    <li><a href="/cdn-cgi/l/email-protection#86efe8e0e9c6efe8e2f3f5f2f4efe7eaeafff5f2f4e9e8e1a8e5e9eb">Contact</a></li>
+    <li><a href="mailto:headydiscy@gmail.com">Contact</a></li>
       <li><a href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
-<section class="is-hero" aria-label="Executive AI-Native Architecture Hero">
-  <div class="is-hero__inner">
-
-    <div class="is-hero__left">
-      <div class="is-kicker">AI-NATIVE SYSTEMS • ENGINEERING LEADERSHIP • DURABLE INNOVATION</div>
-
-      <h1 class="is-title">
-        AI-Native Systems
-        <span class="is-title__accent">Architecture</span><br />
-        for Enterprise Scale
-      </h1>
-
-      <p class="is-subtitle">
-        I architect and scale AI-native systems where LLMs, computer vision, and on-device ML operate as
-        <strong>infrastructure</strong>—designed for transparency, governance, and long-horizon resilience from inception.
-      </p>
-
-      <div class="is-proof">
-        <div class="is-proof__item">
-          <div class="is-proof__value">7<span class="is-proof__plus">+</span></div>
-          <div class="is-proof__label">U.S. PATENTS</div>
-        </div>
-
-        <div class="is-proof__item">
-          <div class="is-proof__value">$150<span class="is-proof__plus">M+</span></div>
-          <div class="is-proof__label">R&amp;D PORTFOLIO ACCOUNTABILITY</div>
-        </div>
-
-        <div class="is-proof__item">
-          <div class="is-proof__value">65<span class="is-proof__plus">+</span></div>
-          <div class="is-proof__label">GLOBAL ENGINEERING ORGANIZATIONS</div>
-        </div>
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Engineering Leader · Innovator · Builder</div>
+    <h1 class="hero-name">Bridging<br>the <em>Board&shy;room</em><br>& the<br>Code&shy;base</h1>
+    <p class="hero-tagline">30+ years leading engineering organizations at LSI, IBM, Nikon, StorageTek, and Red Hill Dezignz — now building the next generation of AI-powered applications and quantum-resistant platforms.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">7<span>+</span></div>
+        <div class="stat-label">US Patents</div>
       </div>
-
-      <p class="is-positioning">
-        VP-level engineering leadership bridging boardroom strategy and AI-native architecture execution.
-      </p>
-
-      <div class="is-cta">
-        <a class="is-btn is-btn--primary" href="#projects">Selected Systems</a>
-        <a class="is-btn is-btn--ghost" href="people-stories.html">Leadership</a>
-        <a class="is-btn is-btn--ghost" href="#frontiers">What’s Next</a>
+      <div class="stat-item">
+        <div class="stat-num">$150<span>M</span></div>
+        <div class="stat-label">R&D Managed</div>
       </div>
-
-      <p class="is-footnote">
-        Operating at VP/SVP and board-facing levels—aligning AI investment with enterprise risk, governance,
-        and capital allocation discipline.
-      </p>
+      <div class="stat-item">
+        <div class="stat-num">65<span>+</span></div>
+        <div class="stat-label">Global Team</div>
+      </div>
     </div>
-
-    <div class="is-hero__right" aria-label="Executive capability pillars">
-
-      <article class="is-card is-card--blue">
-        <h3 class="is-card__title">AI Infrastructure &amp; Architecture</h3>
-        <p class="is-card__body">
-          AI-native system orchestration: data pipelines, model governance, inference economics,
-          and feedback architectures engineered for production environments.
-        </p>
-      </article>
-
-      <article class="is-card is-card--red">
-        <h3 class="is-card__title">Transparency &amp; Governance</h3>
-        <p class="is-card__body">
-          Observable and auditable AI systems: lineage, evaluation frameworks, drift detection,
-          and policy controls required for enterprise deployment.
-        </p>
-      </article>
-
-      <article class="is-card is-card--gold">
-        <h3 class="is-card__title">Resilience &amp; Security</h3>
-        <p class="is-card__body">
-          Long-horizon durability: threat modeling, integrity guarantees, crypto agility, and
-          quantum-resilient planning as architectural assumptions—not afterthoughts.
-        </p>
-      </article>
-
-      <article class="is-card is-card--green">
-        <h3 class="is-card__title">Enterprise Engineering Leadership</h3>
-        <p class="is-card__body">
-          Scaling global engineering organizations, integrating acquisitions, and governing portfolios—balancing
-          innovation velocity with operational stability and capital discipline.
-        </p>
-      </article>
-
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="#frontiers" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--ink);color:#fff;text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1.6rem;transition:background 0.2s;" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='var(--ink)'">What's Next →</a>
+      <a href="people-stories.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:transparent;color:var(--steel);text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1.6rem;border:1px solid var(--rule);transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='var(--ink)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--rule)';this.style.color='var(--steel)'">Leadership Stories</a>
     </div>
-
   </div>
-  
-</section>
-  
-</section>
+
+  <div class="hero-right">
+    <div class="capability-card">
+      <h3>Technical Vision</h3>
+      <p>From semiconductor lithography to quantum-resistant ledgers — architecting systems that matter before the market knows it needs them.</p>
+    </div>
+    <div class="capability-card accent-red">
+      <h3>People Leadership</h3>
+      <p>Built and scaled global engineering teams across three continents. Developing talent is not a program — it is a discipline.</p>
+    </div>
+    <div class="capability-card accent-gold">
+      <h3>AI & iOS Development</h3>
+      <p>Active hands-on builder. Shipping production iOS apps with Claude vision API integration, SwiftData, and CloudKit sync.</p>
+    </div>
+    <div class="capability-card" style="border-left-color:#1a6b3a;">
+      <h3>Decisive Execution</h3>
+      <p>Proven ability to align executive stakeholders, terminate failing initiatives without sentiment, and reallocate resources to winning bets.</p>
+    </div>
+  </div>
+</div>
 
 <!-- CURRENT FRONTIERS -->
 <section id="frontiers">
+  <div class="frontiers-eyebrow">Current Frontiers</div>
+  <h2 class="frontiers-headline">The move from<br><em>managing the past</em><br>to predicting the future.</h2>
+  <p class="frontiers-intro">30 years building precision systems — from xerographic print engines to semiconductor storage to global R&D portfolios. Now applying that same systems-level thinking to the hardest problems in financial intelligence, AI, and quantum-resistant infrastructure.</p>
 
-  <div class="frontiers-eyebrow">Strategic AI Initiatives</div>
-
-  <h2 class="frontiers-headline">
-  Architecting the transition from<br>
-  <em>reactive systems</em><br>
-  to predictive, AI-native infrastructure.
-  </h2>
-  
-  <p class="frontiers-intro">
-  Three decades building precision systems, semiconductor infrastructure, and global R&amp;D portfolios. 
-  Today, applying that systems-level discipline to financial intelligence, enterprise modernization, 
-  and quantum-resilient trust architectures.
-  </p>
-  
   <!-- THREE POSITIONING CARDS -->
   <div class="frontiers-grid">
 
@@ -878,7 +631,7 @@
       <div class="frontier-statement">Translating <em>Defense-Grade Logic</em> into Market-Defining Intelligence.</div>
       <div class="frontier-divider"></div>
       <div class="frontier-problem">The Problem</div>
-      <div class="frontier-solution-text">Financial markets generate asynchronous, multi-source event streams — the same class of problem radar systems solved decades ago. <strong>Most quant teams don't know that.</strong></div>
+      <div class="frontier-solution-text">Financial markets generate asynchronous, multi-source event streams — the same class of problem radar systems solved decades ago. <strong>Most quant teams <abbr title="Quantitative trading teams — professionals who use mathematical models to make financial decisions" style="text-decoration:underline dotted;cursor:help;">don't know that</abbr>.</strong></div>
       <div class="frontier-divider"></div>
       <div class="frontier-problem">The Solution</div>
       <div class="frontier-solution-text">Repurposing <strong>Multiple Hypothesis Tracking (MHT)</strong> — a defense-originated algorithm — to identify real trading signals in high-frequency noise. Finding value where others see chaos.</div>
@@ -886,23 +639,15 @@
 
     <div class="frontier-card fc-complex">
       <span class="frontier-icon">🧩</span>
-      <div class="frontier-label">Enterprise Modernization</div>
-      <div class="frontier-statement">
-        AI-enabled dependency intelligence for legacy system transformation.
-      </div>
+      <div class="frontier-label">Positioning 02 — Complexity Architect</div>
+      <div class="frontier-statement">Unlocking Scalability in <em>Legacy Monoliths</em> through Advanced Dependency Mapping.</div>
       <div class="frontier-divider"></div>
-      <div class="frontier-problem">Architectural Constraint</div>
-      <div class="frontier-solution-text">
-        Decades-old enterprise codebases resist modernization due to opaque dependency graphs 
-        and undocumented semantic coupling.
-      </div>
+      <div class="frontier-problem">The Problem</div>
+      <div class="frontier-solution-text">Enterprise systems built over decades resist modernization — not because the code is bad, but because <strong>no one has mapped the dependency graph</strong> well enough to surgically upgrade it.</div>
       <div class="frontier-divider"></div>
-      <div class="frontier-problem">Strategic Direction</div>
-      <div class="frontier-solution-text">
-            Leveraging <strong>vector similarity search (FAISS)</strong> and semantic mapping 
-            to expose upgrade pathways compatible with AI-native architectures.
-      </div>
-      </div>
+      <div class="frontier-problem">The Solution</div>
+      <div class="frontier-solution-text">Combining deep systems experience with <strong>FAISS vector similarity search</strong> to map semantic relationships in legacy codebases — making them compatible with next-generation AI infrastructure.</div>
+    </div>
 
     <div class="frontier-card fc-state">
       <span class="frontier-icon">⚡</span>
@@ -920,8 +665,9 @@
 
   <!-- DECK LINK -->
   <div style="margin-bottom:2.5rem;">
-    <a href="mht-deck.html" class="deck-link">
-      View Executive Capability Deck — Tracking Alpha in the Fog of Noise →
+    <a href="mht-deck.html" style="display:inline-flex;align-items:center;gap:0.8rem;background:rgba(0,200,83,0.08);border:1px solid rgba(0,200,83,0.25);color:#00c853;text-decoration:none;font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1.8rem;transition:all 0.25s;" onmouseover="this.style.background='rgba(0,200,83,0.16)'" onmouseout="this.style.background='rgba(0,200,83,0.08)'" >
+      <span style="width:8px;height:8px;border-radius:50%;background:#00c853;box-shadow:0 0 8px #00c853;display:inline-block;"></span>
+      View Capability Deck &mdash; Tracking Alpha in the Fog of Noise &rarr;
     </a>
   </div>
 
@@ -1006,7 +752,7 @@
     <h2 class="section-title">Leadership Stories</h2>
     <div class="section-rule"></div>
   </div>
-  <p class="section-subtitle">The moments that defined a career — not as a list of accomplishments, but as stories of judgment, courage, and consequence.</p>
+  <p class="section-subtitle">The moments that defined a career — told as they happened, with the full weight of context, consequence, and judgment.</p>
 
   <div class="stories-grid reveal">
     <a class="story-card" href="people-stories.html">
@@ -1023,7 +769,7 @@
       <div class="story-cta">Read the story</div>
     </a>
 
-    <a class="story-card" href="stories.html" style="background: var(--white);">
+    <a class="story-card" href="project-stories.html" style="background: var(--white);">
       <div class="story-chapter">Project Leadership</div>
       <h3>Engineering Against the Clock</h3>
       <p>Managing $150M in R&D across a 65-person global team means decisions rarely come with perfect information. These are the project stories — where strategy met execution in real time.</p>
@@ -1085,8 +831,8 @@
     <ul>
       <li><a href="#projects">Projects</a></li>
       <li><a href="people-stories.html">People Stories</a></li>
-      <li><a href="stories.html">Project Stories</a></li>
-      <li><a href="/cdn-cgi/l/email-protection#523b3c343d123b3c36272126203b333e3e2b2126203d3c357c313d3f">Contact</a></li>
+      <li><a href="project-stories.html">Project Stories</a></li>
+      <li><a href="mailto:headydiscy@gmail.com">Contact</a></li>
     </ul>
   </nav>
   <p>© 2026 Industrially Strong. All rights reserved.</p>
