@@ -1,285 +1,622 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Going Global — Zahirudeen Premji</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #1B2A4A;
-  --deep: #0F1B33;
-  --charcoal: #2D3436;
-  --steel: #546E7A;
-  --silver: #90A4AE;
-  --light: #E8EDF2;
-  --cream: #F8F9FA;
-  --gold: #C9A96E;
-  --gold-dim: rgba(201,169,110,0.3);
-  --white: #FFFFFF;
-  --saffron: #FF9933;
+
+  --bg:        #0E1521;
+  --bg2:       #141E30;
+  --bg3:       #1A2640;
+  --text:      #EEF2F7;
+  --text2:     #C5D2DF;
+  --muted:     #8A9BB0;
+  --gold:      #C9A96E;
+  --gold2:     rgba(201,169,110,0.18);
+  --rule:      rgba(201,169,110,0.22);
+  --accent:    #C9A96E;
+  --accent2:   #E8B86D;
+  --progress:  #C9A96E;
 }
 
-- { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-body {
-background: var(–deep);
-color: var(–white);
-font-family: ‘Source Sans 3’, sans-serif;
-overflow: hidden;
-height: 100vh;
-width: 100vw;
+html, body {
+  width:100%; height:100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Sans 3', sans-serif;
+  overflow: hidden;
 }
 
+/* ── NOISE TEXTURE ── */
+body::before {
+  content:'';
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
+
+/* ── TOP NAV ── */
+#story-topnav {
+  position:fixed; top:0; left:0; right:0; z-index:600;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 44px; height:54px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav-back {
+  font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--accent); text-decoration:none;
+  display:flex; align-items:center; gap:8px;
+  opacity:0.8; transition:opacity 0.2s;
+  font-weight:600;
+}
+.topnav-back:hover { opacity:1; }
+.topnav-crumb {
+  font-size:10px; letter-spacing:3px; text-transform:uppercase;
+  color:rgba(255,255,255,0.22);
+}
+.topnav-crumb a {
+  color:var(--accent); text-decoration:none;
+  opacity:0.55; transition:opacity 0.2s;
+}
+.topnav-crumb a:hover { opacity:1; }
+.topnav-home {
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,0.32); text-decoration:none;
+  transition:color 0.2s; font-weight:500;
+}
+.topnav-home:hover { color:rgba(255,255,255,0.85); }
+
+/* ── PROGRESS BAR ── */
+#progress-track {
+  position:fixed; top:54px; left:0; right:0;
+  height:3px; background:rgba(255,255,255,0.06); z-index:600;
+}
+#progress-bar {
+  height:100%; width:0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.1s linear;
+}
+
+/* ── THEATER ── */
 .theater {
-position: relative;
-width: 100vw;
-height: 100vh;
-overflow: hidden;
+  position:relative; width:100vw; height:100vh; overflow:hidden;
 }
 
-.theater::before {
-content: ‘’;
-position: absolute;
-top: 0; left: 0; right: 0; bottom: 0;
-background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.03’/%3E%3C/svg%3E”);
-pointer-events: none;
-z-index: 1000;
-}
-
+/* ── SLIDES ── */
 .slide {
-position: absolute;
-top: 0; left: 0;
-width: 100%; height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 60px 80px;
-opacity: 0;
-transform: translateY(30px);
-transition: opacity 1.2s ease, transform 1.2s ease;
-pointer-events: none;
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  padding:112px 80px 80px;
+  opacity:0; transform:translateY(28px);
+  transition: opacity 1.1s ease, transform 1.1s ease;
+  pointer-events:none;
+}
+.slide.active { opacity:1; transform:translateY(0); pointer-events:auto; }
+.slide.exit   { opacity:0; transform:translateY(-28px); }
+
+/* ── TITLE SLIDES ── */
+.slide-title { text-align:center; }
+.slide-title .category {
+  font-size:15px; font-weight:700; letter-spacing:5px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:28px; opacity:0;
+  animation:fadeUp 0.7s ease forwards 0.3s;
+}
+.slide-title h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px, 7vw, 88px);
+  font-weight:700; line-height:1.1;
+  color:var(--text); max-width:860px;
+  opacity:0; animation:fadeUp 0.9s ease forwards 0.6s;
+}
+.slide-title h1 em { color:var(--accent); font-style:italic; }
+.slide-title .subtitle {
+  font-size:clamp(22px,2.4vw,28px); font-weight:300;
+  color:var(--text2); margin-top:24px;
+  max-width:620px; line-height:1.6;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.slide-title .author-line {
+  font-size:16px; font-weight:500; letter-spacing:2.5px;
+  text-transform:uppercase; color:var(--muted);
+  margin-top:38px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.3s;
 }
 
-.slide.active {
-opacity: 1;
-transform: translateY(0);
-pointer-events: auto;
+/* ── CONTENT SLIDES ── */
+.slide-content { align-items:flex-start; padding:88px 10% 80px; }
+.phase-label {
+  font-size:14px; font-weight:700; letter-spacing:5px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:14px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.2s;
 }
+.accent-line {
+  width:56px; height:3px;
+  background:var(--accent); margin-bottom:28px;
+  opacity:0; animation:fadeUp 0.5s ease forwards 0.3s;
+}
+.slide-content h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,5vw,66px);
+  font-weight:700; line-height:1.15;
+  color:var(--text); max-width:760px; margin-bottom:28px;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.4s;
+}
+.slide-content h2 em { color:var(--accent); font-style:italic; }
+.narrative {
+  font-size:clamp(22px,2.4vw,28px); font-weight:300;
+  line-height:1.85; color:var(--text2);
+  max-width:700px; margin-bottom:24px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.7s;
+}
+.narrative em { color:var(--text); font-weight:500; font-style:normal; }
 
+/* ── OUTCOME SLIDES ── */
+.slide-outcome { text-align:center; }
+.slide-outcome h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,5.5vw,70px);
+  font-weight:700; line-height:1.15;
+  color:var(--text); max-width:760px; margin-bottom:28px;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.4s;
+}
+.slide-outcome h2 em { color:var(--accent); font-style:italic; }
+.slide-outcome .narrative { text-align:center; }
+
+/* ── KICKER (india-style) ── */
 .kicker {
-font-family: ‘Source Sans 3’, sans-serif;
-font-weight: 600;
-font-size: 14px;
-letter-spacing: 4px;
-text-transform: uppercase;
-color: var(–gold);
-margin-bottom: 24px;
+  font-size:15px; font-weight:700; letter-spacing:4px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:26px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.3s;
 }
-
-.slide.active .kicker { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.3s; }
-.slide.active .headline { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.6s; }
-.slide.active .body-text { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 0.9s; }
-.slide.active .stat-row { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.0s; }
-.slide.active .detail { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.2s; }
-.slide.active .company-grid { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.1s; }
-.slide.active .map-visual { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.0s; }
-.slide.active .bridge-row { opacity: 0; animation: fadeUp 0.8s ease forwards; animation-delay: 1.2s; }
-
 .headline {
-font-family: ‘Playfair Display’, serif;
-font-size: clamp(36px, 5vw, 64px);
-font-weight: 700;
-line-height: 1.15;
-text-align: center;
-max-width: 900px;
-margin-bottom: 28px;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(42px,5.5vw,72px);
+  font-weight:700; line-height:1.1;
+  text-align:center; max-width:900px; margin-bottom:26px;
+  color:var(--text);
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.6s;
 }
-
-.headline em { font-style: italic; color: var(–gold); }
-
+.headline em { color:var(--accent); font-style:italic; }
 .body-text {
-font-size: clamp(17px, 2vw, 21px);
-font-weight: 300;
-line-height: 1.7;
-text-align: center;
-max-width: 720px;
-color: var(–light);
+  font-size:clamp(22px,2.4vw,28px); font-weight:300;
+  line-height:1.85; text-align:center;
+  max-width:720px; color:var(--text2);
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.9s;
+}
+.detail {
+  font-size:17px; color:var(--muted);
+  margin-top:18px; font-style:italic; text-align:center;
+  opacity:0; animation:fadeUp 0.6s ease forwards 1.2s;
 }
 
-.stat-row { display: flex; gap: 60px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.stat { text-align: center; }
-.stat-number { font-family: ‘Playfair Display’, serif; font-size: clamp(40px, 5vw, 72px); font-weight: 700; color: var(–gold); line-height: 1; }
-.stat-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(–silver); margin-top: 8px; }
-
-.detail { font-size: 16px; color: var(–silver); margin-top: 16px; font-style: italic; text-align: center; max-width: 600px; }
-
-.company-grid { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.company-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,169,110,0.15); border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 140px; transition: all 0.4s ease; }
-.company-card.selected { border-color: var(–gold); background: rgba(201,169,110,0.08); box-shadow: 0 0 30px rgba(201,169,110,0.12); }
-.company-card.dimmed { opacity: 0.35; }
-.company-name { font-family: ‘Playfair Display’, serif; font-size: 20px; font-weight: 700; color: var(–white); }
-.company-card.selected .company-name { color: var(–gold); }
-.company-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; color: var(–silver); }
-.company-card.selected .company-tag { color: var(–gold); }
-
-.map-visual { position: relative; width: 500px; height: 200px; margin-top: 32px; }
-.map-line { position: absolute; top: 50%; left: 10%; width: 80%; height: 2px; background: linear-gradient(90deg, var(–gold), transparent 20%, transparent 80%, var(–gold)); opacity: 0.3; }
-.map-dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(–gold); transform: translate(-50%, -50%); }
-.map-dot::after { content: ‘’; position: absolute; top: -6px; left: -6px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(–gold); opacity: 0.4; animation: pulse-ring 2s ease infinite; }
-.map-dot-label { position: absolute; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(–gold); white-space: nowrap; }
-.dot-colorado { top: 45%; left: 10%; }
-.dot-chennai { top: 55%; left: 72%; }
-.dot-bengaluru { top: 65%; left: 78%; }
-.label-colorado { top: 25%; left: 2%; }
-.label-chennai { top: 35%; left: 64%; }
-.label-bengaluru { top: 78%; left: 72%; }
-.flight-path svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-.flight-arc { fill: none; stroke: var(–gold); stroke-width: 1.5; stroke-dasharray: 8 6; opacity: 0.5; animation: dash 20s linear infinite; }
-
-.bridge-row { display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap; justify-content: center; }
-.bridge-item { text-align: center; max-width: 200px; }
-.bridge-icon { font-size: 36px; margin-bottom: 10px; }
-.bridge-label { font-size: 15px; font-weight: 600; color: var(–light); margin-bottom: 4px; }
-.bridge-desc { font-size: 13px; color: var(–silver); line-height: 1.5; }
-
-.controls { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 16px; z-index: 500; }
-.controls button { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(–silver); font-family: ‘Source Sans 3’, sans-serif; font-size: 13px; letter-spacing: 1px; padding: 8px 20px; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; }
-.controls button:hover { background: rgba(201,169,110,0.15); border-color: var(–gold); color: var(–gold); }
-
-.counter { position: fixed; bottom: 34px; right: 40px; font-size: 13px; letter-spacing: 2px; color: var(–silver); z-index: 500; }
-
-.progress-track { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); z-index: 500; }
-.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(–gold), var(–saffron)); transition: width 0.1s linear; }
-
-.brand { position: fixed; top: 28px; left: 40px; font-family: ‘Source Sans 3’, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(–gold); opacity: 0.6; z-index: 500; }
-
-.team-visual { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; justify-content: center; max-width: 600px; }
-.team-dot { width: 20px; height: 20px; border-radius: 50%; background: var(–steel); opacity: 0.3; transition: all 0.6s ease; }
-.team-dot.filled { background: var(–gold); opacity: 1; box-shadow: 0 0 12px rgba(201,169,110,0.4); }
-.team-dot.core { background: var(–white); opacity: 1; border: 2px solid var(–gold); }
-
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
-@keyframes dash { to { stroke-dashoffset: -200; } }
-
-@media (max-width: 768px) {
-.slide { padding: 40px 30px; }
-.stat-row { gap: 30px; }
-.company-grid { gap: 16px; }
-.company-card { padding: 14px 18px; min-width: 110px; }
-.map-visual { width: 300px; height: 140px; }
+/* ── EYEBROW / BIG TITLE (ozo/keeptrack style) ── */
+.eyebrow {
+  font-size:14px; font-weight:700; letter-spacing:4.5px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:18px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.3s;
 }
+.big-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,7.5vw,96px);
+  font-weight:700; line-height:0.95;
+  color:var(--text); margin-bottom:22px;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.55s;
+}
+.big-title span { color:var(--accent); }
+.rule {
+  width:56px; height:3px;
+  background:var(--accent); margin-bottom:26px;
+  opacity:0; animation:fadeUp 0.5s ease forwards 0.65s;
+}
+.inner .body-text {
+  font-size:clamp(22px,2.4vw,27px); font-weight:300;
+  line-height:1.85; color:var(--text2);
+  max-width:720px; text-align:left;
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.8s;
+}
+.since {
+  font-size:15px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--muted); margin-top:18px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 1.0s;
+}
+
+/* ── BG WORD DECORATION ── */
+.bg-word {
+  position:absolute; font-size:clamp(120px,18vw,220px);
+  font-family:'Playfair Display',serif; font-weight:900;
+  color:rgba(255,255,255,0.022); line-height:1;
+  pointer-events:none; user-select:none; z-index:0;
+}
+.kanji-bg {
+  position:absolute; font-size:clamp(180px,28vw,340px);
+  color:rgba(255,255,255,0.025); line-height:1;
+  pointer-events:none; user-select:none; z-index:0;
+}
+.inner { position:relative; z-index:1; width:100%; max-width:880px; }
+
+/* ── STAT ROWS ── */
+.stat-row {
+  display:flex; gap:56px; margin-top:32px;
+  flex-wrap:wrap; justify-content:center;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.slide-content .stat-row { justify-content:flex-start; }
+.stat .number, .stat-number {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,6vw,76px); font-weight:700;
+  color:var(--accent); line-height:1;
+}
+.stat .label, .stat-label {
+  font-size:15px; font-weight:600; letter-spacing:2.5px;
+  text-transform:uppercase; color:var(--muted); margin-top:8px;
+}
+
+/* ── PEOPLE DOTS ── */
+.people-grid {
+  display:flex; flex-wrap:wrap; gap:10px;
+  margin-top:24px; max-width:560px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.9s;
+}
+.person-dot {
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  transition:all 0.6s ease;
+}
+.person-dot.certified {
+  background:var(--accent);
+  box-shadow:0 0 14px var(--gold2);
+}
+
+/* ── QUOTE BLOCK ── */
+.quote-block {
+  border-left:3px solid var(--accent);
+  padding:24px 36px; max-width:700px;
+  background:var(--bg3); border-radius:0 8px 8px 0;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.8s;
+}
+.quote-block p {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,2.3vw,30px);
+  font-style:italic; color:var(--text); line-height:1.65;
+}
+.quote-block .attribution {
+  font-size:15px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; color:var(--muted);
+  margin-top:18px; font-style:normal;
+}
+
+/* ── COMPANY CARDS (india style) ── */
+.company-grid {
+  display:flex; gap:24px; margin-top:36px;
+  flex-wrap:wrap; justify-content:center;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.1s;
+}
+.company-card {
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--rule);
+  border-radius:10px; padding:18px 24px;
+  text-align:center; min-width:130px;
+  transition:all 0.4s ease;
+}
+.company-card.selected {
+  border-color:var(--accent);
+  background:var(--gold2);
+  box-shadow:0 0 28px var(--gold2);
+}
+.company-card.dimmed { opacity:0.32; }
+.company-name {
+  font-family:'Playfair Display',serif;
+  font-size:20px; font-weight:700; color:var(--text);
+}
+.company-card.selected .company-name { color:var(--accent); }
+.company-tag {
+  font-size:11px; letter-spacing:2px;
+  text-transform:uppercase; margin-top:6px; color:var(--muted);
+}
+.company-card.selected .company-tag { color:var(--accent); }
+
+/* ── MAP VISUAL ── */
+.map-visual {
+  position:relative; width:500px; height:200px; margin-top:28px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.map-line {
+  position:absolute; top:50%; left:10%; width:80%; height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent 20%,transparent 80%,var(--accent));
+  opacity:0.25;
+}
+.map-dot {
+  position:absolute; width:13px; height:13px;
+  border-radius:50%; background:var(--accent);
+  transform:translate(-50%,-50%);
+}
+.map-dot::after {
+  content:''; position:absolute; top:-7px; left:-7px;
+  width:27px; height:27px; border-radius:50%;
+  border:1.5px solid var(--accent); opacity:0.35;
+  animation:pulse-ring 2s ease infinite;
+}
+.map-dot-label {
+  position:absolute; font-size:11px; letter-spacing:2px;
+  text-transform:uppercase; color:var(--accent); white-space:nowrap;
+}
+.dot-colorado{top:45%;left:10%;} .dot-chennai{top:55%;left:72%;} .dot-bengaluru{top:65%;left:78%;}
+.label-colorado{top:25%;left:2%;} .label-chennai{top:35%;left:64%;} .label-bengaluru{top:78%;left:72%;}
+.flight-path svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+.flight-arc{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:8 6;opacity:0.45;animation:dash 20s linear infinite;}
+
+/* ── BRIDGE ROW ── */
+.bridge-row {
+  display:flex; gap:40px; margin-top:32px; flex-wrap:wrap; justify-content:center;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.2s;
+}
+.bridge-item { text-align:center; max-width:200px; }
+.bridge-icon { font-size:34px; margin-bottom:10px; }
+.bridge-label { font-size:16px; font-weight:600; color:var(--text2); margin-bottom:4px; }
+.bridge-desc { font-size:14px; color:var(--muted); line-height:1.55; }
+
+/* ── TEAM DOTS ── */
+.team-visual {
+  display:flex; gap:12px; margin-top:30px;
+  flex-wrap:wrap; justify-content:center; max-width:600px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.team-dot {
+  width:20px; height:20px; border-radius:50%;
+  background:rgba(255,255,255,0.12); transition:all 0.6s ease;
+}
+.team-dot.filled { background:var(--accent); box-shadow:0 0 12px var(--gold2); }
+.team-dot.core { background:var(--text); border:2px solid var(--accent); }
+
+/* ── OZO / KEEPTRACK SPECIFIC ── */
+.ozo-badge, .badge {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid var(--rule); padding:7px 16px;
+  border-radius:30px; margin-bottom:22px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.2s;
+}
+.ozo-badge-dot, .badge-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 8px var(--gold2);
+}
+.ozo-badge-label, .badge-label {
+  font-size:12px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; color:var(--accent);
+}
+.challenge-card {
+  margin-top:24px; padding:22px 28px;
+  background:var(--bg3); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.1s;
+}
+.challenge-card h3 {
+  font-size:14px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--accent); margin-bottom:8px; font-weight:700;
+}
+.challenge-card p {
+  font-size:clamp(19px,2vw,23px); font-weight:300;
+  line-height:1.75; color:var(--text2);
+}
+.outcome-row {
+  display:flex; gap:28px; margin-top:28px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.outcome-card {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:18px 24px; text-align:center; min-width:140px;
+}
+.oc-num {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,4.5vw,56px); font-weight:700;
+  color:var(--accent); line-height:1;
+}
+.oc-label { font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5; }
+
+/* ── FEATURE GRID (keeptrack) ── */
+.feature-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; max-width:720px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.fw-item {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:16px 20px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.fw-icon {
+  font-family:'Playfair Display',serif; font-size:22px;
+  font-weight:700; color:var(--accent); min-width:32px;
+}
+.fw-text { font-size:15px; line-height:1.55; color:var(--text2); }
+.fw-text strong { display:block; font-weight:600; color:var(--text); margin-bottom:3px; }
+
+/* ── STAT BLOCK (keeptrack) ── */
+.stat-block {
+  display:flex; gap:40px; margin-top:28px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.stat-item { text-align:center; }
+.stat-num {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,6vw,76px); font-weight:700;
+  color:var(--accent); line-height:1;
+}
+.stat-desc { font-size:15px; color:var(--muted); margin-top:6px; }
+
+/* ── TECH STACK / MHT SPECIFIC ── */
+.tech-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  margin-top:24px; max-width:720px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.tech-card {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:16px 18px; text-align:center;
+}
+.tech-label {
+  font-size:13px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--accent); margin-bottom:6px;
+}
+.tech-desc { font-size:14px; color:var(--muted); line-height:1.5; }
+
+.phase-cards {
+  display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.phase-card {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:16px 20px; min-width:160px;
+}
+.pc-num {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,3.5vw,46px); font-weight:700;
+  color:var(--accent); line-height:1;
+}
+.pc-label { font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:1px; }
+
+/* ── KANJI SPECIFIC ── */
+.mnemonic-card {
+  margin-top:22px; padding:20px 26px;
+  background:var(--bg3); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+  max-width:640px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.1s;
+}
+.mnemonic-card .mc-label {
+  font-size:12px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--accent); font-weight:700; margin-bottom:8px;
+}
+.mnemonic-card p {
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:clamp(19px,2vw,24px); color:var(--text2); line-height:1.65;
+}
+
+/* ── CONTROLS ── */
+#controls {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%);
+  display:flex; gap:14px; z-index:600;
+}
+#controls button {
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.14);
+  color:var(--muted); font-family:'Source Sans 3',sans-serif;
+  font-size:14px; letter-spacing:1.5px; text-transform:uppercase;
+  padding:10px 22px; border-radius:4px; cursor:pointer;
+  transition:all 0.3s ease;
+}
+#controls button:hover {
+  background:var(--gold2);
+  border-color:var(--accent); color:var(--accent);
+}
+#controls button.hub-btn {
+  border-color:rgba(201,169,110,0.28);
+  font-size:12px;
+}
+#slide-counter {
+  position:fixed; bottom:32px; right:44px;
+  font-size:14px; letter-spacing:3px; color:var(--muted); z-index:600;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse-ring {
+  0%   { transform:scale(1); opacity:0.35; }
+  50%  { transform:scale(1.55); opacity:0; }
+  100% { transform:scale(1); opacity:0; }
+}
+@keyframes dash { to { stroke-dashoffset:-200; } }
+
+/* ── RESPONSIVE ── */
+@media (max-width:768px) {
+  .slide { padding:80px 28px 80px; }
+  .slide-content { padding:80px 7% 80px; }
+  #story-topnav { padding:0 22px; }
+  .stat-row, .bridge-row { gap:28px; }
+  .company-grid { gap:14px; }
+  .company-card { padding:14px 18px; min-width:110px; }
+  .map-visual { width:300px; height:140px; }
+  .feature-grid { grid-template-columns:1fr; }
+  .tech-grid { grid-template-columns:1fr 1fr; }
+  .narrative, .body-text, .inner .body-text { font-size:clamp(19px,4.5vw,24px); }
+  .big-title { font-size:clamp(44px,10vw,80px); }
+}
+
 </style>
-
 </head>
 <body>
 
+<div id="story-topnav">
+  <a href="people-stories.html" class="topnav-back">← People Stories</a>
+  <div class="topnav-crumb"><a href="people-stories.html">PEOPLE STORIES</a>&nbsp;&nbsp;/&nbsp;&nbsp;industriallystrong.com</div>
+  <a href="index.html" class="topnav-home">Home ↗</a>
+</div>
+
+<div id="progress-track"><div id="progress-bar"></div></div>
+
 <div class="theater">
-  <div class="brand">industriallystrong.com</div>
-  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-
-  <!-- SLIDE 1: TITLE -->
-
-  <div class="slide active" data-duration="7000">
+<div class="slide active" data-duration="12000">
     <div class="kicker">International Integration &bull; LSI Logic &bull; 2005–2008</div>
     <div class="headline">Going <em>Global</em></div>
-    <div class="body-text">
-      How a storage engineering organization broke through chronic resource constraints
-      by building its first international partnerships — and learned to work across cultures in the process.
-    </div>
+    <div class="body-text">How a storage engineering organization broke through chronic resource constraints by building its first international partnerships — and learned to work across cultures in the process.</div>
     <div class="detail">LSI Logic &mdash; Storage Division &mdash; Colorado</div>
   </div>
 
   <!-- SLIDE 2: THE PROBLEM -->
-
-  <div class="slide" data-duration="9000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">The Situation</div>
     <div class="headline">An Organization <em>Stretched Thin</em></div>
-    <div class="body-text">
-      LSI's storage division was perennially under-resourced. Technical debt climbed.
-      Projects queued faster than teams could deliver. The firmware codebase was closely guarded —
-      but the products had a significant software layer that was equally critical and deeply understaffed.
-    </div>
+    <div class="body-text">LSI's storage division was perennially under-resourced. Technical debt climbed. Projects queued faster than teams could deliver. The firmware codebase was closely guarded — but the products had a significant software layer that was equally critical and deeply understaffed.</div>
     <div class="stat-row">
-      <div class="stat">
-        <div class="stat-number">High</div>
-        <div class="stat-label">Technical Debt</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Global Partners</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">Chronic</div>
-        <div class="stat-label">Staff Shortage</div>
-      </div>
+      <div class="stat"><div class="stat-number">High</div><div class="stat-label">Technical Debt</div></div>
+      <div class="stat"><div class="stat-number">0</div><div class="stat-label">Global Partners</div></div>
+      <div class="stat"><div class="stat-number">Chronic</div><div class="stat-label">Staff Shortage</div></div>
     </div>
   </div>
 
   <!-- SLIDE 3: THE OPENING -->
-
-  <div class="slide" data-duration="10000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">The Opening</div>
     <div class="headline">The Software Layer <em>Was the Way In</em></div>
-    <div class="body-text">
-      Engineering management was reluctant to open the firmware to outside contributors.
-      But the software component — equally starved for resources — offered a natural entry point.
-      The proposal: find engineering partners in India who could take on the software work
-      and begin proving the model.
-    </div>
-    <div class="detail">
-      A strategic reframe — meeting the organization where it was willing to move.
-    </div>
+    <div class="body-text">Engineering management was reluctant to open the firmware to outside contributors. But the software component — equally starved for resources — offered a natural entry point. The proposal: find engineering partners in India who could take on the software work and begin proving the model.</div>
+    <div class="detail">A strategic reframe — meeting the organization where it was willing to move.</div>
   </div>
 
   <!-- SLIDE 4: THE NETWORK -->
-
-  <div class="slide" data-duration="10000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">The Network</div>
     <div class="headline">Executive Access Through <em>Trusted Connections</em></div>
-    <div class="body-text">
-      A strategic consultant — an executive who had built US West's cellular business
-      relationships across India — opened doors that would have taken months to find.
-      Through her C-suite network, executive-level meetings were secured at five
-      of India's most prominent IT services firms.
-    </div>
+    <div class="body-text">A strategic consultant — an executive who had built US West's cellular business relationships across India — opened doors that would have taken months to find. Through her C-suite network, executive-level meetings were secured at five of India's most prominent IT services firms.</div>
     <div class="company-grid">
-      <div class="company-card">
-        <div class="company-name">Wipro</div>
-        <div class="company-tag">Bengaluru</div>
-      </div>
-      <div class="company-card">
-        <div class="company-name">Mindtree</div>
-        <div class="company-tag">Bengaluru</div>
-      </div>
-      <div class="company-card">
-        <div class="company-name">Satyam</div>
-        <div class="company-tag">Hyderabad</div>
-      </div>
-      <div class="company-card">
-        <div class="company-name">HCL</div>
-        <div class="company-tag">Noida</div>
-      </div>
-      <div class="company-card">
-        <div class="company-name">+1</div>
-        <div class="company-tag">Evaluated</div>
-      </div>
+      <div class="company-card"><div class="company-name">Wipro</div><div class="company-tag">Bengaluru</div></div>
+      <div class="company-card"><div class="company-name">Mindtree</div><div class="company-tag">Bengaluru</div></div>
+      <div class="company-card"><div class="company-name">Satyam</div><div class="company-tag">Hyderabad</div></div>
+      <div class="company-card"><div class="company-name">HCL</div><div class="company-tag">Noida</div></div>
+      <div class="company-card"><div class="company-name">+1</div><div class="company-tag">Evaluated</div></div>
     </div>
   </div>
 
   <!-- SLIDE 5: ON THE GROUND -->
-
-  <div class="slide" data-duration="10000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">On The Ground</div>
     <div class="headline">Two Weeks. Two Cities. <em>Five Firms.</em></div>
-    <div class="body-text">
-      A four-person evaluation team spent two weeks across Chennai and Bengaluru —
-      conducting executive-level interviews, assessing technical depth and cultural alignment,
-      and building a structured selection process that the organization could stand behind.
-    </div>
+    <div class="body-text">A four-person evaluation team spent two weeks across Chennai and Bengaluru — conducting executive-level interviews, assessing technical depth and cultural alignment, and building a structured selection process that the organization could stand behind.</div>
     <div class="map-visual">
       <div class="map-line"></div>
       <svg class="flight-path" viewBox="0 0 500 200">
@@ -296,203 +633,128 @@ color: var(–light);
   </div>
 
   <!-- SLIDE 6: SELECTION -->
-
-  <div class="slide" data-duration="9000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">The Partnership</div>
     <div class="headline">Five Evaluated. <em>Two Chosen.</em></div>
-    <div class="body-text">
-      The selection process weighed technical capability, domain relevance,
-      communication quality, and long-term partnership readiness.
-      Two firms emerged — and work began immediately on the projects
-      that had been waiting for capacity.
-    </div>
+    <div class="body-text">The selection process weighed technical capability, domain relevance, communication quality, and long-term partnership readiness. Two firms emerged — and work began immediately on the projects that had been waiting for capacity.</div>
     <div class="company-grid">
-      <div class="company-card selected">
-        <div class="company-name">Partner 1</div>
-        <div class="company-tag">&#10003; Selected</div>
-      </div>
-      <div class="company-card selected">
-        <div class="company-name">Partner 2</div>
-        <div class="company-tag">&#10003; Selected</div>
-      </div>
-      <div class="company-card dimmed">
-        <div class="company-name">&mdash;</div>
-        <div class="company-tag">Evaluated</div>
-      </div>
-      <div class="company-card dimmed">
-        <div class="company-name">&mdash;</div>
-        <div class="company-tag">Evaluated</div>
-      </div>
-      <div class="company-card dimmed">
-        <div class="company-name">&mdash;</div>
-        <div class="company-tag">Evaluated</div>
-      </div>
+      <div class="company-card selected"><div class="company-name">Partner 1</div><div class="company-tag">&#10003; Selected</div></div>
+      <div class="company-card selected"><div class="company-name">Partner 2</div><div class="company-tag">&#10003; Selected</div></div>
+      <div class="company-card dimmed"><div class="company-name">&mdash;</div><div class="company-tag">Evaluated</div></div>
+      <div class="company-card dimmed"><div class="company-name">&mdash;</div><div class="company-tag">Evaluated</div></div>
+      <div class="company-card dimmed"><div class="company-name">&mdash;</div><div class="company-tag">Evaluated</div></div>
     </div>
   </div>
 
   <!-- SLIDE 7: SCALE -->
-
-  <div class="slide" data-duration="9000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">The Scale</div>
     <div class="headline"><em>30+</em> Engineers Integrated</div>
-    <div class="body-text">
-      Within months, over thirty contracted engineers were embedded across multiple
-      projects — expanding LSI's software delivery capacity
-      and making a real dent in the backlog that had held the organization back.
-    </div>
+    <div class="body-text">Within months, over thirty contracted engineers were embedded across multiple projects — expanding LSI's software delivery capacity and making a real dent in the backlog that had held the organization back.</div>
     <div class="team-visual" id="teamDots"></div>
     <div class="detail">Each dot represents an engineer brought into the organization</div>
   </div>
 
   <!-- SLIDE 8: BUILDING THE BRIDGE -->
-
-  <div class="slide" data-duration="11000">
+  <div class="slide" data-duration="14000">
     <div class="kicker">The Harder Problem</div>
     <div class="headline">Building the <em>Bridge</em></div>
-    <div class="body-text">
-      Signing contracts was the easy part. The real work was cultural integration.
-      Some internal teams pushed back on quality — but the root cause wasn't talent overseas.
-      It was requirements that weren't written clearly enough to cross an ocean.
-      The fix was process and communication, not blame.
-    </div>
+    <div class="body-text">Signing contracts was the easy part. The real work was cultural integration. Some internal teams pushed back on quality — but the root cause wasn't talent overseas. It was requirements that weren't written clearly enough to cross an ocean. The fix was process and communication, not blame.</div>
     <div class="bridge-row">
-      <div class="bridge-item">
-        <div class="bridge-icon">📋</div>
-        <div class="bridge-label">Requirements Clarity</div>
-        <div class="bridge-desc">Specs written for a hallway conversation don't survive 10,000 miles</div>
-      </div>
-      <div class="bridge-item">
-        <div class="bridge-icon">🤝</div>
-        <div class="bridge-label">Two-Way Ownership</div>
-        <div class="bridge-desc">Both sides had to invest in understanding the other's working context</div>
-      </div>
-      <div class="bridge-item">
-        <div class="bridge-icon">🔄</div>
-        <div class="bridge-label">Process, Not Blame</div>
-        <div class="bridge-desc">NIH resistance dissolved when the real gaps were addressed honestly</div>
-      </div>
+      <div class="bridge-item"><div class="bridge-icon">📋</div><div class="bridge-label">Requirements Clarity</div><div class="bridge-desc">Specs written for a hallway conversation don't survive 10,000 miles</div></div>
+      <div class="bridge-item"><div class="bridge-icon">🤝</div><div class="bridge-label">Two-Way Ownership</div><div class="bridge-desc">Both sides had to invest in understanding the other's working context</div></div>
+      <div class="bridge-item"><div class="bridge-icon">🔄</div><div class="bridge-label">Process, Not Blame</div><div class="bridge-desc">NIH resistance dissolved when the real gaps were addressed honestly</div></div>
     </div>
   </div>
 
   <!-- SLIDE 9: WHAT CHANGED -->
-
-  <div class="slide" data-duration="9000">
+  <div class="slide" data-duration="13000">
     <div class="kicker">What Changed</div>
     <div class="headline">From Inward-Looking to <em>Globally Connected</em></div>
     <div class="stat-row">
-      <div class="stat">
-        <div class="stat-number">30+</div>
-        <div class="stat-label">Engineers Added</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">2</div>
-        <div class="stat-label">Lasting Partnerships</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">New</div>
-        <div class="stat-label">Operating Model</div>
-      </div>
+      <div class="stat"><div class="stat-number">30+</div><div class="stat-label">Engineers Added</div></div>
+      <div class="stat"><div class="stat-number">2</div><div class="stat-label">Lasting Partnerships</div></div>
+      <div class="stat"><div class="stat-number">New</div><div class="stat-label">Operating Model</div></div>
     </div>
-    <div class="body-text" style="margin-top: 36px;">
-      An organization that had never looked beyond its own walls gained international
-      engineering partnerships, cost savings, and — most importantly — the muscle memory
-      for working across cultures and time zones.
-    </div>
+    <div class="body-text" style="margin-top:36px;">An organization that had never looked beyond its own walls gained international engineering partnerships, cost savings, and — most importantly — the muscle memory for working across cultures and time zones.</div>
   </div>
 
   <!-- SLIDE 10: PRINCIPLE -->
-
-  <div class="slide" data-duration="8000">
+  <div class="slide" data-duration="12000">
     <div class="kicker">The Lesson</div>
     <div class="headline">Organizations grow when someone<br><em>opens the door.</em></div>
-    <div class="body-text">
-      Strategic vision. Trusted networks. The patience to build cultural bridges.
-      And the honesty to fix what's really broken — even when it's easier to blame the new partner.
-    </div>
+    <div class="body-text">Strategic vision. Trusted networks. The patience to build cultural bridges. And the honesty to fix what's really broken — even when it's easier to blame the new partner.</div>
     <div class="detail">industriallystrong.com</div>
   </div>
 
-</div>
+</div><!-- /theater -->
+</div><!-- /theater -->
 
-<div class="controls">
-  <button id="prevBtn">&#9664; Prev</button>
+<div id="controls">
+  <button id="prevBtn">← Prev</button>
   <button id="pauseBtn">Pause</button>
-  <button id="nextBtn">Next &#9654;</button>
+  <button id="nextBtn">Next →</button>
+  <button class="hub-btn" onclick="window.location.href='people-stories.html'">PEOPLE STORIES ↑</button>
 </div>
-<div class="counter" id="counter">1 / 10</div>
+<div id="slide-counter"></div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
-const progressBar = document.getElementById('progressBar');
-const counter = document.getElementById('counter');
+const progressBar = document.getElementById('progress-bar');
+const slideCounter = document.getElementById('slide-counter');
 const pauseBtn = document.getElementById('pauseBtn');
-const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let current = 0, isPaused = false, timer = null, progressTimer = null;
 
-let current = 0, isPaused = false, timer = null, progressTimer = null, progressStart = 0;
-
-function getDuration() { return parseInt(slides[current].dataset.duration) || 8000; }
-
+function getDuration() { return parseInt(slides[current].dataset.duration) || 12000; }
+function updateCounter() { slideCounter.textContent = `${String(current+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`; }
 function goTo(index) {
   slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => { slides[current].classList.remove('exit'); }, 600);
   current = ((index % slides.length) + slides.length) % slides.length;
   slides[current].classList.add('active');
   updateCounter();
-  if (current === 6) animateTeamDots();
+    if (current === 6) {
+      const c = document.getElementById('teamDots');
+      if (c) {
+        c.innerHTML = '';
+        for (let i = 0; i < 34; i++) {
+          const d = document.createElement('div');
+          d.className = 'team-dot' + (i < 4 ? ' core' : '');
+          c.appendChild(d);
+          if (i >= 4) setTimeout(() => d.classList.add('filled'), 300 + (i-4)*90);
+        }
+      }
+    }
   startProgress();
 }
-
-function nextSlide() { goTo(current + 1); }
-function prevSlide() { goTo(current - 1); }
-function updateCounter() { counter.textContent = `${current + 1} / ${slides.length}`; }
-
 function startProgress() {
-  clearInterval(progressTimer);
-  clearTimeout(timer);
-  const duration = getDuration();
-  progressStart = Date.now();
-  progressBar.style.width = '0%';
+  clearInterval(progressTimer); clearTimeout(timer);
+  const dur = getDuration();
+  const start = Date.now();
+  const slideW = 100 / slides.length;
+  const slideOff = current * slideW;
   progressTimer = setInterval(() => {
     if (isPaused) return;
-    const pct = Math.min(((Date.now() - progressStart) / duration) * 100, 100);
-    progressBar.style.width = pct + '%';
-  }, 50);
-  timer = setTimeout(() => { if (!isPaused) nextSlide(); }, duration);
+    const pct = Math.min((Date.now()-start)/dur, 1);
+    progressBar.style.width = (slideOff + pct*slideW) + '%';
+    if (pct >= 1) { clearInterval(progressTimer); timer = setTimeout(() => { if (!isPaused) goTo(current+1); }, 200); }
+  }, 40);
 }
-
-function animateTeamDots() {
-  const container = document.getElementById('teamDots');
-  container.innerHTML = '';
-  for (let i = 0; i < 34; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'team-dot' + (i < 4 ? ' core' : '');
-    container.appendChild(dot);
-    if (i >= 4) setTimeout(() => dot.classList.add('filled'), 300 + (i - 4) * 100);
-  }
-}
-
 pauseBtn.addEventListener('click', () => {
   isPaused = !isPaused;
   pauseBtn.textContent = isPaused ? 'Play' : 'Pause';
-  if (!isPaused) {
-    progressStart = Date.now() - (parseFloat(progressBar.style.width) / 100 * getDuration());
-    clearTimeout(timer);
-    timer = setTimeout(() => { if (!isPaused) nextSlide(); }, Math.max(getDuration() - (Date.now() - progressStart), 500));
-  }
 });
-
-nextBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); nextSlide(); });
-prevBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); });
-
+nextBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); goTo(current+1); });
+prevBtn.addEventListener('click', () => { clearInterval(progressTimer); clearTimeout(timer); goTo(current-1); });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); clearInterval(progressTimer); clearTimeout(timer); nextSlide(); }
-  else if (e.key === 'ArrowLeft') { clearInterval(progressTimer); clearTimeout(timer); prevSlide(); }
-  else if (e.key === 'p') { isPaused = !isPaused; pauseBtn.textContent = isPaused ? 'Play' : 'Pause'; }
+  if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); clearInterval(progressTimer); clearTimeout(timer); goTo(current+1); }
+  else if (e.key==='ArrowLeft') { clearInterval(progressTimer); clearTimeout(timer); goTo(current-1); }
+  else if (e.key==='p') { isPaused=!isPaused; pauseBtn.textContent=isPaused?'Play':'Pause'; }
 });
-
-updateCounter();
-startProgress();
+updateCounter(); startProgress();
 </script>
-
 </body>
 </html>
