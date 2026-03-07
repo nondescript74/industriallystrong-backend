@@ -11,18 +11,18 @@
 <style>
 :root {
 
-  --bg:        #080E18;
-  --bg2:       #0C1422;
-  --bg3:       #111C30;
-  --text:      #EBF0F8;
-  --text2:     #B8C8DC;
-  --muted:     #7A94B0;
-  --gold:      #4DD9A0;
-  --gold2:     rgba(77,217,160,0.15);
-  --rule:      rgba(77,217,160,0.2);
-  --accent:    #4DD9A0;
-  --accent2:   #26c98a;
-  --progress:  #4DD9A0;
+  --bg:        #F0F2F5;
+  --bg2:       #E6E9EE;
+  --bg3:       #D8DCE5;
+  --text:      #1A2233;
+  --text2:     #3D4F6A;
+  --muted:     #6A7A94;
+  --gold:      #1A7A5A;
+  --gold2:     rgba(26,122,90,0.12);
+  --rule:      rgba(26,122,90,0.20);
+  --accent:    #1A7A5A;
+  --accent2:   #24A87C;
+  --progress:  #1A7A5A;
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -48,9 +48,10 @@ body::before {
   position:fixed; top:0; left:0; right:0; z-index:600;
   display:flex; align-items:center; justify-content:space-between;
   padding:0 44px; height:54px;
-  background: rgba(0,0,0,0.72);
+  background: rgba(255,255,255,0.88);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--rule);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0,0,0,0.10);
 }
 .topnav-back {
   font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
@@ -62,7 +63,7 @@ body::before {
 .topnav-back:hover { opacity:1; }
 .topnav-crumb {
   font-size:10px; letter-spacing:3px; text-transform:uppercase;
-  color:rgba(255,255,255,0.22);
+  color:rgba(0,0,0,0.35);
 }
 .topnav-crumb a {
   color:var(--accent); text-decoration:none;
@@ -71,10 +72,10 @@ body::before {
 .topnav-crumb a:hover { opacity:1; }
 .topnav-home {
   font-size:11px; letter-spacing:2px; text-transform:uppercase;
-  color:rgba(255,255,255,0.32); text-decoration:none;
+  color:rgba(0,0,0,0.40); text-decoration:none;
   transition:color 0.2s; font-weight:500;
 }
-.topnav-home:hover { color:rgba(255,255,255,0.85); }
+.topnav-home:hover { color:rgba(0,0,0,0.80); }
 
 /* ── PROGRESS BAR ── */
 #progress-track {
@@ -239,12 +240,12 @@ body::before {
 .bg-word {
   position:absolute; font-size:clamp(120px,18vw,220px);
   font-family:'Playfair Display',serif; font-weight:900;
-  color:rgba(255,255,255,0.022); line-height:1;
+  color:rgba(0,0,0,0.045); line-height:1;
   pointer-events:none; user-select:none; z-index:0;
 }
 .kanji-bg {
   position:absolute; font-size:clamp(180px,28vw,340px);
-  color:rgba(255,255,255,0.025); line-height:1;
+  color:rgba(0,0,0,0.045); line-height:1;
   pointer-events:none; user-select:none; z-index:0;
 }
 .inner { position:relative; z-index:1; width:100%; max-width:880px; }
@@ -511,9 +512,9 @@ body::before {
   display:flex; gap:14px; z-index:600;
 }
 #controls button {
-  background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.14);
-  color:var(--muted); font-family:'Source Sans 3',sans-serif;
+  background:rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.14);
+  color:var(--text2); font-family:'Source Sans 3',sans-serif;
   font-size:14px; letter-spacing:1.5px; text-transform:uppercase;
   padding:10px 22px; border-radius:4px; cursor:pointer;
   transition:all 0.3s ease;
@@ -528,7 +529,7 @@ body::before {
 }
 #slide-counter {
   position:fixed; bottom:32px; right:44px;
-  font-size:14px; letter-spacing:3px; color:var(--muted); z-index:600;
+  font-size:14px; letter-spacing:3px; color:var(--text2); z-index:600;
 }
 
 /* ── ANIMATIONS ── */
@@ -674,6 +675,8 @@ body::before {
   <button class="nav-btn" onclick="window.location.href='projects.html'">PROJECTS ↑</button>
   <div id="counter">01 / 06</div>
 </div>
+</div><!-- /theater -->
+</div><!-- /theater -->
 </div><!-- /theater -->
 
 <div id="controls">
