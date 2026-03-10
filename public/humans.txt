@@ -1,0 +1,14 @@
+/* TEAM */
+Creator: Z
+Site: IndustriallyStrong
+Location: United States
+
+/* SITE */
+Framework: React + Vite
+Hosting: Cloudflare Pages
+Demo systems: Railway + FastAPI
+Analytics: Statcounter
+
+/* PURPOSE */
+Industrial research systems, AI architecture,
+and deployable technical platforms.
