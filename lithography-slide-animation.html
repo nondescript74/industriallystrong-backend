@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+body{
+margin:0;
+background:white;
+font-family:system-ui;
+}
+
+.container{
+width:1200px;
+height:675px;
+position:relative;
+margin:auto;
+}
+
+.title{
+position:absolute;
+top:60px;
+width:100%;
+text-align:center;
+font-size:34px;
+font-weight:600;
+opacity:0;
+animation:fade 1s forwards;
+}
+
+.subtitle{
+position:absolute;
+top:105px;
+width:100%;
+text-align:center;
+font-size:18px;
+opacity:0;
+animation:fade 1s .4s forwards;
+}
+
+.machine{
+position:absolute;
+left:200px;
+top:250px;
+width:160px;
+height:100px;
+background:#cfd6df;
+border-radius:8px;
+opacity:0;
+animation:fade 1s 1s forwards;
+}
+
+.modules{
+position:absolute;
+right:200px;
+top:220px;
+display:grid;
+grid-template-columns:repeat(4,40px);
+grid-gap:10px;
+opacity:0;
+animation:fade 1s 3s forwards;
+}
+
+.module{
+width:40px;
+height:40px;
+background:#3f6db3;
+}
+
+.left-label{
+position:absolute;
+left:200px;
+top:380px;
+font-size:16px;
+opacity:0;
+animation:fade 1s 1.8s forwards;
+}
+
+.right-label{
+position:absolute;
+right:200px;
+top:380px;
+font-size:16px;
+opacity:0;
+animation:fade 1s 4s forwards;
+}
+
+.thesis{
+position:absolute;
+bottom:40px;
+width:100%;
+text-align:center;
+font-size:22px;
+font-weight:600;
+opacity:0;
+animation:fade 1s 5s forwards;
+}
+
+@keyframes fade{
+to{opacity:1;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+Lithography Scaling Paths
+</div>
+
+<div class="subtitle">
+Two fundamentally different ways exposure systems scale
+</div>
+
+<div class="machine"></div>
+
+<div class="left-label">
+Scaling through optical complexity
+</div>
+
+<div class="modules">
+
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+<div class="module"></div>
+
+</div>
+
+<div class="right-label">
+Scaling through semiconductor integration
+</div>
+
+<div class="thesis">
+Architecture determines how technologies scale
+</div>
+
+</div>
+
+</body>
+</html>
