@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /private/
+Disallow: /drafts/
+
+Sitemap: https://industriallystrong.com/sitemap.xml
