@@ -1,673 +1,588 @@
-import PageShell from "../components/PageShell";
-import PrimaryButton from "../components/PrimaryButton";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modular Lithography | IndustriallyStrong</title>
+  <meta
+    name="description"
+    content="An architectural exploration of modular lithography: scaling exposure systems like semiconductors through parallel exposure modules, distributed alignment, and multi-wafer throughput."
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
 
-export default function LithographyArchitecture() {
-  const cardStyle = {
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: "16px",
-    padding: "18px 16px",
-    background: "rgba(255,255,255,0.025)",
-  };
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.68;
+      margin-bottom: 12px;
+    }
 
-  const labelStyle = {
-    fontSize: "12px",
-    textTransform: "uppercase",
-    letterSpacing: "0.14em",
-    opacity: 0.68,
-    marginBottom: "10px",
-  };
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1.08;
+      margin: 0 0 16px;
+      max-width: 980px;
+    }
 
-  const moduleBox = (title, color, items) => (
-    <div
-      style={{
-        border: `1px solid ${color}`,
-        borderRadius: "14px",
-        padding: "14px 14px",
-        background: "rgba(255,255,255,0.02)",
-        marginBottom: "12px",
-      }}
-    >
-      <div style={{ fontWeight: 700, marginBottom: "8px", fontSize: "16px" }}>
-        {title}
-      </div>
-      <div style={{ fontSize: "15px", lineHeight: 1.6, opacity: 0.86 }}>
-        {items}
-      </div>
-    </div>
-  );
+    .hero-subtitle {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 980px;
+      opacity: 0.92;
+      margin: 0 0 18px;
+    }
 
-  return (
-    <PageShell>
-      {/* HERO */}
-      <section style={{ marginBottom: "56px" }}>
-        <div style={labelStyle}>Concept exploration</div>
+    .hero-body,
+    .section-body {
+      font-size: 1.06rem;
+      line-height: 1.75;
+      max-width: 940px;
+      opacity: 0.9;
+    }
 
-        <h1
-          style={{
-            fontSize: "44px",
-            lineHeight: 1.08,
-            marginBottom: "14px",
-            maxWidth: "980px",
-          }}
-        >
-          Modular Lithography: Scaling Exposure Systems Like Semiconductors
-        </h1>
+    .section {
+      margin-bottom: 56px;
+    }
 
-        <p
-          style={{
-            fontSize: "21px",
-            lineHeight: 1.6,
-            maxWidth: "980px",
-            opacity: 0.92,
-            marginBottom: "18px",
-          }}
-        >
-          An architectural alternative to monolithic optical scaling through
-          parallel exposure modules, distributed alignment, and multi-wafer
-          throughput.
-        </p>
+    .band {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 4px solid rgba(120, 180, 255, 0.8);
+      border-radius: 18px;
+      padding: 26px 24px;
+      background: rgba(255, 255, 255, 0.03);
+    }
 
-        <p
-          style={{
-            fontSize: "18px",
-            lineHeight: 1.7,
-            maxWidth: "940px",
-            opacity: 0.88,
-            marginBottom: "0",
-          }}
-        >
-          Lithography has historically scaled through larger, more precise
-          optical systems. That path has produced extraordinary machines, but
-          also very large, expensive, and tightly coupled architectures.
-          Semiconductor manufacturing itself scales differently: through
-          replication, modularity, and parallelism. This suggests a different
-          architectural question. What if exposure systems could scale more like
-          semiconductors do — by increasing the number of programmable exposure
-          modules rather than continually increasing the size and complexity of a
-          monolithic optical machine?
-        </p>
-      </section>
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
 
-      {/* SUMMARY BAND */}
-      <section
-        style={{
-          marginBottom: "52px",
-          border: "1px solid rgba(255,255,255,0.12)",
-          borderLeft: "4px solid rgba(120,180,255,0.8)",
-          borderRadius: "18px",
-          padding: "26px 24px",
-          background: "rgba(255,255,255,0.03)",
-        }}
-      >
-        <div style={labelStyle}>Core idea</div>
-        <p
-          style={{
-            fontSize: "18px",
-            lineHeight: 1.7,
-            maxWidth: "940px",
-            margin: 0,
-            opacity: 0.92,
-          }}
-        >
-          This concept explores whether lithography systems could scale through
-          modular, semiconductor-manufacturable exposure elements rather than
-          only through increasingly large optical machines. The architectural
-          shift is from monolithic precision scaling to parallel modular
-          scaling.
-        </p>
-      </section>
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+      align-items: start;
+      margin-top: 24px;
+    }
 
-      {/* COMPARISON DIAGRAM */}
-      <section style={{ marginBottom: "28px" }}>
-        <div style={labelStyle}>Architecture comparison</div>
-        <h2 style={{ fontSize: "32px", marginBottom: "12px" }}>
-          From Monolithic Optical Scaling to Modular Exposure Scaling
-        </h2>
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.7,
-            maxWidth: "920px",
-            opacity: 0.85,
-            marginBottom: "26px",
-          }}
-        >
-          Traditional scanners scale through optics and mechanics. A modular
-          architecture could scale through replicated exposure elements,
-          distributed control, and parallel wafer handling.
-        </p>
+    .arch-panel {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 22px 20px;
+      background: rgba(255, 255, 255, 0.02);
+    }
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "22px",
-            alignItems: "start",
-            marginBottom: "20px",
-          }}
-        >
-          {/* LEFT COLUMN */}
-          <div
-            style={{
-              border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: "20px",
-              padding: "22px 20px",
-              background: "rgba(255,255,255,0.02)",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "13px",
-                textTransform: "uppercase",
-                letterSpacing: "0.12em",
-                opacity: 0.66,
-                marginBottom: "10px",
-              }}
-            >
-              Traditional architecture
+    .arch-panel.proposed {
+      border-color: rgba(120, 180, 255, 0.24);
+      background: rgba(90, 140, 255, 0.04);
+    }
+
+    .panel-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.68;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 1.5rem;
+      margin: 0 0 18px;
+    }
+
+    .module-box {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      margin-bottom: 12px;
+    }
+
+    .module-box.gray {
+      border-color: rgba(180, 180, 180, 0.45);
+    }
+
+    .module-box.blue {
+      border-color: rgba(110, 170, 255, 0.62);
+    }
+
+    .module-box.green {
+      border-color: rgba(90, 210, 160, 0.55);
+    }
+
+    .module-box.orange {
+      border-color: rgba(255, 170, 90, 0.6);
+    }
+
+    .module-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .module-copy {
+      font-size: 15px;
+      line-height: 1.6;
+      opacity: 0.86;
+    }
+
+    .arrow {
+      text-align: center;
+      opacity: 0.55;
+      margin: 8px 0 14px;
+      font-size: 20px;
+    }
+
+    .scale-note {
+      margin-top: 14px;
+      font-size: 15px;
+      line-height: 1.6;
+      opacity: 0.82;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 18px 16px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .card h3 {
+      font-size: 17px;
+      margin: 0 0 8px;
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.65;
+      opacity: 0.84;
+      margin: 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    table.comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    .comp-table th,
+    .comp-table td {
+      text-align: left;
+      padding: 16px;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    .comp-table thead th {
+      font-size: 14px;
+      opacity: 0.8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .comp-table tbody td {
+      font-size: 15px;
+      opacity: 0.84;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .comp-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .comp-table tbody td:first-child {
+      font-weight: 600;
+      opacity: 0.92;
+    }
+
+    .questions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cta-link {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .footer-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 28px;
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap {
+        padding: 34px 18px 56px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .hero-body,
+      .section-body {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-wrap">
+    <section class="section">
+      <div class="eyebrow">Concept exploration</div>
+      <h1 class="hero-title">
+        Modular Lithography: Scaling Exposure Systems Like Semiconductors
+      </h1>
+      <p class="hero-subtitle">
+        An architectural alternative to monolithic optical scaling through
+        parallel exposure modules, distributed alignment, and multi-wafer
+        throughput.
+      </p>
+      <p class="hero-body">
+        Lithography has historically scaled through larger, more precise optical
+        systems. That path has produced extraordinary machines, but also very
+        large, expensive, and tightly coupled architectures. Semiconductor
+        manufacturing itself scales differently: through replication, modularity,
+        and parallelism. This suggests a different architectural question. What
+        if exposure systems could scale more like semiconductors do — by
+        increasing the number of programmable exposure modules rather than
+        continually increasing the size and complexity of a monolithic optical
+        machine?
+      </p>
+    </section>
+
+    <section class="section band">
+      <div class="eyebrow">Core idea</div>
+      <p class="section-body" style="margin:0;">
+        This concept explores whether lithography systems could scale through
+        modular, semiconductor-manufacturable exposure elements rather than only
+        through increasingly large optical machines. The architectural shift is
+        from monolithic precision scaling to parallel modular scaling.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Architecture comparison</div>
+      <h2 class="section-title">
+        From Monolithic Optical Scaling to Modular Exposure Scaling
+      </h2>
+      <p class="section-body">
+        Traditional scanners scale through optics and mechanics. A modular
+        architecture could scale through replicated exposure elements,
+        distributed control, and parallel wafer handling.
+      </p>
+
+      <div class="comparison-grid">
+        <div class="arch-panel">
+          <div class="panel-label">Traditional architecture</div>
+          <h3 class="panel-title">Monolithic Optical Scanner</h3>
+
+          <div class="module-box gray">
+            <div class="module-title">Reticle</div>
+            <div class="module-copy">
+              Pattern source defining the exposure path.
             </div>
-
-            <h3 style={{ fontSize: "24px", marginBottom: "18px" }}>
-              Monolithic Optical Scanner
-            </h3>
-
-            {moduleBox(
-              "Reticle",
-              "rgba(180,180,180,0.45)",
-              "Pattern source defining the exposure path."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.55, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Projection optics",
-              "rgba(180,180,180,0.45)",
-              "Central optical reduction and precision imaging train."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.55, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Single wafer stage",
-              "rgba(255,170,90,0.5)",
-              "One primary throughput path with centralized alignment."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.55, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Sequential exposure",
-              "rgba(180,180,180,0.45)",
-              "Capability scales through tighter tolerances, more complex optics, and larger integrated machine systems."
-            )}
-
-            <p
-              style={{
-                marginTop: "14px",
-                fontSize: "15px",
-                lineHeight: 1.6,
-                opacity: 0.78,
-              }}
-            >
-              <strong>Scaling method:</strong> larger optics, tighter precision,
-              more complex machine.
-            </p>
           </div>
 
-          {/* RIGHT COLUMN */}
-          <div
-            style={{
-              border: "1px solid rgba(120,180,255,0.24)",
-              borderRadius: "20px",
-              padding: "22px 20px",
-              background: "rgba(90,140,255,0.04)",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "13px",
-                textTransform: "uppercase",
-                letterSpacing: "0.12em",
-                opacity: 0.72,
-                marginBottom: "10px",
-              }}
-            >
-              Proposed architecture
+          <div class="arrow">↓</div>
+
+          <div class="module-box gray">
+            <div class="module-title">Projection optics</div>
+            <div class="module-copy">
+              Central optical reduction and precision imaging train.
             </div>
-
-            <h3 style={{ fontSize: "24px", marginBottom: "18px" }}>
-              Modular Exposure System
-            </h3>
-
-            {moduleBox(
-              "Exposure module array",
-              "rgba(110,170,255,0.62)",
-              "Replicated programmable exposure elements serving as the system’s scalable writing layer."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.6, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Distributed beam alignment",
-              "rgba(90,210,160,0.55)",
-              "Local control and alignment associated with each exposure region rather than one entirely centralized path."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.6, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Multi-wafer scanning platform",
-              "rgba(255,170,90,0.6)",
-              "A scanning apparatus potentially capable of servicing multiple wafer regions — and potentially multiple wafers — within one system architecture."
-            )}
-
-            <div style={{ textAlign: "center", opacity: 0.6, margin: "8px 0 14px" }}>
-              ↓
-            </div>
-
-            {moduleBox(
-              "Parallel exposure",
-              "rgba(110,170,255,0.62)",
-              "Capability scales through more modules, replicated elements, and higher aggregate throughput."
-            )}
-
-            <p
-              style={{
-                marginTop: "14px",
-                fontSize: "15px",
-                lineHeight: 1.6,
-                opacity: 0.82,
-              }}
-            >
-              <strong>Scaling method:</strong> more modules, replicated
-              elements, higher parallel throughput.
-            </p>
           </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="module-box orange">
+            <div class="module-title">Single wafer stage</div>
+            <div class="module-copy">
+              One primary throughput path with centralized alignment.
+            </div>
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="module-box gray">
+            <div class="module-title">Sequential exposure</div>
+            <div class="module-copy">
+              Capability scales through tighter tolerances, more complex optics,
+              and larger integrated machine systems.
+            </div>
+          </div>
+
+          <p class="scale-note">
+            <strong>Scaling method:</strong> larger optics, tighter precision,
+            more complex machine.
+          </p>
         </div>
-      </section>
 
-      {/* KEY CARDS */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "16px",
-          marginBottom: "52px",
-        }}
-      >
-        <div style={cardStyle}>
-          <div style={{ fontWeight: 700, fontSize: "17px", marginBottom: "8px" }}>
-            Monolithic scaling
+        <div class="arch-panel proposed">
+          <div class="panel-label">Proposed architecture</div>
+          <h3 class="panel-title">Modular Exposure System</h3>
+
+          <div class="module-box blue">
+            <div class="module-title">Exposure module array</div>
+            <div class="module-copy">
+              Replicated programmable exposure elements serving as the system’s
+              scalable writing layer.
+            </div>
           </div>
-          <div style={{ fontSize: "15px", lineHeight: 1.65, opacity: 0.84 }}>
+
+          <div class="arrow">↓</div>
+
+          <div class="module-box green">
+            <div class="module-title">Distributed beam alignment</div>
+            <div class="module-copy">
+              Local control and alignment associated with each exposure region
+              rather than one entirely centralized path.
+            </div>
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="module-box orange">
+            <div class="module-title">Multi-wafer scanning platform</div>
+            <div class="module-copy">
+              A scanning apparatus potentially capable of servicing multiple
+              wafer regions — and potentially multiple wafers — within one
+              system architecture.
+            </div>
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="module-box blue">
+            <div class="module-title">Parallel exposure</div>
+            <div class="module-copy">
+              Capability scales through more modules, replicated elements, and
+              higher aggregate throughput.
+            </div>
+          </div>
+
+          <p class="scale-note">
+            <strong>Scaling method:</strong> more modules, replicated elements,
+            higher parallel throughput.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <div class="card">
+          <h3>Monolithic scaling</h3>
+          <p>
             Traditional lithography increases capability by increasing optical
             sophistication and overall system precision.
-          </div>
+          </p>
         </div>
 
-        <div style={cardStyle}>
-          <div style={{ fontWeight: 700, fontSize: "17px", marginBottom: "8px" }}>
-            Modular scaling
-          </div>
-          <div style={{ fontSize: "15px", lineHeight: 1.65, opacity: 0.84 }}>
+        <div class="card">
+          <h3>Modular scaling</h3>
+          <p>
             A semiconductor-inspired architecture could increase capability by
             adding exposure modules and distributing alignment locally.
-          </div>
+          </p>
         </div>
 
-        <div style={cardStyle}>
-          <div style={{ fontWeight: 700, fontSize: "17px", marginBottom: "8px" }}>
-            Parallel throughput
-          </div>
-          <div style={{ fontSize: "15px", lineHeight: 1.65, opacity: 0.84 }}>
+        <div class="card">
+          <h3>Parallel throughput</h3>
+          <p>
             If exposure modules align independently to wafer regions, the
             scanning platform could potentially service multiple wafers at once.
-          </div>
+          </p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* COMPARISON TABLE */}
-      <section style={{ marginBottom: "54px" }}>
-        <div style={labelStyle}>Compact comparison</div>
-        <h2 style={{ fontSize: "30px", marginBottom: "18px" }}>
-          Architectural Comparison
-        </h2>
+    <section class="section">
+      <div class="eyebrow">Compact comparison</div>
+      <h2 class="section-title">Architectural Comparison</h2>
 
-        <div
-          style={{
-            overflowX: "auto",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "18px",
-            background: "rgba(255,255,255,0.02)",
-          }}
-        >
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              minWidth: "760px",
-            }}
-          >
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    textAlign: "left",
-                    padding: "16px",
-                    fontSize: "14px",
-                    borderBottom: "1px solid rgba(255,255,255,0.1)",
-                    opacity: 0.8,
-                  }}
-                >
-                  Characteristic
-                </th>
-                <th
-                  style={{
-                    textAlign: "left",
-                    padding: "16px",
-                    fontSize: "14px",
-                    borderBottom: "1px solid rgba(255,255,255,0.1)",
-                    opacity: 0.8,
-                  }}
-                >
-                  Traditional Scanner
-                </th>
-                <th
-                  style={{
-                    textAlign: "left",
-                    padding: "16px",
-                    fontSize: "14px",
-                    borderBottom: "1px solid rgba(255,255,255,0.1)",
-                    opacity: 0.8,
-                  }}
-                >
-                  Modular Exposure Architecture
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["Scaling method", "larger optics", "more exposure modules"],
-                ["System form", "monolithic", "modular"],
-                ["Exposure path", "sequential", "parallel-capable"],
-                [
-                  "Manufacturing bias",
-                  "precision optics",
-                  "semiconductor and MEMS-compatible elements",
-                ],
-                [
-                  "Throughput expansion",
-                  "larger system complexity",
-                  "replicated module count",
-                ],
-                ["Alignment model", "centralized", "distributed / local"],
-              ].map((row, i) => (
-                <tr key={i}>
-                  {row.map((cell, j) => (
-                    <td
-                      key={j}
-                      style={{
-                        padding: "16px",
-                        borderBottom:
-                          i < 5 ? "1px solid rgba(255,255,255,0.08)" : "none",
-                        fontSize: "15px",
-                        lineHeight: 1.6,
-                        opacity: j === 0 ? 0.92 : 0.84,
-                        fontWeight: j === 0 ? 600 : 400,
-                        verticalAlign: "top",
-                      }}
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div class="table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Characteristic</th>
+              <th>Traditional Scanner</th>
+              <th>Modular Exposure Architecture</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Scaling method</td>
+              <td>larger optics</td>
+              <td>more exposure modules</td>
+            </tr>
+            <tr>
+              <td>System form</td>
+              <td>monolithic</td>
+              <td>modular</td>
+            </tr>
+            <tr>
+              <td>Exposure path</td>
+              <td>sequential</td>
+              <td>parallel-capable</td>
+            </tr>
+            <tr>
+              <td>Manufacturing bias</td>
+              <td>precision optics</td>
+              <td>semiconductor and MEMS-compatible elements</td>
+            </tr>
+            <tr>
+              <td>Throughput expansion</td>
+              <td>larger system complexity</td>
+              <td>replicated module count</td>
+            </tr>
+            <tr>
+              <td>Alignment model</td>
+              <td>centralized</td>
+              <td>distributed / local</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">System implications</div>
+      <h2 class="section-title">Why the Architecture Matters</h2>
+      <p class="section-body">Architecture determines how systems scale.</p>
+      <p class="section-body">
+        In conventional lithography, scaling has largely meant greater optical
+        precision, tighter control, and larger integrated machines.
+      </p>
+      <p class="section-body">
+        A modular exposure architecture explores a different scaling path.
+        Instead of concentrating capability into one increasingly complex
+        optical train, capability may be distributed across many programmable
+        exposure elements.
+      </p>
+      <p class="section-body">
+        That change would not merely reduce size. It would change the economics,
+        manufacturability, and throughput model of the system itself.
+      </p>
+    </section>
+
+    <section class="section band" style="border-left-color: rgba(255,255,255,0.35);">
+      <div class="eyebrow">Scaling analogy</div>
+      <h2 class="section-title">Expanding Like a Semiconductor</h2>
+      <p class="section-body">
+        Transistors scale by increasing the number of functional elements on a
+        chip.
+      </p>
+      <p class="section-body">
+        Traditional lithography systems scale by increasing optical precision in
+        one integrated machine.
+      </p>
+      <p class="section-body">
+        A modular lithography architecture could scale by increasing the number
+        of exposure elements in the system.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Throughput consequence</div>
+      <h2 class="section-title">
+        Multi-Wafer Throughput as an Architectural Consequence
+      </h2>
+      <p class="section-body">
+        In a conventional scanner, one wafer stage typically defines the
+        throughput path.
+      </p>
+      <p class="section-body">
+        In a modular exposure architecture, independently aligned writing
+        elements could allow the scanning apparatus to service multiple wafer
+        regions — and potentially multiple wafers — within the same machine
+        architecture.
+      </p>
+      <p class="section-body">
+        This is not just a component substitution. It is a different throughput
+        model.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Research direction</div>
+      <h2 class="section-title">Open Research Questions</h2>
+
+      <div class="questions-grid">
+        <div class="card">
+          <p>What emitter technologies are best suited to modular exposure arrays?</p>
         </div>
-      </section>
-
-      {/* WHY THIS MATTERS */}
-      <section style={{ marginBottom: "50px" }}>
-        <div style={labelStyle}>System implications</div>
-        <h2 style={{ fontSize: "30px", marginBottom: "14px" }}>
-          Why the Architecture Matters
-        </h2>
-
-        <p
-          style={{
-            fontSize: "18px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.9,
-            marginBottom: "14px",
-          }}
-        >
-          Architecture determines how systems scale.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.86,
-            marginBottom: "14px",
-          }}
-        >
-          In conventional lithography, scaling has largely meant greater optical
-          precision, tighter control, and larger integrated machines.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.86,
-            marginBottom: "14px",
-          }}
-        >
-          A modular exposure architecture explores a different scaling path.
-          Instead of concentrating capability into one increasingly complex
-          optical train, capability may be distributed across many programmable
-          exposure elements.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.86,
-            marginBottom: "0",
-          }}
-        >
-          That change would not merely reduce size. It would change the
-          economics, manufacturability, and throughput model of the system
-          itself.
-        </p>
-      </section>
-
-      {/* SCALING ANALOGY */}
-      <section
-        style={{
-          marginBottom: "50px",
-          border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: "18px",
-          padding: "24px 22px",
-          background: "rgba(255,255,255,0.02)",
-        }}
-      >
-        <div style={labelStyle}>Scaling analogy</div>
-        <h2 style={{ fontSize: "28px", marginBottom: "14px" }}>
-          Expanding Like a Semiconductor
-        </h2>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "920px",
-            opacity: 0.87,
-            marginBottom: "12px",
-          }}
-        >
-          Transistors scale by increasing the number of functional elements on a
-          chip.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "920px",
-            opacity: 0.87,
-            marginBottom: "12px",
-          }}
-        >
-          Traditional lithography systems scale by increasing optical precision
-          in one integrated machine.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "920px",
-            opacity: 0.87,
-            marginBottom: "0",
-          }}
-        >
-          A modular lithography architecture could scale by increasing the
-          number of exposure elements in the system.
-        </p>
-      </section>
-
-      {/* MULTI-WAFER THROUGHPUT */}
-      <section style={{ marginBottom: "52px" }}>
-        <div style={labelStyle}>Throughput consequence</div>
-        <h2 style={{ fontSize: "30px", marginBottom: "14px" }}>
-          Multi-Wafer Throughput as an Architectural Consequence
-        </h2>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.87,
-            marginBottom: "14px",
-          }}
-        >
-          In a conventional scanner, one wafer stage typically defines the
-          throughput path.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.87,
-            marginBottom: "14px",
-          }}
-        >
-          In a modular exposure architecture, independently aligned writing
-          elements could allow the scanning apparatus to service multiple wafer
-          regions — and potentially multiple wafers — within the same machine
-          architecture.
-        </p>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.72,
-            maxWidth: "940px",
-            opacity: 0.87,
-            marginBottom: "0",
-          }}
-        >
-          This is not just a component substitution. It is a different
-          throughput model.
-        </p>
-      </section>
-
-      {/* OPEN QUESTIONS */}
-      <section style={{ marginBottom: "56px" }}>
-        <div style={labelStyle}>Research direction</div>
-        <h2 style={{ fontSize: "30px", marginBottom: "18px" }}>
-          Open Research Questions
-        </h2>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "14px",
-          }}
-        >
-          {[
-            "What emitter technologies are best suited to modular exposure arrays?",
-            "How should local beam alignment be implemented and stabilized?",
-            "Can MEMS structures support fine steering, focus, or selection functions?",
-            "What cooling and vacuum architecture would support dense exposure modules?",
-            "How should control software coordinate large numbers of semi-independent writing elements?",
-            "Under what regimes would modular throughput outperform monolithic scanner scaling?",
-          ].map((q, i) => (
-            <div key={i} style={cardStyle}>
-              <div style={{ fontSize: "15px", lineHeight: 1.65, opacity: 0.86 }}>
-                {q}
-              </div>
-            </div>
-          ))}
+        <div class="card">
+          <p>How should local beam alignment be implemented and stabilized?</p>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.08)",
-          paddingTop: "28px",
-          marginBottom: "20px",
-        }}
-      >
-        <h2 style={{ fontSize: "28px", marginBottom: "12px" }}>
-          Architecture Determines What Becomes Possible
-        </h2>
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.7,
-            maxWidth: "900px",
-            opacity: 0.85,
-            marginBottom: "18px",
-          }}
-        >
-          This page is part of a broader exploration of how architecture shapes
-          resilience, reasoning, and scalability across both software and
-          physical systems.
-        </p>
-
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-          <PrimaryButton href="/architecture">
-            Explore system architecture
-          </PrimaryButton>
-          <PrimaryButton href="/research">
-            View research directions
-          </PrimaryButton>
+        <div class="card">
+          <p>Can MEMS structures support fine steering, focus, or selection functions?</p>
         </div>
-      </section>
-    </PageShell>
-  );
-}
+        <div class="card">
+          <p>What cooling and vacuum architecture would support dense exposure modules?</p>
+        </div>
+        <div class="card">
+          <p>How should control software coordinate large numbers of semi-independent writing elements?</p>
+        </div>
+        <div class="card">
+          <p>Under what regimes would modular throughput outperform monolithic scanner scaling?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section footer-divider">
+      <h2 class="section-title">Architecture Determines What Becomes Possible</h2>
+      <p class="section-body">
+        This page is part of a broader exploration of how architecture shapes
+        resilience, reasoning, and scalability across both software and
+        physical systems.
+      </p>
+
+      <div class="cta-row">
+        <a class="cta-link" href="/architecture">Explore system architecture</a>
+        <a class="cta-link" href="/project-stories.html">View project stories</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
