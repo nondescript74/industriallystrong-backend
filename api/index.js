@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '..')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Logging middleware
@@ -18,13 +19,18 @@ app.use((req, res, next) => {
 
 // ===== ROUTES =====
 // add leadership stories
-app.get('/stories', (req, res) => res.sendFile(path.join(__dirname, '../public/stories.html')));
-app.get('/stories/pmp', (req, res) => res.sendFile(path.join(__dirname, '../public/pmp-story.html')));
-app.get('/stories/ozo', (req, res) => res.sendFile(path.join(__dirname, '../public/ozo-story.html')));
+app.get('/stories', (req, res) => res.sendFile(path.join(__dirname, '../people-stories.html')));
+app.get('/stories/pmp', (req, res) => res.sendFile(path.join(__dirname, '../pmp-story.html')));
+app.get('/stories/ozo', (req, res) => res.sendFile(path.join(__dirname, '../ozo-story.html')));
 
 // Main domain - www.industriallystrong.com
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+// Architecture page
+app.get('/architecture', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/lithography-architecture.html'));
 });
 
 // Reczipes support page
