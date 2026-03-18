@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GutSense — Multi-Agent Dietary Intelligence — Zahirudeen Premji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #F0F2F5;
+  --bg2:       #E6E9EE;
+  --bg3:       #D8DCE5;
+  --text:      #1A2233;
+  --text2:     #3D4F6A;
+  --muted:     #6A7A94;
+  --gold:      #6B21A8;
+  --gold2:     rgba(107,33,168,0.12);
+  --rule:      rgba(107,33,168,0.20);
+  --accent:    #6B21A8;
+  --accent2:   #A855F7;
+  --progress:  #6B21A8;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  width:100%; height:100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Sans 3', sans-serif;
+  overflow: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
+
+#story-topnav {
+  position:fixed; top:0; left:0; right:0; z-index:600;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 44px; height:54px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+}
+.topnav-back {
+  font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--accent); text-decoration:none;
+  display:flex; align-items:center; gap:8px;
+  opacity:0.8; transition:opacity 0.2s;
+  font-weight:600;
+}
+.topnav-back:hover { opacity:1; }
+.topnav-crumb {
+  font-size:10px; letter-spacing:3px; text-transform:uppercase;
+  color:rgba(0,0,0,0.35);
+}
+.topnav-crumb a {
+  color:var(--accent); text-decoration:none;
+  opacity:0.55; transition:opacity 0.2s;
+}
+.topnav-crumb a:hover { opacity:1; }
+.topnav-home {
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(0,0,0,0.40); text-decoration:none;
+  transition:color 0.2s; font-weight:500;
+}
+.topnav-home:hover { color:rgba(0,0,0,0.80); }
+
+#progress-track {
+  position:fixed; top:54px; left:0; right:0;
+  height:3px; background:rgba(255,255,255,0.06); z-index:600;
+}
+#progress-bar {
+  height:100%; width:0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.1s linear;
+}
+
+.theater {
+  position:relative; width:100vw; height:100vh; overflow:hidden;
+}
+
+.slide {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  padding:112px 80px 80px;
+  opacity:0; transform:translateY(28px);
+  transition: opacity 1.1s ease, transform 1.1s ease;
+  pointer-events:none;
+}
+.slide.active { opacity:1; transform:translateY(0); pointer-events:auto; }
+.slide.exit   { opacity:0; transform:translateY(-28px); }
+
+.bg-word {
+  position:absolute; font-size:clamp(120px,18vw,220px);
+  font-family:'Playfair Display',serif; font-weight:900;
+  color:rgba(0,0,0,0.045); line-height:1;
+  pointer-events:none; user-select:none; z-index:0;
+}
+
+.inner { position:relative; z-index:1; width:100%; max-width:880px; }
+
+.badge {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid var(--rule); padding:7px 16px;
+  border-radius:30px; margin-bottom:22px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.2s;
+}
+.badge-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 8px var(--gold2);
+}
+.badge-label {
+  font-size:12px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; color:var(--accent);
+}
+
+.eyebrow {
+  font-size:14px; font-weight:700; letter-spacing:4.5px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:18px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.3s;
+}
+
+.big-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,7.5vw,96px);
+  font-weight:700; line-height:0.95;
+  color:var(--text); margin-bottom:22px;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.55s;
+}
+.big-title span { color:var(--accent); }
+
+.rule {
+  width:56px; height:3px;
+  background:var(--accent); margin-bottom:26px;
+  opacity:0; animation:fadeUp 0.5s ease forwards 0.65s;
+}
+
+.body-text {
+  font-size:clamp(22px,2.4vw,27px); font-weight:300;
+  line-height:1.85; color:var(--text2);
+  max-width:720px; text-align:left;
+  opacity:0; animation:fadeUp 0.7s ease forwards 0.8s;
+}
+
+.pill {
+  display:inline-block;
+  background:var(--gold2); border:1px solid var(--rule);
+  color:var(--accent); font-size:12px; font-weight:600;
+  letter-spacing:2px; padding:6px 14px;
+  margin-right:8px; margin-top:8px; text-transform:uppercase;
+  border-radius:2px;
+}
+
+.feature-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; max-width:720px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.fw-item {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:16px 20px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.fw-icon {
+  font-size:22px; min-width:32px;
+}
+.fw-text { font-size:15px; line-height:1.55; color:var(--text2); }
+.fw-text strong { display:block; font-weight:600; color:var(--text); margin-bottom:3px; }
+
+.agent-cards {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:24px; max-width:800px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.agent-card {
+  background:var(--bg3); border:1px solid var(--rule);
+  border-radius:8px; padding:20px; text-align:center;
+  position:relative; overflow:hidden;
+}
+.agent-card-bar {
+  position:absolute; top:0; left:0; right:0; height:3px;
+}
+.agent-card .agent-icon { font-size:28px; margin-bottom:10px; display:block; }
+.agent-card .agent-name {
+  font-size:13px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; margin-bottom:8px;
+}
+.agent-card .agent-desc {
+  font-size:14px; color:var(--muted); line-height:1.55;
+}
+
+.stat-block {
+  display:flex; gap:40px; margin-top:28px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.stat-item { text-align:center; }
+.stat-num {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,6vw,76px); font-weight:700;
+  color:var(--accent); line-height:1;
+}
+.stat-desc { font-size:15px; color:var(--muted); margin-top:6px; }
+
+.flow-row {
+  display:flex; gap:0; margin-top:28px; max-width:800px;
+  opacity:0; animation:fadeUp 0.7s ease forwards 1.0s;
+}
+.flow-node {
+  flex:1; padding:18px 14px; text-align:center;
+  background:var(--bg3); border:1px solid var(--rule);
+  position:relative;
+}
+.flow-node:not(:last-child)::after {
+  content:'\2192'; position:absolute; right:-14px; top:50%;
+  transform:translateY(-50%); color:var(--accent); font-size:18px; z-index:2;
+}
+.flow-node + .flow-node { margin-left:16px; }
+.flow-node .flow-icon { font-size:22px; margin-bottom:6px; display:block; }
+.flow-node .flow-label {
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--accent); font-weight:700; margin-bottom:4px;
+}
+.flow-node .flow-desc {
+  font-size:12px; color:var(--muted); line-height:1.45;
+}
+.flow-highlight { background:var(--gold2); border-color:var(--accent); }
+
+.quote-mark {
+  font-family:'Playfair Display',serif; font-size:120px;
+  color:rgba(107,33,168,0.15); line-height:0.6; margin-bottom:20px;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.2s;
+}
+.quote-text {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,3.5vw,44px); font-weight:700;
+  color:var(--text); line-height:1.35; text-align:center; max-width:800px;
+  opacity:0; animation:fadeUp 0.8s ease forwards 0.5s;
+}
+.quote-text em { color:var(--accent); font-style:italic; }
+.quote-attr {
+  font-size:14px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--muted); margin-top:28px; text-align:center;
+  opacity:0; animation:fadeUp 0.6s ease forwards 0.9s;
+}
+
+.cta-row {
+  display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; justify-content:center;
+  opacity:0; animation:fadeUp 0.6s ease forwards 1.1s;
+}
+.cta-btn {
+  display:inline-block; padding:12px 28px;
+  font-size:12px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; text-decoration:none;
+  border-radius:4px; transition:all 0.2s;
+}
+.cta-primary { background:var(--accent); color:#fff; }
+.cta-primary:hover { background:var(--accent2); }
+.cta-secondary { background:transparent; color:var(--accent); border:1.5px solid var(--rule); }
+.cta-secondary:hover { border-color:var(--accent); }
+
+#controls {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%);
+  display:flex; gap:14px; z-index:600;
+}
+#controls button {
+  background:rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.14);
+  color:var(--text2); font-family:'Source Sans 3',sans-serif;
+  font-size:14px; letter-spacing:1.5px; text-transform:uppercase;
+  padding:10px 22px; border-radius:4px; cursor:pointer;
+  transition:all 0.3s ease;
+}
+#controls button:hover {
+  background:var(--gold2);
+  border-color:var(--accent); color:var(--accent);
+}
+#controls button.hub-btn {
+  border-color:rgba(107,33,168,0.28);
+  font-size:12px;
+}
+#slide-counter {
+  position:fixed; bottom:32px; right:44px;
+  font-size:14px; letter-spacing:3px; color:var(--text2); z-index:600;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+@media (max-width:768px) {
+  .slide { padding:80px 28px 80px; }
+  #story-topnav { padding:0 22px; }
+  .feature-grid { grid-template-columns:1fr; }
+  .agent-cards { grid-template-columns:1fr; }
+  .flow-row { flex-direction:column; }
+  .flow-node:not(:last-child)::after { display:none; }
+  .flow-node + .flow-node { margin-left:0; margin-top:8px; }
+  .stat-block { gap:28px; }
+  .body-text { font-size:clamp(19px,4.5vw,24px); }
+  .big-title { font-size:clamp(44px,10vw,80px); }
+}
+</style>
+</head>
+<body>
+
+<div id="story-topnav">
+  <a href="projects.html" class="topnav-back">&larr; Projects</a>
+  <div class="topnav-crumb"><a href="projects.html">PROJECTS</a>&nbsp;&nbsp;/&nbsp;&nbsp;GutSense</div>
+  <a href="index.html" class="topnav-home">Home &nearr;</a>
+</div>
+
+<div id="progress-track"><div id="progress-bar"></div></div>
+
+<div class="theater">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active" id="s1">
+    <div class="bg-word" style="right:-40px;bottom:60px;">GUT</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="badge"><div class="badge-dot"></div><span class="badge-label">Multi-Agent AI &middot; iOS + Web &middot; 2025</span></div>
+      <div class="eyebrow">Dietary Intelligence</div>
+      <div class="big-title">GUT<br><span>SENSE</span></div>
+      <div class="rule"></div>
+      <div class="body-text">A multi-agent AI system that analyzes foods for FODMAP content, IBS triggers, and dietary risk &mdash; using parallel Claude + Gemini analysis with synthesis reconciliation.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: The Problem -->
+  <div class="slide" id="s2">
+    <div class="bg-word" style="left:-20px;top:40px;">IBS</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Problem</div>
+      <div class="big-title">FOOD IS<br><span>COMPLEX</span></div>
+      <div class="rule"></div>
+      <div class="body-text">IBS affects 10&ndash;15% of the global population. FODMAP sensitivity varies by <em>serving size</em>, <em>preparation method</em>, and <em>individual triggers</em>. Static food databases can't capture this &mdash; you need reasoning, not just lookup.</div>
+      <div class="feature-grid">
+        <div class="fw-item"><div class="fw-icon">&#x1F33E;</div><div class="fw-text"><strong>Fructans</strong>Garlic, onion, wheat &mdash; threshold-dependent triggers hiding in everyday foods</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F95B;</div><div class="fw-text"><strong>Lactose</strong>Not just milk &mdash; soft cheese, yogurt, cream sauces all vary by strain and process</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F351;</div><div class="fw-text"><strong>Polyols</strong>Stone fruits, artificial sweeteners &mdash; dose-dependent and cumulative through the day</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1FAD8;</div><div class="fw-text"><strong>GOS &amp; Fructose</strong>Legumes, honey, HFCS &mdash; context-dependent absorption changes everything</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: The Agents -->
+  <div class="slide" id="s3">
+    <div class="bg-word" style="right:-30px;top:50px;">AI</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Architecture</div>
+      <div class="big-title">THREE<br><span>AGENTS</span><br>ONE ANSWER</div>
+      <div class="rule"></div>
+      <div class="body-text">Two frontier AI models analyze every query independently and in parallel. A synthesis agent reconciles disagreements into a unified assessment with confidence tiers.</div>
+
+      <div class="agent-cards">
+        <div class="agent-card">
+          <div class="agent-card-bar" style="background:linear-gradient(90deg,#d97706,#f59e0b);"></div>
+          <span class="agent-icon">&#x1F9E0;</span>
+          <div class="agent-name" style="color:#d97706;">Claude</div>
+          <div class="agent-desc">Anthropic's frontier model. Deep reasoning about ingredient interactions and citation-backed risk.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-bar" style="background:linear-gradient(90deg,#2563eb,#60a5fa);"></div>
+          <span class="agent-icon">&#x1F52C;</span>
+          <div class="agent-name" style="color:#2563eb;">Gemini</div>
+          <div class="agent-desc">Google's multimodal model. Independent FODMAP analysis with vision support for food photos.</div>
+        </div>
+        <div class="agent-card" style="border-color:var(--accent);">
+          <div class="agent-card-bar" style="background:linear-gradient(90deg,#7c3aed,#a855f7);"></div>
+          <span class="agent-icon">&#x2696;&#xFE0F;</span>
+          <div class="agent-name" style="color:var(--accent);">Synthesis</div>
+          <div class="agent-desc">Reconciliation engine. Resolves disagreements and produces unified assessment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: The Pipeline -->
+  <div class="slide" id="s4">
+    <div class="bg-word" style="left:-20px;bottom:80px;">SYNC</div>
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Pipeline</div>
+      <div class="big-title">PARALLEL<br><span>ANALYSIS</span></div>
+      <div class="rule"></div>
+      <div class="body-text">Text or photo input fires to both agents simultaneously. Each applies comprehensive FODMAP knowledge independently. The synthesis agent reconciles both results.</div>
+
+      <div class="flow-row">
+        <div class="flow-node">
+          <span class="flow-icon">&#x1F4DD;</span>
+          <div class="flow-label">Input</div>
+          <div class="flow-desc">Text or food photo with serving size</div>
+        </div>
+        <div class="flow-node flow-highlight">
+          <span class="flow-icon">&#x26A1;</span>
+          <div class="flow-label">Parallel</div>
+          <div class="flow-desc">Claude + Gemini fire simultaneously</div>
+        </div>
+        <div class="flow-node">
+          <span class="flow-icon">&#x2696;&#xFE0F;</span>
+          <div class="flow-label">Synthesize</div>
+          <div class="flow-desc">Reconcile and unify FODMAP tiers</div>
+        </div>
+        <div class="flow-node flow-highlight">
+          <span class="flow-icon">&#x2705;</span>
+          <div class="flow-label">Result</div>
+          <div class="flow-desc">Unified assessment + trigger score</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <span class="pill">Parallel Execution</span>
+        <span class="pill">Conflict Resolution</span>
+        <span class="pill">Confidence Tiers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: What You Get -->
+  <div class="slide" id="s5">
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Output</div>
+      <div class="big-title">DEEP<br><span>ANALYSIS</span></div>
+      <div class="rule"></div>
+      <div class="body-text">Every analysis returns comprehensive dietary intelligence &mdash; not just a simple yes or no, but nuanced, cited, actionable guidance.</div>
+
+      <div class="feature-grid">
+        <div class="fw-item"><div class="fw-icon">&#x1F4CA;</div><div class="fw-text"><strong>FODMAP Breakdown</strong>Per-ingredient Low/Moderate/High with gram amounts for all five FODMAP categories</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F3AF;</div><div class="fw-text"><strong>Trigger Probability</strong>0.0&ndash;1.0 IBS trigger score with color-coded gauge</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x26A0;&#xFE0F;</div><div class="fw-text"><strong>Safety Flags</strong>Allergens, drug interactions, and dietary contraindications</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F52C;</div><div class="fw-text"><strong>Bioavailability</strong>Raw vs. cooked FODMAP absorption percentages</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F48A;</div><div class="fw-text"><strong>Enzyme Recommendations</strong>Targeted suggestions with temperature warnings</div></div>
+        <div class="fw-item"><div class="fw-icon">&#x1F4D1;</div><div class="fw-text"><strong>Cited Sources</strong>Peer-reviewed, clinical, and anecdotal confidence tiers</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Platform -->
+  <div class="slide" id="s6">
+    <div class="inner" style="max-width:860px;">
+      <div class="eyebrow">The Platform</div>
+      <div class="big-title">iOS +<br><span>WEB</span></div>
+      <div class="rule"></div>
+      <div class="body-text">GutSense runs as a native iOS app with Apple Intelligence on-device synthesis, and a web companion built with Next.js and FastAPI for cross-platform access.</div>
+
+      <div class="stat-block">
+        <div class="stat-item"><div class="stat-num">2</div><div class="stat-desc">Platforms (iOS + Web)</div></div>
+        <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">AI agents per analysis</div></div>
+        <div class="stat-item"><div class="stat-num">5</div><div class="stat-desc">FODMAP categories tracked</div></div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <span class="pill">SwiftUI</span>
+        <span class="pill">Next.js</span>
+        <span class="pill">FastAPI</span>
+        <span class="pill">Claude API</span>
+        <span class="pill">Gemini API</span>
+        <span class="pill">Keychain</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Quote -->
+  <div class="slide" id="s7">
+    <div class="inner" style="max-width:860px; display:flex; flex-direction:column; align-items:center;">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="quote-text">What if your food could <em>talk back</em> &mdash;<br>and tell you exactly what it would<br>do to your gut?</div>
+      <div class="quote-attr">&mdash; GutSense &middot; Multi-Agent Dietary Intelligence &middot; 2025</div>
+      <div class="cta-row">
+        <a href="projects.html" class="cta-btn cta-primary">&larr; All Projects</a>
+        <a href="https://www.linkedin.com/in/zahirudeen-premji-5a7a553b1/" target="_blank" rel="noopener" class="cta-btn cta-secondary">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="controls">
+  <button id="prevBtn">&larr; Prev</button>
+  <button id="pauseBtn">Pause</button>
+  <button id="nextBtn">Next &rarr;</button>
+  <button class="hub-btn" onclick="window.location.href='projects.html'">PROJECTS &uarr;</button>
+</div>
+<div id="slide-counter"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progress-bar');
+const slideCounter = document.getElementById('slide-counter');
+const pauseBtn = document.getElementById('pauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let current = 0, isPaused = false, timer = null, progressTimer = null;
+
+function getDuration() { return parseInt(slides[current].dataset.duration) || 12000; }
+function updateCounter() { slideCounter.textContent = String(current+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0'); }
+function goTo(index) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(function() { slides[current >= slides.length ? 0 : current].classList.remove('exit'); }, 600);
+  current = ((index % slides.length) + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  updateCounter();
+  startProgress();
+}
+function startProgress() {
+  clearInterval(progressTimer); clearTimeout(timer);
+  var dur = getDuration();
+  var start = Date.now();
+  var slideW = 100 / slides.length;
+  var slideOff = current * slideW;
+  progressTimer = setInterval(function() {
+    if (isPaused) return;
+    var pct = Math.min((Date.now()-start)/dur, 1);
+    progressBar.style.width = (slideOff + pct*slideW) + '%';
+    if (pct >= 1) { clearInterval(progressTimer); timer = setTimeout(function() { if (!isPaused) goTo(current+1); }, 200); }
+  }, 40);
+}
+pauseBtn.addEventListener('click', function() {
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? 'Play' : 'Pause';
+});
+nextBtn.addEventListener('click', function() { clearInterval(progressTimer); clearTimeout(timer); goTo(current+1); });
+prevBtn.addEventListener('click', function() { clearInterval(progressTimer); clearTimeout(timer); goTo(current-1); });
+document.addEventListener('keydown', function(e) {
+  if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); clearInterval(progressTimer); clearTimeout(timer); goTo(current+1); }
+  else if (e.key==='ArrowLeft') { clearInterval(progressTimer); clearTimeout(timer); goTo(current-1); }
+  else if (e.key==='p') { isPaused=!isPaused; pauseBtn.textContent=isPaused?'Play':'Pause'; }
+});
+updateCounter(); startProgress();
+</script>
+</body>
+</html>
