@@ -247,7 +247,11 @@ Edit `public/styles.css`
 
 ## 📄 License
 
-MIT License - feel free to use for your projects
+Copyright (c) 2026 Z. All Rights Reserved.
+
+This repository is proprietary. No permission is granted to use, copy,
+modify, or distribute any part of it without prior written permission.
+See the LICENSE file for full terms.
 
 ## 🤝 Support
 
