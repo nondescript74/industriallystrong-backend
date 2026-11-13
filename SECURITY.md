@@ -6,7 +6,7 @@ If you discover a security issue related to IndustriallyStrong infrastructure,
 please report it privately.
 
 Contact:
-build.zmarter@gmail.com
+security@industriallystrong.com
 
 Please do not open public issues for security vulnerabilities.
 
