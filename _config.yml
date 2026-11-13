@@ -1,0 +1,12 @@
+# GitHub Pages (Jekyll) build settings for z.industriallystrong.com.
+# The site is the static HTML in this repo; nothing here is a server.
+include:
+  - .well-known
+exclude:
+  - README.md
+  - SECURITY.md
+  - LICENSE
+  - .github
+  - .gitignore
+  - node_modules
+  - package-lock.json
